@@ -31,3 +31,12 @@
 (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
 (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
 ;;End of helm stuff 
+
+;;Turn on the golden ratio addon
+(require 'golden-ratio)
+
+(golden-ratio-mode 1)
+
+;; (setq helm-projectile-fuzzy-match nil)
+(require 'helm-projectile)
+(helm-projectile-on)
