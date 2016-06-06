@@ -3,12 +3,15 @@
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 
+
 ;;Actually load packages required! 
 (package-initialize)
 
 
 ;;loading theme stuff
-(load-theme 'zenburn t)
+;;(load-theme 'zenburn t)
+(load-theme 'leuven t)      
+
 
 ;;Helm stuff with some gtags
 (setq
@@ -36,17 +39,18 @@
 (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
 ;;End of helm stuff 
 
-;;Auto-completion package
+;;Adding some company auto complete stuff
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
-;;More Auto complete packages for python mostly 
-;;(add-hook 'python-mode-hook 'jedi:setup)
-;;(setq jedi:setup-keys t)                      ; optional
-;;(setq jedi:complete-on-dot t)                 ; optional
 
+(add-hook 'after-init-hook 'global-company-mode)
 
+(defun my/python-mode-hook ()
+(add-to-list 'company-backends 'company-jedi))
 
+(add-hook 'python-mode-hook 'my/python-mode-hook)
+(add-hook 'python-mode-hook 'run-python-internal);Auto-completion package
 
 ;;Turn on the golden ratio addon
 (require 'golden-ratio)
@@ -60,8 +64,6 @@
 
 ;;Turn on my markdown plugin
 (require 'markdown-mode)
-
-
 
 ;;Adding a split window function
 (defun window-toggle-split-direction ()
@@ -91,3 +93,9 @@ i.e. change right window to bottom, or change bottom window to right."
                   (split-window-horizontally))
                 (set-window-buffer (windmove-find-other-window neighbour-dir) other-buf))))))))
 
+
+
+;;Adding some custom keybinds
+
+;;Autocomplete
+(global-set-key (kbd "C-SPC") 'company-complete)
