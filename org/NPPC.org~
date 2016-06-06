@@ -1,0 +1,8 @@
+* Gravimetrics 
+** TODO Look at hardware revamps 
+There are various things that need done to make the hardware of Gravi suitable for expansion, 
+these tasks should correct these issues and create solutions to them to be implemented in the redesign
+*** TODO Look at better weight plates 
+
+*** TODO Consider moving Pi's to local benches 
+** TODO Rewrite Perl functionality in Python/C 

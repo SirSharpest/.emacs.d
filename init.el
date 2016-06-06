@@ -65,6 +65,13 @@
 ;;Turn on my markdown plugin
 (require 'markdown-mode)
 
+
+;;Enable all that org mode goodness
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
 ;;Adding a split window function
 (defun window-toggle-split-direction ()
   "Switch window split from horizontally to vertically, or vice versa.
@@ -94,6 +101,10 @@ i.e. change right window to bottom, or change bottom window to right."
                 (set-window-buffer (windmove-find-other-window neighbour-dir) other-buf))))))))
 
 
+
+;;Adding links to my org lists
+(setq org-agenda-files (list "~/.emacs.d/org/NPPC.org"
+                             "~/.emacs.d/org/personal.org"))
 
 ;;Adding some custom keybinds
 

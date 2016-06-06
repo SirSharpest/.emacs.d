@@ -1,3 +1,10 @@
 ls
 cd /
 exit
+ls
+sudo apt update && sudo apt-dist-upgrade
+sudo apt update && sudo apt dist-upgrade
+exitsudo apt update && sudo apt dist-upgrade
+exit
+ls
+sudo apt update
