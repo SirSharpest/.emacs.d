@@ -43,9 +43,6 @@
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
-;;Activate flycheck 
-(require 'flycheck)
-(global-flycheck-mode)
 
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -108,6 +105,8 @@ i.e. change right window to bottom, or change bottom window to right."
 ;;Adding links to my org lists
 (setq org-agenda-files (list "~/.emacs.d/org/NPPC.org"
                              "~/.emacs.d/org/personal.org"))
+
+
 
 ;;Adding some custom keybinds
 

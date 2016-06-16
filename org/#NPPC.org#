@@ -44,3 +44,5 @@ or just have it all centralised
 Just a thought but I think that using the C program to determine what symbolic links it has access to
 for the balances and the scales. [[http://linux.die.net/man/2/stat][Stat function link ]] 
 
+*** TODO Look at something along the lines of  "$ cat file | ssh -e none remote-host 'cat > file'"
+This command or something like it may be great for accessing the data on a specific Pi 
