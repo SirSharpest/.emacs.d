@@ -143,7 +143,7 @@ i.e. change right window to bottom, or change bottom window to right."
 ;;Adding some custom keybinds
 
 ;;Autocomplete
-(global-set-key (kbd "C-SPC") 'company-complete)
+(global-set-key (kbd "C-'") 'company-complete)
 (custom-set-variables
 
 
