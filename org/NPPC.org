@@ -1,3 +1,11 @@
+* General Tasks
+
+** TODO Replace battery in Katie's sensor
+[[~/Pictures/katieSensor.png]]
+
+** TODO Replace theromocouple sensor in Gravi with a few extra weights 
+Possibly add a few at random points around the green house 
+
 * Gravimetrics 
   
 ** TODO Look at hardware revamps 
@@ -13,15 +21,17 @@ For the weighing problem new more specialised plates may be required?
 **** DONE Contact PhenoSpex to ask about their system can measures dynamically to 1g
      CLOSED: [2016-06-07 Tue 09:45]
 
-**** TODO Contact Menachem Moshelion (John's contact in a similar field)
-     DEADLINE: <2016-06-07 Tue>
+**** DONE Contact Menachem Moshelion (John's contact in a similar field)
+     CLOSED: [2016-06-23 Thu 10:12] DEADLINE: <2016-06-07 Tue>
 
 [[http://departments.agri.huji.ac.il/botany/people/Menachem_Moshelion/][Contact info / Project information]]  
 
 
-*** TODO Consider moving Pi's to local benches 
+*** DONE Consider moving Pi's to local benches 
+    CLOSED: [2016-06-23 Thu 10:12]
 
-** TODO Rewrite Perl functionality in C/C++ 
+** DONE Rewrite Perl functionality in C/C++ 
+   CLOSED: [2016-06-23 Thu 10:12]
 
 *** DONE Fully think about how the program will be distributed/deployed on the Pi's 
     CLOSED: [2016-06-16 Thu 14:05]
@@ -35,7 +45,8 @@ and use a csv file (same as current, perhaps modify it for ease of use) on the l
 **** DONE Write a SQL wrapper class 
      CLOSED: [2016-06-16 Thu 14:05]
 
-***** TODO Make the SQL wrapper independant enough that it can be run independant if need be
+***** DONE Make the SQL wrapper independant enough that it can be run independant if need be
+      CLOSED: [2016-06-23 Thu 10:12]
 Not 100% sure if it's wise to have several machines making their own connects to a database? 
 
 *** DONE Decide on methods of data storage 
@@ -48,7 +59,8 @@ or just have it all centralised
 Just a thought but I think that using the C program to determine what symbolic links it has access to
 for the balances and the scales. [[http://linux.die.net/man/2/stat][Stat function link ]] 
 
-*** TODO Solenoid functionality in C++ 
+*** DONE Solenoid functionality in C++ 
+    CLOSED: [2016-06-23 Thu 10:13]
 Interacting with the relays and solenoids needs rewritten in C/C++ 
 *** TODO Testing of the new* system needs done 
 
@@ -106,3 +118,9 @@ Comes from the main pannel
 *** TODO Check what Pi opens the master valves at the end of each bench
 *** TODO Write out a physical flow diagram of all components for watering 
 *** TODO Look at a 555 chip 
+
+** TODO Core functionality in C++ and interface in Python
+
+*** TODO Make Watering to weight a single program
+*** TODO Make Balance reading a single program 
+*** TODO Write a Python program to fulfil 

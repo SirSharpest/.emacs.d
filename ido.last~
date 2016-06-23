@@ -1,0 +1,35 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/nathan/" . "Documents/")
+ ("/home/" . "nathan/")
+ ("/" . "home/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/nathan/.emacs.d/"
+ "/home/nathan/.emac.d.bak/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "init.el"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/nathan/.emacs.d/" (22379 62407 500454 357000) "../" "auto-save-list/" "./" "init.el" "org/" ".#session.108006f745c793d13a14660028309373600000012860041" "session.102c3b9e84642c6ea4146591598334112700000128290033" "eshell/" "init.el~" "ac-comphist.dat" "tramp" "session.10463af57ea7455d8d146615057230274600000015900060" "history" "ido.last~" "elpa/" "session.105638a72781a41616146660110989180500000015800068" ".python-environments/" "session.1096af35d51a770df5146606416280152600000015540061" ".git/" "ido.last")
+
+ ("/home/nathan/" (22379 55274 710852 367000) ".themes/" ".pki/" ".gvba/" ".gnupg/" ".purple/" "Videos/" "Templates/" "../" "PycharmProjects/" "Python_testing/" "Steam/" "./" ".cache/" ".swp" ".gimp-2.8/" "Playground/" ".apport-ignore.xml" ".nvidia-settings-rc" ".gtk-bookmarks" ".eclipse/" "ISOs/" "Music/" ".gconf/" ".gnome2/" ".java/" ".nano/" ".bogofilter/" ".ssh/" ".thumbnails/" ".octave_hist" ".bash_history" ".audacity-data/" "Documents/" ".emac.d.bak/" ".steampid" ".CLion2016.1/" ".emacs.d/" "Desktop/" ".profile" ".mozilla/" ".p2/" ".config/" "fixDB.sql" ".test.py.swp" ".gnome2_private/" ".steam/" "Google Drive/" ".wine/" "Exports from Gravi/" ".icons/" ".gksu.lock" "octave-workspace" ".DataGrip2016.1/" "workspace/" ".ICEauthority" "Downloads/" ".emacs.d.bak/" "Git/" ".sudo_as_admin_successful" ".vimrc" "Octave_Workshop/" ".vim/" ".local/" ".platformio/" ".nv/" ".arduino/" "8RelayModule.fzpz" ".pulse-cookie" "sketchbook/" "restoreToDB.csv~" ".PyCharm2016.1/" ".bashrc" ".gitconfig" ".bash_logout" "fixWater.sql~" ".steampath" "Pictures/" "IDEs/" ".gnome/" "ssh nah31@glendarroch:/" ".viminfo" ".texmf-var/" "GNUstep/" ".atom/" "fixDB.sql~" ".cinnamon/" ".bashrc~" "java_error_in_DATAGRIP.hprof" "fixWater.sql" "Public/" ".spacemacs")
+
+ ("/home/nathan/Documents/" (22375 43308 811035 3000) "../" "CS27020_AB0_2015-16: Modelling Persistent Data (2015-16)/" "CS25010_AB0_2015-16: Web Programming (2015-16)/" "./" "1636 - Pokemon Fire Red (U)(Squirrels).gba" "CS26210_AB0_2015-16: The Artificial Intelligence Toolbox - Part ii: Programming in An Uncertain World (2015-16)/" "CS23710_AB0_2015-16: C and Unix Programming (2015-16)/" "CS25210_AB0_2015-16: Client-Side Graphics Programming for the Web (2015-16)/" "CS22120_AB0_2015-16: The Software Development Life Cycle (2015-16)/" "Heroes of the Storm/" "CS26110_AB0_2015-16: The Artificial Intelligence Toolbox Part 1:  How to Find Solutions (2015-16)/" "Gravimetrics/" "Untitled.ccf" "CS12320_AB0_2015-16: Programming Using an Object-Oriented Language (2015-16)/" "CS21120_AB0_2015-16: Program Design, Data Structures and Algorithms (2015-16)/" "CS25710_AB0_2015-16: Mobile, Embedded and Wearable Technology (2015-16)/" "CS22510_AB0_2015-16: C++, C and Java Programming Paradigms (2015-16)/")
+
+ ("/home/" (22312 49375 478484 418000) "../" "./" "nathan/")
+
+ ("/home/nathan/.emac.d.bak/" (22379 52665 519116 68000) "../" "auto-save-list/" "./" "init.el" "#init.el#" "init.el~" "elpa/" "url/" "network-security.data")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

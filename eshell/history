@@ -81,3 +81,5 @@ gtags
 ls
 cat GSYMS
 exit
+ls
+ssh nah31@gravimetrics.ibers

@@ -1,4 +1,4 @@
-;; -*- emacs-lisp -*- <16/06/09 10:58:55 /home/nathan/.emacs.d/tramp>
+;; -*- emacs-lisp -*- <16/06/23 09:05:40 /home/nathan/.emacs.d/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; You can delete it, forcing Tramp to reapply the checks.
 
@@ -23,32 +23,45 @@
   ("uid-integer" 1000)
   ("ls-dired" t)
   ("git" "\\git"))
- (["ssh" "pi" "192.168.1.1" nil "ssh:nah31@gravimetrics|"]
-  ("~" "/home/pi")
-  ("remote-path"
-   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
-  ("stat" "\\stat")
+ (["ssh" "nah31" "glendarroch.ibers" nil nil]
+  ("uname" "Linux 3.11.0-26-generic")
+  ("locale" "LC_ALL=en_US.utf8")
   ("test" "test")
-  ("file-exists" "test -e")
-  ("id" "/usr/bin/id")
-  ("gid-integer" 1000)
-  ("gid-string" "pi"))
- (["ssh" "pi" "192.168.1.1" nil "ssh:nah31@gravimetrics.ibers|"]
-  ("locale" "LC_ALL=C")
-  ("uname" "Linux 3.18.11+")
   ("remote-path"
    ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
   ("remote-shell" "/bin/sh")
-  ("~" "/home/pi")
-  ("test" "test")
   ("file-exists" "test -e")
-  ("readlink" "\\readlink")
+  ("ls" "/bin/ls --color=never")
+  ("ls-dired" t)
   ("stat" "\\stat")
   ("id" "/usr/bin/id")
-  ("gid-string" "pi")
-  ("gid-integer" 1000)
+  ("gid-integer" 1005)
+  ("readlink" "\\readlink")
   ("perl-file-spec" t)
   ("perl-cwd-realpath" t)
   ("perl" "\\perl"))
- (["ssh" "nah31" "gravimetrics.ibers" nil nil]
-  nil))
+ (["scp" "nah31" "glendarroch.ibers" nil nil]
+  nil)
+ (["ssh" "nah26" "central.aber.ac.uk" nil nil]
+  nil)
+ (["scp" "nah26" "central.aber.ac.uk" nil nil]
+  ("uname" "Linux 4.1.12-gentoo")
+  ("locale" "LC_ALL=C")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/opt/bin"))
+  ("remote-shell" "/bin/sh")
+  ("~" "/aber/nah26")
+  ("file-exists" "test -e")
+  ("readlink" "\\readlink")
+  ("stat" nil)
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("id" "/usr/bin/id")
+  ("gid-string" "UNKNOWN")
+  ("gid-integer" 12515)
+  ("uid-integer" 12515)
+  ("tmpdir" "/tmp")
+  ("touch-t" t)
+  ("touch" "\\touch")))
