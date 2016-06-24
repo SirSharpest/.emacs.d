@@ -76,6 +76,10 @@
 (defun my/python-mode-hook ()
 (add-to-list 'company-backends 'company-jedi))
 
+;;STOP USING OLD PYTHON
+(setq python-python-command "/usr/bin/python3")
+
+
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 (add-hook 'python-mode-hook 'run-python-internal);Auto-completion package
 
@@ -192,6 +196,7 @@ i.e. change right window to bottom, or change bottom window to right."
  '(package-selected-packages
    (quote
     (elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+ '(python-shell-interpreter "python3")
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
