@@ -1,3 +1,10 @@
 * Moving house
-** Find boxes 
-** Pack boxes
+** DONE Find boxes 
+   CLOSED: [2016-06-27 Mon 17:28]
+** TODO Pack boxes
+** TODO Pay first months rent 
+** TODO Move house
+* Sheffield Robotics Comp 
+** TODO Write up on blog about what we did and how awesome it was 
+** TODO Email out some good images to Adam in case he wants to present our data at TAROS 
+   SCHEDULED: <2016-06-28 Tue>

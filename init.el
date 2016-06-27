@@ -78,10 +78,12 @@
 
 ;;STOP USING OLD PYTHON
 (setq python-python-command "/usr/bin/python3")
-
+(setq python-shell-prompt-detect-enabled nil)
 
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 (add-hook 'python-mode-hook 'run-python-internal);Auto-completion package
+
+(setq python-shell-prompt-detect-failure-warning nil)
 
 
 ;;Turn on the golden ratio addon
@@ -170,7 +172,7 @@ i.e. change right window to bottom, or change bottom window to right."
 ;;Adding some custom keybinds
 
 ;;Change the buffer list to be helm
-(global-set-key (kbd "C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 ;;Autocomplete
 (global-set-key (kbd "C-'") 'company-complete)
@@ -196,7 +198,7 @@ i.e. change right window to bottom, or change bottom window to right."
  '(package-selected-packages
    (quote
     (elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
- '(python-shell-interpreter "python3")
+ '(python-shell-interpreter "python")
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
