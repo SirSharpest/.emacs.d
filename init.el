@@ -70,20 +70,22 @@
 
 ;;Adding more python stuff
 (elpy-enable)
+(elpy-use-ipython)
 
 (add-hook 'after-init-hook 'global-company-mode)
 
-(defun my/python-mode-hook ()
-(add-to-list 'company-backends 'company-jedi))
+;;(defun my/python-mode-hook ()
+;;(add-to-list 'company-backends 'company-jedi))
 
 ;;STOP USING OLD PYTHON
-(setq python-python-command "/usr/bin/python3")
-(setq python-shell-prompt-detect-enabled nil)
+;;(setq python-python-command "/usr/bin/python3")
+;;(setq python-shell-prompt-detect-enabled nil)
 
-(add-hook 'python-mode-hook 'my/python-mode-hook)
-(add-hook 'python-mode-hook 'run-python-internal);Auto-completion package
+;;(add-hook 'python-mode-hook 'my/python-mode-hook)
+;;(add-hook 'python-mode-hook 'run-python-internal);Auto-completion package
 
-(setq python-shell-prompt-detect-failure-warning nil)
+;;(setq python-shell-prompt-detect-failure-warning nil)
+;;(setq python-shell-completion-native-disabled-interpreters nil)
 
 
 ;;Turn on the golden ratio addon
@@ -197,8 +199,8 @@ i.e. change right window to bottom, or change bottom window to right."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
- '(python-shell-interpreter "python")
+    (zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+ '(python-shell-interpreter "python3")
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
