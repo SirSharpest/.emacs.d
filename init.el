@@ -57,6 +57,10 @@
  ;;global-fci-mode fci-mode (lambda () (fci-mode 1)))
 ;;(global-fci-mode t)
 
+;;Enable tree browser
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
 ;;Enable line numbers 
 (add-hook 'prog-mode-hook 'linum-mode)
 
@@ -71,6 +75,7 @@
 ;;Adding more python stuff
 (elpy-enable)
 (elpy-use-ipython)
+(setq python-shell-completion-native-enable nil)
 
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -180,6 +185,16 @@ i.e. change right window to bottom, or change bottom window to right."
 (global-set-key (kbd "C-'") 'company-complete)
 
 
+;;Custom C function
+;; Run C programs directly from within emacs
+(defun execute-c-program ()
+  (interactive)
+  (defvar foo)
+  (setq foo (concat "gcc " (buffer-name) " && ./a.out" ))
+  (shell-command foo))
+
+(global-set-key [C-f1] 'execute-c-program)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -199,7 +214,7 @@ i.e. change right window to bottom, or change bottom window to right."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+    (neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
  '(python-shell-interpreter "python3")
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -233,3 +248,4 @@ i.e. change right window to bottom, or change bottom window to right."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+(put 'upcase-region 'disabled nil)

@@ -83,3 +83,12 @@ cat GSYMS
 exit
 ls
 ssh nah31@gravimetrics.ibers
+ls
+rm CMakeLists.txt 
+ls
+cd ..
+ls
+cmake CMakeLists.txt 
+ls
+cat Makefile 
+exit

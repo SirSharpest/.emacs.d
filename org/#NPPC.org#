@@ -1,11 +1,14 @@
 * General Tasks
-
+  
 ** TODO Replace battery in Katie's sensor
 [[~/Pictures/katieSensor.png]]
 
 ** TODO Replace theromocouple sensor in Gravi with a few extra weights 
-Possibly add a few at random points around the green house 
+   Possibly add a few at random points around the green house 
 
+** DONE nuggle bug
+   CLOSED: [2016-06-28 Tue 13:42]
+*** NUGGLE AGAIN
 * Gravimetrics 
   
 ** TODO Look at hardware revamps 
@@ -91,8 +94,10 @@ This mostly needs to be about:
 | Bench                     | 130cm | 150cm  | 53cm  |
 | Gap between benches       |       |        | 45cm  |
 | Total dimensions taken up |       |        | 15M   |
+
+
 Where this is the measurements for 1/2 a bench as there are currently two benches in a row 
-with two rows making up a collection holding 16 plant pots! 
+with two rows making up a collection holding 16 plant pots!
 ***** TODO Measure load cell dimensions...  
 ***** TODO Find ideas of possible benches!       
 **** TODO Find solution to overhead watering 
@@ -113,8 +118,7 @@ No, can't do it cheaply :(
 *** DONE Look at the 12v power and where it comes from, as well as how it'll be routed around!
     CLOSED: [2016-06-17 Fri 13:18]
 Comes from the main pannel  
-*** DONE USB Hub power and where it comes from and is it enough
-    CLOSED: [2016-06-24 Fri 10:09]
+*** TODO USB Hub power and where it comes from and is it enough
 *** TODO Look at what's needed for a proper test bench! (look at having two Pi's to show how they would network) 
 *** TODO Check what Pi opens the master valves at the end of each bench
 *** TODO Write out a physical flow diagram of all components for watering 
