@@ -14,6 +14,9 @@
 ;;(require 'ido)
 ;;(ido-mode t)
 
+;;Load paren display
+(setq show-paren-delay 0)
+
 ;;Helm stuff with some gtags
 (setq
  helm-gtags-ignore-case t
@@ -78,20 +81,7 @@
 (setq python-shell-completion-native-enable nil)
 
 (add-hook 'after-init-hook 'global-company-mode)
-
-;;(defun my/python-mode-hook ()
-;;(add-to-list 'company-backends 'company-jedi))
-
-;;STOP USING OLD PYTHON
-;;(setq python-python-command "/usr/bin/python3")
-;;(setq python-shell-prompt-detect-enabled nil)
-
-;;(add-hook 'python-mode-hook 'my/python-mode-hook)
-;;(add-hook 'python-mode-hook 'run-python-internal);Auto-completion package
-
-;;(setq python-shell-prompt-detect-failure-warning nil)
-;;(setq python-shell-completion-native-disabled-interpreters nil)
-
+(add-hook 'after-init-hook 'electric-pair-mode)
 
 ;;Turn on the golden ratio addon
 (require 'golden-ratio)
@@ -193,7 +183,12 @@ i.e. change right window to bottom, or change bottom window to right."
   (setq foo (concat "gcc " (buffer-name) " && ./a.out" ))
   (shell-command foo))
 
+;;Jump across errors 
 (global-set-key [C-f1] 'execute-c-program)
+(global-set-key (kbd "C-.") 'next-error)
+(global-set-key (kbd "C-,") 'previous-error)
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -214,7 +209,7 @@ i.e. change right window to bottom, or change bottom window to right."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+    (magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
  '(python-shell-interpreter "python3")
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map

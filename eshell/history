@@ -92,3 +92,14 @@ cmake CMakeLists.txt
 ls
 cat Makefile 
 exit
+ls
+./a.out help
+gcc main.c 
+gcc main.c 
+gcc main.c 
+gcc main.c #
+gcc main.c #
+gcc main.c 
+echo $
+echo $?
+exit

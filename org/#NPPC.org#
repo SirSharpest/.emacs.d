@@ -1,14 +1,11 @@
 * General Tasks
-  
+
 ** TODO Replace battery in Katie's sensor
 [[~/Pictures/katieSensor.png]]
 
 ** TODO Replace theromocouple sensor in Gravi with a few extra weights 
-   Possibly add a few at random points around the green house 
+Possibly add a few at random points around the green house 
 
-** DONE nuggle bug
-   CLOSED: [2016-06-28 Tue 13:42]
-*** NUGGLE AGAIN
 * Gravimetrics 
   
 ** TODO Look at hardware revamps 
@@ -94,10 +91,8 @@ This mostly needs to be about:
 | Bench                     | 130cm | 150cm  | 53cm  |
 | Gap between benches       |       |        | 45cm  |
 | Total dimensions taken up |       |        | 15M   |
-
-
 Where this is the measurements for 1/2 a bench as there are currently two benches in a row 
-with two rows making up a collection holding 16 plant pots!
+with two rows making up a collection holding 16 plant pots! 
 ***** TODO Measure load cell dimensions...  
 ***** TODO Find ideas of possible benches!       
 **** TODO Find solution to overhead watering 
@@ -105,8 +100,9 @@ Do the current pipes stretch to go under the benches?
 A: Yes they do! 
 *** TODO Check if the serial -> usb cables are still useable? 
 Currently the USB cables look rather "cut up" and not 100% reliable IMO. 
-**** TODO Heatshrink the cables! 
-*** IP66 rated boxes! 
+**** TODO Heatshrink the cables! ***
+*** DONE IP66 rated boxes! 
+    CLOSED: [2016-06-29 Wed 15:01]
 Water proof boxes essentially! 
 For the Pi's 
 **** TODO Measure USB Hubs and check that them along with Pi's (and breakout boards) would fit in box 
