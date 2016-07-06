@@ -100,8 +100,9 @@ Do the current pipes stretch to go under the benches?
 A: Yes they do! 
 *** TODO Check if the serial -> usb cables are still useable? 
 Currently the USB cables look rather "cut up" and not 100% reliable IMO. 
-**** TODO Heatshrink the cables! 
-*** IP66 rated boxes! 
+**** TODO Heatshrink the cables! ***
+*** DONE IP66 rated boxes! 
+    CLOSED: [2016-06-29 Wed 15:01]
 Water proof boxes essentially! 
 For the Pi's 
 **** TODO Measure USB Hubs and check that them along with Pi's (and breakout boards) would fit in box 

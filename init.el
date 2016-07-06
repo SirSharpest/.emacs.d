@@ -11,7 +11,7 @@
 (load-theme 'leuven t)      
 
 ;;Turning on ido-mode as it seems to be needed by a few things 
-;;(require 'ido)
+;;(Require 'ido)
 ;;(ido-mode t)
 
 ;;Load paren display
@@ -62,7 +62,7 @@
 
 ;;Enable tree browser
 (require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
+;;(global-set-key [f8] 'neotree-toggle)
 
 ;;Enable line numbers 
 (add-hook 'prog-mode-hook 'linum-mode)
@@ -70,6 +70,10 @@
 ;;Adding some company auto complete stuff
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
+
+;;Most important of all
+(nyan-mode 1)
+(nyan-start-animation)   ;; this line makes nyan cat do an animation
 
 ;;Activate flycheck 
 (require 'flycheck)
@@ -187,7 +191,7 @@ i.e. change right window to bottom, or change bottom window to right."
 (global-set-key [C-f1] 'execute-c-program)
 (global-set-key (kbd "C-.") 'next-error)
 (global-set-key (kbd "C-,") 'previous-error)
-
+(global-set-key (kbd "C-#") 'ansi-term)
 
 
 (custom-set-variables
@@ -209,7 +213,7 @@ i.e. change right window to bottom, or change bottom window to right."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+    (nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
  '(python-shell-interpreter "python3")
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
