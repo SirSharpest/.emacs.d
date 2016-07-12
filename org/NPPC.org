@@ -6,6 +6,15 @@
 ** TODO Replace theromocouple sensor in Gravi with a few extra weights 
 Possibly add a few at random points around the green house 
 
+
+* Field Robotics Challenge 
+** DONE Claim expenses!!! 
+   CLOSED: [2016-07-11 Mon 16:34] DEADLINE: <2016-07-11 Mon>
+   
+** DONE Write up details on the challenge 
+   CLOSED: [2016-07-11 Mon 16:34] DEADLINE: <2016-07-11 Mon>
+
+
 * Gravimetrics 
   
 ** TODO Look at hardware revamps 

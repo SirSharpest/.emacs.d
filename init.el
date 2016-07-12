@@ -11,7 +11,7 @@
 (load-theme 'leuven t)      
 
 ;;Turning on ido-mode as it seems to be needed by a few things 
-;;(Require 'ido)
+;;(require 'ido)
 ;;(ido-mode t)
 
 ;;Load paren display
@@ -63,6 +63,10 @@
 ;;Enable tree browser
 (require 'sr-speedbar)
 (global-set-key [f8] 'sr-speedbar-toggle)
+(setq sr-speedbar-right-side nil)  
+(setq sr-speedbar-max-width 5)   
+(setq sr-speedbar-default-width 10)
+(setq speedbar-show-unknown-files t)
 
 ;;Enable line numbers 
 (add-hook 'prog-mode-hook 'linum-mode)
@@ -89,6 +93,11 @@
 
 ;;Turn on the golden ratio addon
 (require 'golden-ratio)
+;;Added next line to try and avoid resizing the speedbar 
+(setq golden-ratio-exclude-buffer-names '("*SPEEDBAR*"))
+
+
+
 
 (golden-ratio-mode 1)
 
@@ -192,6 +201,9 @@ i.e. change right window to bottom, or change bottom window to right."
 (global-set-key (kbd "C-.") 'next-error)
 (global-set-key (kbd "C-,") 'previous-error)
 (global-set-key (kbd "C-#") 'ansi-term)
+
+
+;;Custom function for expanding all of speedbars
 
 
 (custom-set-variables
