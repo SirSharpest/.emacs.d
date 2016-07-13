@@ -226,7 +226,7 @@ i.e. change right window to bottom, or change bottom window to right."
  '(package-selected-packages
    (quote
     (sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
- '(python-shell-interpreter "python3")
+ '(python-shell-interpreter "python")
  '(sr-speedbar-right-side nil)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
