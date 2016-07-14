@@ -8,7 +8,7 @@
 
 ;;loading theme stuff
 ;;(load-theme 'zenburn t)
-(load-theme 'leuven t)      
+(load-theme 'alect-dark t)      
 
 ;;Turning on ido-mode as it seems to be needed by a few things 
 ;;(require 'ido)
@@ -217,7 +217,7 @@ i.e. change right window to bottom, or change bottom window to right."
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-safe-themes
    (quote
-    ("1dd4a70e719e4ad7b3581dbe18b50fd9b7147447ba87f59dc47627bf4856be8c" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" default)))
+    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "1dd4a70e719e4ad7b3581dbe18b50fd9b7147447ba87f59dc47627bf4856be8c" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" default)))
  '(fci-rule-color "#383838")
  '(hl-sexp-background-color "#efebe9")
  '(nrepl-message-colors
@@ -225,8 +225,8 @@ i.e. change right window to bottom, or change bottom window to right."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
- '(python-shell-interpreter "python")
+    (alect-themes sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+ '(python-shell-interpreter "python3")
  '(sr-speedbar-right-side nil)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
