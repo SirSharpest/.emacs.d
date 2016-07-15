@@ -11,9 +11,15 @@
 (load-theme 'alect-dark t)      
 
 
+;;Recently the graphical side of emacs has been annoying me with too much
+;;Crap so I'm removing it!
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
 ;;I want them tabs smaller!  
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 (setq indent-line-function 'insert-tab)
 
 ;;Load paren display
@@ -222,14 +228,17 @@ i.e. change right window to bottom, or change bottom window to right."
     ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "1dd4a70e719e4ad7b3581dbe18b50fd9b7147447ba87f59dc47627bf4856be8c" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" default)))
  '(fci-rule-color "#383838")
  '(hl-sexp-background-color "#efebe9")
+ '(indent-tabs-mode nil)
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
     (alect-themes sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+ '(python-indent-offset 2)
  '(python-shell-interpreter "python3")
  '(sr-speedbar-right-side nil)
+ '(standard-indent 2)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
