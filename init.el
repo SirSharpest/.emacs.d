@@ -10,9 +10,11 @@
 ;;(load-theme 'zenburn t)
 (load-theme 'alect-dark t)      
 
-;;Turning on ido-mode as it seems to be needed by a few things 
-;;(require 'ido)
-;;(ido-mode t)
+
+;;I want them tabs smaller!  
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
 
 ;;Load paren display
 (setq show-paren-delay 0)

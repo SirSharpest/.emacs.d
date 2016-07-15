@@ -103,3 +103,4 @@ gcc main.c
 echo $
 echo $?
 exit
+emacs -nw
