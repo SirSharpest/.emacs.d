@@ -65,8 +65,11 @@
 ;;Fill column indicator
 ;;(require 'fill-column-indicator)
 ;;(define-globalized-minor-mode
- ;;global-fci-mode fci-mode (lambda () (fci-mode 1)))
+;;global-fci-mode fci-mode (lambda () (fci-mode 1)))
 ;;(global-fci-mode t)
+
+;;Enable f12 to be magit status
+(global-set-key [f12] 'magit-status)
 
 ;;Enable tree browser
 (require 'sr-speedbar)
@@ -94,7 +97,7 @@
 ;;Adding more python stuff
 (elpy-enable)
 (elpy-use-ipython)
-(setq python-shell-completion-native-enable nil)
+;;(setq python-shell-completion-native-enable nil)
 
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'after-init-hook 'electric-pair-mode)
@@ -103,9 +106,6 @@
 (require 'golden-ratio)
 ;;Added next line to try and avoid resizing the speedbar 
 (setq golden-ratio-exclude-buffer-names '("*SPEEDBAR*"))
-
-
-
 
 (golden-ratio-mode 1)
 
@@ -234,7 +234,7 @@ i.e. change right window to bottom, or change bottom window to right."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (alect-themes sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+    (layout-restore alect-themes sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
  '(python-indent-offset 2)
  '(python-shell-interpreter "python3")
  '(sr-speedbar-right-side nil)

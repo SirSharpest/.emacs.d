@@ -104,3 +104,16 @@ echo $
 echo $?
 exit
 emacs -nw
+ls
+cd Git/
+ls
+cd Gravimetrics_Data/
+cd ..
+ls
+cd Gravimetrics_2016/
+ls
+cd Python/
+ls
+rm prepStatements.py 
+cd ..
+ls
