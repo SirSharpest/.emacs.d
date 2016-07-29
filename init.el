@@ -1,4 +1,4 @@
-;;Adding the required repos for the package manager 
+;;Adding the required repos for the package manager
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
@@ -11,6 +11,15 @@
 (load-theme 'alect-dark t)      
 
 
+;;Turning on a badass powerline
+;;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
+(require 'powerline)
+(powerline-default-theme)
+;;(setq powerline-arrow-shape 'arrow)   ;; the default
+;;(setq powerline-color1 "grey22")
+;;(setq powerline-color2 "grey40")
+
+
 ;;Recently the graphical side of emacs has been annoying me with too much
 ;;Crap so I'm removing it!
 (menu-bar-mode -1)
@@ -19,8 +28,14 @@
 
 ;;I want them tabs smaller!  
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
+(setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
+
+
+(add-hook 'python-mode-hook 'whitespace-mode)	
+
+(setq whitespace-style '(tabs newline newline-mark))
+
 
 ;;Load paren display
 (setq show-paren-delay 0)
@@ -57,17 +72,6 @@
 ;;turn on some saving data
 (savehist-mode 1)
 
-;;Indent mode
-;;(add-hook 'highlight-indentation-mode-hook 'python-mode)
-;;(set-face-background 'highlight-indentation-face "#e3e3d3")
-;;(set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
-
-;;Fill column indicator
-;;(require 'fill-column-indicator)
-;;(define-globalized-minor-mode
-;;global-fci-mode fci-mode (lambda () (fci-mode 1)))
-;;(global-fci-mode t)
-
 ;;Enable f12 to be magit status
 (global-set-key [f12] 'magit-status)
 
@@ -96,8 +100,10 @@
 
 ;;Adding more python stuff
 (elpy-enable)
+(setq python-shell-completion-native-enable nil)
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 (elpy-use-ipython)
-;;(setq python-shell-completion-native-enable nil)
 
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'after-init-hook 'electric-pair-mode)
@@ -183,6 +189,22 @@ i.e. change right window to bottom, or change bottom window to right."
 
 
 
+(defun split-name (s)
+  (split-string
+   (let ((case-fold-search nil))
+     (downcase
+      (replace-regexp-in-string "\\([a-z]\\)\\([A-Z]\\)" "\\1 \\2" s)))
+   "[^A-Za-z0-9]+"))
+(defun underscore-string (s) (mapconcat 'downcase   (split-name s) "_"))
+
+;; Function to change camelcase to underscore
+(defun underscore-region (begin end) (interactive "r")
+  (let* ((word (buffer-substring begin end))
+         (underscored (underscore-string word)))
+    (save-excursion
+      (widen) ; break out of the subregion so we can fix every usage of the function
+      (replace-string word underscored nil (point-min) (point-max)))))
+
 ;;Adding links to my org lists
 (setq org-agenda-files (list "~/.emacs.d/org/NPPC.org"
                              "~/.emacs.d/org/personal.org"))
@@ -204,14 +226,43 @@ i.e. change right window to bottom, or change bottom window to right."
   (setq foo (concat "gcc " (buffer-name) " && ./a.out" ))
   (shell-command foo))
 
+(defun my-restart-python-console ()
+  "Restart python console before evaluate buffer or region to avoid various
+  uncanny conflicts 
+  like not reloding modules even when they are changed"
+  (interactive)
+  (kill-process "Python")
+  (sleep-for 0.05)
+  (kill-buffer "*Python*")
+  (elpy-shell-send-region-or-buffer))
+
+(define-key python-mode-map (kbd "C-c C-SPC") 'my-restart-python-console)
+
+
 ;;Jump across errors 
 (global-set-key [C-f1] 'execute-c-program)
 (global-set-key (kbd "C-.") 'next-error)
 (global-set-key (kbd "C-,") 'previous-error)
 (global-set-key (kbd "C-#") 'ansi-term)
+(global-set-key (kbd "M-<") 'beginning-of-buffer)
+(global-set-key (kbd "M->") 'end-of-buffer)
 
-
-;;Custom function for expanding all of speedbars
+;; Creating function to rename files
+;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+          (message "A buffer named '%s' already exists!" new-name)
+        (progn
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil))))))
 
 
 (custom-set-variables
@@ -225,7 +276,7 @@ i.e. change right window to bottom, or change bottom window to right."
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-safe-themes
    (quote
-    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "1dd4a70e719e4ad7b3581dbe18b50fd9b7147447ba87f59dc47627bf4856be8c" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" default)))
+    ("5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "1dd4a70e719e4ad7b3581dbe18b50fd9b7147447ba87f59dc47627bf4856be8c" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" default)))
  '(fci-rule-color "#383838")
  '(hl-sexp-background-color "#efebe9")
  '(indent-tabs-mode nil)
@@ -234,9 +285,9 @@ i.e. change right window to bottom, or change bottom window to right."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (layout-restore alect-themes sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
- '(python-indent-offset 2)
- '(python-shell-interpreter "python3")
+    (tangotango-theme py-autopep8 powerline layout-restore alect-themes sr-speedbar nyan-mode magit neotree tabbar zenburn material-theme elpy github-theme highlight-indentation fill-column-indicator ## auctex zenburn-theme python-mode markdown-mode leuven-theme helm-projectile helm-gtags golden-ratio flyspell-correct company-jedi auto-complete)))
+ '(python-indent-offset 4)
+ '(python-shell-interpreter "ipython3")
  '(sr-speedbar-right-side nil)
  '(standard-indent 2)
  '(vc-annotate-background "#2B2B2B")

@@ -1,11 +1,20 @@
 * Moving house
 ** DONE Find boxes 
    CLOSED: [2016-06-27 Mon 17:28]
-** TODO Pack boxes
-** TODO Pay first months rent 
-** TODO Move house
+** DONE Pack boxes
+   CLOSED: [2016-07-22 Fri 12:43]
+** DONE Pay first months rent 
+   CLOSED: [2016-07-22 Fri 12:43]
+** DONE Move house
+   CLOSED: [2016-07-22 Fri 12:43]
 * Sheffield Robotics Comp 
 ** TODO Write up on blog about what we did and how awesome it was 
-** TODO Email out some good images to Adam in case he wants to present our data at TAROS 
    SCHEDULED: <2016-06-28 Tue>
    
+
+* Things to learn
+** TODO http://jupyter.org/
+
+* Personal projects
+** TODO Sort out the tank, ideas and power!! 
+** TODO Help George find a nice way to measure crab pictures
