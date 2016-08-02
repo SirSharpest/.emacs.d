@@ -11,13 +11,32 @@
 (load-theme 'alect-dark t)      
 
 
+;;Adding some custom keybinds
+
+
+;;Jump across errors 
+(global-set-key [C-f1] 'execute-c-program)
+(global-set-key (kbd "C->") 'next-error)
+(global-set-key (kbd "C-<") 'previous-error)
+;;Open terminal
+(global-set-key (kbd "C-#") 'ansi-term)
+;;Jump to the end of buffer
+(global-set-key (kbd "M-<") 'beginning-of-buffer)
+(global-set-key (kbd "M->") 'end-of-buffer)
+;;Change the buffer list to be helm
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+;;Autocomplete
+(global-set-key (kbd "C-'") 'company-complete)
+
+
+
+;;Setting a org-mode hook
+(add-hook 'org-mode-hook 'flyspell-mode)
+
 ;;Turning on a badass powerline
 ;;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
 (require 'powerline)
 (powerline-default-theme)
-;;(setq powerline-arrow-shape 'arrow)   ;; the default
-;;(setq powerline-color1 "grey22")
-;;(setq powerline-color2 "grey40")
 
 
 ;;Recently the graphical side of emacs has been annoying me with too much
@@ -209,13 +228,6 @@ i.e. change right window to bottom, or change bottom window to right."
 (setq org-agenda-files (list "~/.emacs.d/org/NPPC.org"
                              "~/.emacs.d/org/personal.org"))
 
-;;Adding some custom keybinds
-
-;;Change the buffer list to be helm
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-
-;;Autocomplete
-(global-set-key (kbd "C-'") 'company-complete)
 
 
 ;;Custom C function
@@ -238,14 +250,6 @@ i.e. change right window to bottom, or change bottom window to right."
 
 (define-key python-mode-map (kbd "C-c C-SPC") 'my-restart-python-console)
 
-
-;;Jump across errors 
-(global-set-key [C-f1] 'execute-c-program)
-(global-set-key (kbd "C-.") 'next-error)
-(global-set-key (kbd "C-,") 'previous-error)
-(global-set-key (kbd "C-#") 'ansi-term)
-(global-set-key (kbd "M-<") 'beginning-of-buffer)
-(global-set-key (kbd "M->") 'end-of-buffer)
 
 ;; Creating function to rename files
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
