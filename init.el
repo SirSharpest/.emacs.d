@@ -31,6 +31,7 @@
     flyspell
     jedi
     sr-speedbar
+    flycheck
     magit))
 
 (mapc #'(lambda (package)
@@ -44,6 +45,8 @@
 ;; GENERAL SETUP
 ;; --------------------------------------
 
+;;Turn on some flycheck checking
+(global-flycheck-mode)
 ;;Jump to the beginning/end of buffer
 (global-set-key (kbd "M-<") 'beginning-of-buffer)
 (global-set-key (kbd "M->") 'end-of-buffer)
@@ -51,8 +54,9 @@
 (global-set-key [C-tab] 'company-complete)
 ;;Open terminal
 (global-set-key (kbd "C-#") 'ansi-term)
-(global-set-key (kbd "C->") 'next-error)
-(global-set-key (kbd "C-<") 'previous-error)
+;;jump to errors
+(global-set-key (kbd "C-,") 'next-error)
+(global-set-key (kbd "C-.") 'previous-error)
 
 ;;Load paren display
 (setq show-paren-delay 0)
@@ -86,7 +90,18 @@
 ;; Spell check activate
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(eval-after-load "flyspell"
+  '(progn
+    (define-key flyspell-mode-map (kbd "C-.") nil)
+    (define-key flyspell-mode-map (kbd "C-,") nil)
+    (define-key flyspell-mode-map (kbd "C-<") 'company-ispell)
+    (define-key flyspell-mode-map (kbd "C->") 'flyspell-goto-next-error)
+    ))
 (setq ispell-dictionary "british")
+
+
+
+
 
 ;;PYTHON SETUP;; 
 ;;-------------------------------------------
@@ -100,6 +115,7 @@
 ;; # and yapf for code formatting
 ;; pip install yapf
 ;; apt install virtualenv
+;; pip install pylint for syntax checks
 (elpy-enable)
 (setq python-shell-completion-native-enable nil)
 (require 'py-autopep8)
@@ -136,3 +152,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; C/C++ SETUP;;
+;; -------------------------------------------------------------------------
+
+;;apt install cppchecker
