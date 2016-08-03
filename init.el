@@ -8,12 +8,10 @@
 
 ;;loading theme stuff
 ;;(load-theme 'zenburn t)
-(load-theme 'alect-dark t)      
+(load-theme 'leuven t)      
 
 
 ;;Adding some custom keybinds
-
-
 ;;Jump across errors 
 (global-set-key [C-f1] 'execute-c-program)
 (global-set-key (kbd "C->") 'next-error)
@@ -28,10 +26,18 @@
 ;;Autocomplete
 (global-set-key (kbd "C-'") 'company-complete)
 
-
-
 ;;Setting a org-mode hook
 (add-hook 'org-mode-hook 'flyspell-mode)
+
+;;Adding python stuff
+(elpy-enable)
+;;(setq python-shell-completion-native-enable nil)
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(elpy-use-ipython)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)                 ; optional
+
 
 ;;Turning on a badass powerline
 ;;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
@@ -117,12 +123,21 @@
 (require 'flycheck)
 (global-flycheck-mode)
 
-;;Adding more python stuff
-(elpy-enable)
-(setq python-shell-completion-native-enable nil)
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-(elpy-use-ipython)
+;;Adding some flymake stuff 
+(require 'flymake)
+
+(defun flymake-get-tex-args (file-name)
+(list "pdflatex"
+(list "-file-line-error" "-draftmode" "-interaction=nonstopmode" file-name)))
+
+(add-hook 'LaTeX-mode-hook 'flymake-mode)
+
+;;Adding spelling
+(setq ispell-program-name "aspell") ; could be ispell as well, depending on your preferences
+(setq ispell-dictionary "english") ; this can obviously be set to any language your spell-checking program supports
+
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
 
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'after-init-hook 'electric-pair-mode)
@@ -148,21 +163,6 @@
 (setq TeX-save-query nil)
 ;;(setq TeX-PDF-mode t)
 
-;;Adding some flymake stuff 
-(require 'flymake)
-
-(defun flymake-get-tex-args (file-name)
-(list "pdflatex"
-(list "-file-line-error" "-draftmode" "-interaction=nonstopmode" file-name)))
-
-(add-hook 'LaTeX-mode-hook 'flymake-mode)
-
-;;Adding spelling
-(setq ispell-program-name "aspell") ; could be ispell as well, depending on your preferences
-(setq ispell-dictionary "english") ; this can obviously be set to any language your spell-checking program supports
-
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
 
 ;;Adding outline mode defs
 (defun turn-on-outline-minor-mode ()
