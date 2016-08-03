@@ -22,7 +22,6 @@
     auctex
     company-arduino
     company-auctex
-    company-cmake
     company-c-headers
     company-web
     company-ycm
@@ -51,7 +50,6 @@
 ;;Jump to the beginning/end of buffer
 (global-set-key (kbd "M-<") 'beginning-of-buffer)
 (global-set-key (kbd "M->") 'end-of-buffer)
-;;Autocomplete
 
 ;;Open terminal
 (global-set-key (kbd "C-#") 'ansi-term)
@@ -141,6 +139,21 @@
 (add-hook 'latex-mode-hook 'turn-on-outline-minor-mode)
 (setq outline-minor-mode-prefix "\C-c \C-o") ; Or something else
 
+
+;; C/C++ SETUP;;
+;; -------------------------------------------------------------------------
+
+;;apt install cppchecker
+
+
+;; BASH;;
+;; -------------------------------------------------------------------------
+(eval-after-load "term"
+  '(progn
+    (yas-global-mode 0)
+    ))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -153,8 +166,3 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-;; C/C++ SETUP;;
-;; -------------------------------------------------------------------------
-
-;;apt install cppchecker
