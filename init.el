@@ -32,6 +32,7 @@
     jedi
     sr-speedbar
     flycheck
+    yasnippet
     magit))
 
 (mapc #'(lambda (package)
@@ -51,7 +52,7 @@
 (global-set-key (kbd "M-<") 'beginning-of-buffer)
 (global-set-key (kbd "M->") 'end-of-buffer)
 ;;Autocomplete
-(global-set-key [C-tab] 'company-complete)
+
 ;;Open terminal
 (global-set-key (kbd "C-#") 'ansi-term)
 ;;jump to errors
@@ -74,6 +75,10 @@
 (setq sr-speedbar-max-width 5)   
 (setq sr-speedbar-default-width 10)
 (setq speedbar-show-unknown-files t)
+
+;;yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;;Most important of all
 (nyan-mode 1)
@@ -99,10 +104,6 @@
     ))
 (setq ispell-dictionary "british")
 
-
-
-
-
 ;;PYTHON SETUP;; 
 ;;-------------------------------------------
 ;; pip install jedi
@@ -125,8 +126,8 @@
 ;;(setq jedi:complete-on-dot t)                 ; optional
 (setq elpy-rpc-python-command "python3")
 ;;'(python-shell-interpreter "python3")
-(define-key python-mode-map (kbd "C-.") 'elpy-flymake-next-error)
-(define-key python-mode-map (kbd "C-,") 'elpy-flymake-previous-error)
+(define-key elpy-mode-map [C-tab] 'company-complete)
+
 
 ;; LATEX SETUP;;
 ;;-------------------------------------------
