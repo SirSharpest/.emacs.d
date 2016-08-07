@@ -26,6 +26,7 @@
     company-web
     company-ycm
     company-jedi
+    jedi
     py-autopep8
     flyspell
     sr-speedbar
