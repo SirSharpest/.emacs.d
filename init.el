@@ -56,6 +56,9 @@
 ;;jump to errors
 (global-set-key (kbd "C-,") 'next-error)
 (global-set-key (kbd "C-.") 'previous-error)
+;;Compile command!
+(global-set-key (kbd "C-c C-a") 'compile)
+
 
 ;;Load paren display
 (setq show-paren-delay 0)
@@ -107,6 +110,7 @@
 ;; pip install jedi
 ;; # flake8 for code checks
 ;; pip install flake8
+;; apt install pyflakes <-- this is needed for syntax to be checked
 ;; # importmagic for automatic imports
 ;; pip install importmagic
 ;; # and autopep8 for automatic PEP8 formatting
@@ -126,11 +130,9 @@
 (setq elpy-rpc-python-command "python3")
 ;;'(python-shell-interpreter "python3")
 (define-key elpy-mode-map [C-tab] 'company-complete)
-
 ;;Use jedi as the backend for company
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi))
-
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 
 
