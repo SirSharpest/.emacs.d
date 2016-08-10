@@ -28,6 +28,7 @@
     company-jedi
     jedi
     py-autopep8
+    flycheck-pyflakes
     flyspell
     sr-speedbar
     flycheck
@@ -126,7 +127,7 @@
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 (setq py-python-command "python3")
 (add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)                 ; optional
+;;(setq jedi:complete-on-dot t)                 ; optional
 (setq elpy-rpc-python-command "python3")
 ;;'(python-shell-interpreter "python3")
 (define-key elpy-mode-map [C-tab] 'company-complete)
@@ -134,7 +135,9 @@
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi))
 (add-hook 'python-mode-hook 'my/python-mode-hook)
-
+;; Nice indent keybinds
+(define-key elpy-mode-map (kbd "C-c C-l") 'elpy-nav-indent-shift-left)
+(define-key elpy-mode-map (kbd "C-c C-r") 'elpy-nav-indent-shift-right)
 
 ;; LATEX SETUP;;
 ;;-------------------------------------------
