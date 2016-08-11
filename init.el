@@ -33,6 +33,7 @@
     sr-speedbar
     flycheck
     yasnippet
+    puml-mode
     magit))
 
 (mapc #'(lambda (package)
@@ -52,6 +53,9 @@
 (global-set-key (kbd "M-<") 'beginning-of-buffer)
 (global-set-key (kbd "M->") 'end-of-buffer)
 
+;;Show the column numbers 
+(column-number-mode 1)
+
 ;;Open terminal
 (global-set-key (kbd "C-#") 'ansi-term)
 ;;jump to errors
@@ -59,7 +63,6 @@
 (global-set-key (kbd "C-.") 'previous-error)
 ;;Compile command!
 (global-set-key (kbd "C-c C-a") 'compile)
-
 
 ;;Load paren display
 (setq show-paren-delay 0)
@@ -105,6 +108,10 @@
     (define-key flyspell-mode-map (kbd "C->") 'flyspell-goto-next-error)
     ))
 (setq ispell-dictionary "british")
+
+;; Open org mode on start up!
+(find-file ".emacs.d/org/agenda.org")
+
 
 ;;PYTHON SETUP;; 
 ;;-------------------------------------------
