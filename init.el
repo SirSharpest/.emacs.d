@@ -17,12 +17,15 @@
     elpy
     nyan-mode
     alect-themes
+    leuven-theme
     golden-ratio
     markdown-mode
     auctex
     company-arduino
     company-auctex
     company-c-headers
+    company-irony-c-headers
+    company-cmake
     company-web
     company-ycm
     company-jedi
@@ -34,7 +37,8 @@
     flycheck
     yasnippet
     puml-mode
-    magit))
+    magit
+    ))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -52,7 +56,7 @@
 ;;Jump to the beginning/end of buffer
 (global-set-key (kbd "M-<") 'beginning-of-buffer)
 (global-set-key (kbd "M->") 'end-of-buffer)
-
+(global-set-key [C-tab] 'company-complete)
 ;;Show the column numbers 
 (column-number-mode 1)
 
@@ -137,7 +141,7 @@
 ;;(setq jedi:complete-on-dot t)                 ; optional
 (setq elpy-rpc-python-command "python3")
 ;;'(python-shell-interpreter "python3")
-(define-key elpy-mode-map [C-tab] 'company-complete)
+;;(define-key elpy-mode-map [C-tab] 'company-complete)
 ;;Use jedi as the backend for company
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi))
@@ -163,7 +167,7 @@
 ;; -------------------------------------------------------------------------
 
 ;;apt install cppchecker
-
+;;apt install clang
 
 ;; BASH;;
 ;; -------------------------------------------------------------------------
@@ -178,6 +182,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy better-defaults)))
  '(python-shell-interpreter "python3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
