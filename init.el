@@ -38,6 +38,8 @@
     yasnippet
     puml-mode
     magit
+    platformio-mode
+    projectile 
     ))
 
 (mapc #'(lambda (package)
@@ -108,8 +110,8 @@
   '(progn
     (define-key flyspell-mode-map (kbd "C-.") nil)
     (define-key flyspell-mode-map (kbd "C-,") nil)
-    (define-key flyspell-mode-map (kbd "C-<") 'company-ispell)
-    (define-key flyspell-mode-map (kbd "C->") 'flyspell-goto-next-error)
+    (define-key flyspell-mode-map (kbd "C-<") 'flyspell-goto-next-error)
+    (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
     ))
 (setq ispell-dictionary "british")
 
@@ -168,6 +170,37 @@
 
 ;;apt install cppchecker
 ;;apt install clang
+
+;;Turn on the irony modes
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+;;Not 100% about this section as it
+;;messes up some of my indents 
+;; (defun my-irony-mode-hook ()
+;;   (define-key irony-mode-map [remap completion-at-point]
+;;     'irony-completion-at-point-async)
+;;   (define-key irony-mode-map [remap complete-symbol]
+;;     'irony-completion-at-point-async))
+;;(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+(setq company-backends (delete 'company-semantic company-backends))
+(eval-after-load 'company
+  '(add-to-list
+    'company-backends 'company-irony))
+
+(eval-after-load 'company
+  '(add-to-list
+    'company-backends 'company-irony))
+
+(require 'company-irony-c-headers)
+(eval-after-load 'company
+  '(add-to-list
+    'company-backends '(company-irony-c-headers company-irony)))
 
 ;; BASH;;
 ;; -------------------------------------------------------------------------
