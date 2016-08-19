@@ -39,7 +39,10 @@
     puml-mode
     magit
     platformio-mode
-    projectile 
+    projectile
+    flycheck-irony
+    python-pep8
+    python-pylint
     ))
 
 (mapc #'(lambda (package)
@@ -201,6 +204,11 @@
 (eval-after-load 'company
   '(add-to-list
     'company-backends '(company-irony-c-headers company-irony)))
+
+;; This makes fly check work with irony 
+(add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
+
+
 
 ;; BASH;;
 ;; -------------------------------------------------------------------------
