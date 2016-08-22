@@ -208,6 +208,14 @@
 ;; This makes fly check work with irony 
 (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
 
+;;For some c/c++ stuff
+(add-hook 'c++-mode-hook
+          (lambda () (setq flycheck-clang-include-path
+                           (list (expand-file-name "~/local/include/")))))
+(add-hook 'c++-mode-hook
+          (lambda () (setq flycheck-clang-standard-library "libc++")))
+(add-hook 'c++-mode-hook
+          (lambda () (setq flycheck-clang-language-standard "c++1y")))
 
 
 ;; BASH;;
