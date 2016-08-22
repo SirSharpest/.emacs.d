@@ -13,8 +13,7 @@
   (package-refresh-contents))
 
 (defvar myPackages
-  '(better-defaults
-    elpy
+  '(elpy
     nyan-mode
     alect-themes
     leuven-theme
@@ -68,10 +67,21 @@
 ;;Open terminal
 (global-set-key (kbd "C-#") 'ansi-term)
 ;;jump to errors
-(global-set-key (kbd "C-,") 'next-error)
-(global-set-key (kbd "C-.") 'previous-error)
+(global-set-key (kbd "C-.") 'next-error)
+(global-set-key (kbd "C-,") 'previous-error)
 ;;Compile command!
 (global-set-key (kbd "C-c C-a") 'compile)
+
+
+;;Hide some of the more annoying stuff
+(menu-bar-mode -1)
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+  (when (fboundp 'scroll-bar-mode)
+    (scroll-bar-mode -1))
+  (when (fboundp 'horizontal-scroll-bar-mode)
+    (horizontal-scroll-bar-mode -1))
+
 
 ;;Load paren display
 (setq show-paren-delay 0)
@@ -234,6 +244,7 @@
  '(package-selected-packages
    (quote
     (magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy better-defaults)))
+ '(python-check-command "flake8")
  '(python-shell-interpreter "python3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
