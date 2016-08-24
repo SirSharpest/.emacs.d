@@ -165,8 +165,9 @@
 ;; These are some keybinds that affect everything but are defined by helm
 
 (global-set-key (kbd "C-f") 'helm-projectile)
-(global-set-key (kbd "C-x C-b") 'helm-buffer-list)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 
 ;; (setq helm-projectile-fuzzy-match nil)
