@@ -28,9 +28,9 @@
     company-web
     company-ycm
     company-jedi
-    jedi
+    ;;
     py-autopep8
-    flycheck-pyflakes
+    ;;flycheck-pyflakes
     flyspell
     sr-speedbar
     flycheck
@@ -41,7 +41,7 @@
     projectile
     flycheck-irony
     python-pep8
-    python-pylint
+    ;;python-pylint
     ))
 
 (mapc #'(lambda (package)
@@ -159,7 +159,9 @@
 ;;(define-key elpy-mode-map [C-tab] 'company-complete)
 ;;Use jedi as the backend for company
 (defun my/python-mode-hook ()
-  (add-to-list 'company-backends 'company-jedi))
+  (add-to-list 'company-backends 'company-jedi)
+  (setq flycheck-checker 'python-pylint))
+
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 (with-eval-after-load 'elpy
   (remove-hook 'elpy-modules 'elpy-module-flymake))
@@ -204,14 +206,13 @@
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
 (setq company-backends (delete 'company-semantic company-backends))
-(eval-after-load 'company
-  '(add-to-list
-    'company-backends 'company-irony))
 
 (eval-after-load 'company
   '(add-to-list
     'company-backends 'company-irony))
+
 
 (require 'company-irony-c-headers)
 (eval-after-load 'company
