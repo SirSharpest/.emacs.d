@@ -129,7 +129,7 @@
 (setq ispell-dictionary "british")
 
 ;; Open org mode on start up!
-(find-file ".emacs.d/org/agenda.org")
+(find-file  (concat".emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" )))
 
 
 ;;PYTHON SETUP;; 
@@ -161,6 +161,9 @@
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi))
 (add-hook 'python-mode-hook 'my/python-mode-hook)
+(with-eval-after-load 'elpy
+  (remove-hook 'elpy-modules 'elpy-module-flymake))
+
 ;; Nice indent keybinds
 (define-key elpy-mode-map (kbd "C-c C-l") 'elpy-nav-indent-shift-left)
 (define-key elpy-mode-map (kbd "C-c C-r") 'elpy-nav-indent-shift-right)
@@ -243,7 +246,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy better-defaults)))
+    (magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
  '(python-shell-interpreter "python3"))
 (custom-set-faces
