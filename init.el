@@ -170,6 +170,8 @@
 (define-key elpy-mode-map (kbd "C-c C-l") 'elpy-nav-indent-shift-left)
 (define-key elpy-mode-map (kbd "C-c C-r") 'elpy-nav-indent-shift-right)
 
+(setq flycheck-python-pylint-executable "pylint3")
+
 ;; LATEX SETUP;;
 ;;-------------------------------------------
 
@@ -245,6 +247,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(flycheck-c/c++-gcc-executable nil)
  '(package-selected-packages
    (quote
     (magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
