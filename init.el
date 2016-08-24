@@ -28,7 +28,7 @@
     company-web
     company-ycm
     company-jedi
-    ;;
+    helm-projectile
     py-autopep8
     ;;flycheck-pyflakes
     flyspell
@@ -42,6 +42,7 @@
     flycheck-irony
     python-pep8
     ;;python-pylint
+    helm
     ))
 
 (mapc #'(lambda (package)
@@ -129,8 +130,48 @@
 (setq ispell-dictionary "british")
 
 ;; Open org mode on start up!
-(find-file  (concat".emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" )))
+(find-file  (concat"~/.emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" )))
 
+(custom-set-variables
+ '(org-directory "~/.emacs.d/org/daily")
+ '(org-agenda-files (list org-directory)))
+
+;;Helm SETUP;;
+;;-------------------------------------------
+(require 'helm)
+(require 'helm-config)
+
+;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t)
+
+(helm-mode 1)
+
+;; These are some keybinds that affect everything but are defined by helm
+
+(global-set-key (kbd "C-f") 'helm-projectile)
+(global-set-key (kbd "C-x C-b") 'helm-buffer-list)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+
+;; (setq helm-projectile-fuzzy-match nil)
+(require 'helm-projectile)
+(helm-projectile-on)
 
 ;;PYTHON SETUP;; 
 ;;-------------------------------------------
@@ -192,9 +233,9 @@
 ;;apt install clang
 
 ;;Turn on the irony modes
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
+;;(add-hook 'c++-mode-hook 'irony-mode)
+;;(add-hook 'c-mode-hook 'irony-mode)
+
 
 ;;Not 100% about this section as it
 ;;messes up some of my indents 
