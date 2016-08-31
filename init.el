@@ -65,6 +65,9 @@
 ;;Show the column numbers 
 (column-number-mode 1)
 
+;;Always always have this paren on
+(show-paren-mode 1)
+
 ;;Open terminal
 (global-set-key (kbd "C-#") 'ansi-term)
 ;;jump to errors
@@ -162,13 +165,18 @@
 
 (helm-mode 1)
 
+;;keep a list of recently opened files
+;;REMEMBER ME
+(recentf-mode 1)
+(setq-default recent-save-file "~/.emacs.d/recentf")
+
 ;; These are some keybinds that affect everything but are defined by helm
 
 (global-set-key (kbd "C-f") 'helm-projectile)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x C-f") 'helm-for-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
-
+(global-set-key (kbd "C-b") 'helm-mini)
 
 ;; (setq helm-projectile-fuzzy-match nil)
 (require 'helm-projectile)
@@ -197,9 +205,8 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 ;;(setq jedi:complete-on-dot t)                 ; optional
 (setq elpy-rpc-python-command "python3")
-;;'(python-shell-interpreter "python3")
-;;(define-key elpy-mode-map [C-tab] 'company-complete)
 ;;Use jedi as the backend for company
+(setq flycheck-python-pylint-executable "pylint3")
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi)
   (setq flycheck-checker 'python-pylint))
@@ -212,11 +219,9 @@
 (define-key elpy-mode-map (kbd "C-c C-l") 'elpy-nav-indent-shift-left)
 (define-key elpy-mode-map (kbd "C-c C-r") 'elpy-nav-indent-shift-right)
 
-(setq flycheck-python-pylint-executable "pylint3")
 
 ;; LATEX SETUP;;
 ;;-------------------------------------------
-
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
@@ -234,9 +239,13 @@
 ;;apt install clang
 
 ;;Turn on the irony modes
-;;(add-hook 'c++-mode-hook 'irony-mode)
-;;(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'c++-mode-hook 'irony-mode)
 
+(add-hook 'c-mode-hook 'irony-mode
+	  (lambda ()
+	    (setq flycheck-select-checker 'c/c++-gcc)
+	    (setq flycheck-gcc-language-standard "c11")
+	    (setq flycheck-gcc-warnings '("pedantic" "all" "extra"))))
 
 ;;Not 100% about this section as it
 ;;messes up some of my indents 
@@ -257,7 +266,6 @@
   '(add-to-list
     'company-backends 'company-irony))
 
-
 (require 'company-irony-c-headers)
 (eval-after-load 'company
   '(add-to-list
@@ -266,15 +274,29 @@
 ;; This makes fly check work with irony 
 (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
 
-;;For some c/c++ stuff
+;;For some c++ stuff
 (add-hook 'c++-mode-hook
-          (lambda () (setq flycheck-clang-include-path
-                           (list (expand-file-name "~/local/include/")))))
-(add-hook 'c++-mode-hook
-          (lambda () (setq flycheck-clang-standard-library "libc++")))
-(add-hook 'c++-mode-hook
-          (lambda () (setq flycheck-clang-language-standard "c++1y")))
+          (lambda ()
+	    (setq flycheck-clang-include-path
+		  (list (expand-file-name "~/local/include/")))
+	    (setq flycheck-checker 'c/c++-gcc)
+	    (setq flycheck-gcc-language-standard "c++14")
+	    (setq flycheck-clang-standard-library "libc++")
+	    (setq check-clang-standard-library "libc++")
+	    (setq flycheck-gcc-warnings '("pedantic" "all" "extra"
+					  "conversion" "effc++" "strict-null-sentinel"
+					  "old-style-cast" "noexcept" "ctor-dtor-privacy"
+					  "overloaded-virtual" "sign-promo"
+					  "zero-as-null-pointer-constant"
+					  "suggest-final-types" "suggest-final-methods"
+					  "suggest-override"))))
 
+
+;; Custom comment function for C/C++
+(defun insert-doc-comment () (interactive)
+       (insert "/**\n * @brief  \n *\n * LongerDescription \n *\n * @param \n * @return \n */"))
+
+(define-key global-map [(S-f1)] 'insert-doc-comment)
 
 ;; BASH;;
 ;; -------------------------------------------------------------------------
