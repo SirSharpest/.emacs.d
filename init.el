@@ -43,6 +43,7 @@
     python-pep8
     ;;python-pylint
     helm
+    w3m
     ))
 
 (mapc #'(lambda (package)
@@ -76,6 +77,10 @@
 ;;Compile command!
 (global-set-key (kbd "C-c C-a") 'compile)
 
+;;Enable cookies in web browser
+(setq w3m-use-cookies t)
+;;change w3m user-agent to android
+(setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.")
 
 ;;Hide some of the more annoying stuff
 (menu-bar-mode -1)
@@ -174,7 +179,8 @@
 
 (global-set-key (kbd "C-f") 'helm-projectile)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-x C-f") 'helm-for-files)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x g") 'helm-for-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-b") 'helm-mini)
 
