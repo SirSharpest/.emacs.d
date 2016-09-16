@@ -44,6 +44,7 @@
     ;;python-pylint
     helm
     w3m
+    latex-preview-pane
     ))
 
 (mapc #'(lambda (package)
@@ -63,6 +64,10 @@
 (global-set-key (kbd "M-<") 'beginning-of-buffer)
 (global-set-key (kbd "M->") 'end-of-buffer)
 (global-set-key [C-tab] 'company-complete)
+(global-set-key (kbd "C-<down>") 'forward-sexp)
+(global-set-key (kbd "C-<up>") 'backward-sexp)
+
+
 ;;Show the column numbers 
 (column-number-mode 1)
 
@@ -154,6 +159,7 @@
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
+(global-set-key (kbd "M-s") 'helm-imenu)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
@@ -226,6 +232,39 @@
 (define-key elpy-mode-map (kbd "C-c C-r") 'elpy-nav-indent-shift-right)
 
 
+;;EMMS
+
+ ;;** EMMS
+ ;; Autoload the id3-browser and bind it to F7.
+ ;; You can change this to your favorite EMMS interface.
+ (autoload 'emms-smart-browse "emms-browser.el" "Browse with EMMS" t)
+ (global-set-key [(f7)] 'emms-smart-browse)
+
+ (with-eval-after-load 'emms
+   (emms-standard) ;; or (emms-devel) if you want all features
+   (setq emms-source-file-default-directory "~/music"
+         emms-info-asynchronously t
+         emms-show-format "♪ %s")
+
+   ;; Might want to check `emms-info-functions',
+   ;; `emms-info-libtag-program-name',
+   ;; `emms-source-file-directory-tree-function'
+   ;; as well.
+
+   ;; Determine which player to use.
+   ;; If you don't have strong preferences or don't have
+   ;; exotic files from the past (wma) `emms-default-players`
+   ;; is probably all you need.
+   (if (executable-find "mplayer")
+       (setq emms-player-list '(emms-player-mplayer))
+     (emms-default-players))
+
+   ;; For libre.fm see `emms-librefm-scrobbler-username' and
+   ;; `emms-librefm-scrobbler-password'.
+   ;; Future versions will use .authoinfo.gpg.
+   )
+
+
 ;; LATEX SETUP;;
 ;;-------------------------------------------
 (setq TeX-auto-save t)
@@ -243,6 +282,19 @@
 
 ;;apt install cppchecker
 ;;apt install clang
+
+;; Better object colouring
+(font-lock-add-keywords 'c++-mode
+  `((,(concat
+       "\\<[_a-zA-Z][_a-zA-Z0-9]*\\>"       ; Object identifier
+       "\\s *"                              ; Optional white space
+       "\\(?:\\.\\|->\\)"                   ; Member access
+       "\\s *"                              ; Optional white space
+       "\\<\\([_a-zA-Z][_a-zA-Z0-9]*\\)\\>" ; Member identifier
+       "\\s *"                              ; Optional white space
+       "(")                                 ; Paren for method invocation
+     1 'font-lock-function-name-face t)))
+
 
 ;;Turn on the irony modes
 (add-hook 'c++-mode-hook 'irony-mode)
@@ -295,7 +347,7 @@
 					  "overloaded-virtual" "sign-promo"
 					  "zero-as-null-pointer-constant"
 					  "suggest-final-types" "suggest-final-methods"
-					  "suggest-override"))))
+					  "suggest-override" "strict-prototypes"))))
 
 
 ;; Custom comment function for C/C++
@@ -310,6 +362,28 @@
   '(progn
     (yas-global-mode 0)
     ))
+
+
+;; Octave setup (THIS SHOULD BE DEFAULT PLEASE FIX IN EMACS 25>)
+(setq auto-mode-alist
+(cons '("\\.m$" . octave-mode) auto-mode-alist))
+(add-hook 'octave-mode-hook
+(lambda ()
+(abbrev-mode 1)
+(auto-fill-mode 1)
+(if (eq window-system 'x)
+(font-lock-mode 1))))
+(setq-default octave-auto-indent t)
+(setq-default octave-auto-newline t)
+(setq-default octave-blink-matching-block t)
+(setq-default octave-block-offset 4)
+(setq-default octave-continuation-offset 4)
+(setq-default octave-continuation-string "\\")
+(setq-default octave-mode-startup-message t)
+(setq-default octave-send-echo-input t)
+(setq-default octave-send-line-auto-forward t)
+(setq-default octave-send-show-buffer t)
+
 
 
 (custom-set-variables
