@@ -58,6 +58,10 @@
 ;; GENERAL SETUP
 ;; --------------------------------------
 
+(shell) ;; I like to turn on the shell when I startup!
+;; Just aside note, eshell isn't great for completion
+;; Applications such as Vi still don't work great and I've no idea how to fix just yet 
+
 ;;Turn on some flycheck checking
 (global-flycheck-mode)
 ;;Jump to the beginning/end of buffer
@@ -68,6 +72,15 @@
 (global-set-key (kbd "C-<up>") 'backward-sexp)
 
 
+;;Adding some keybinds that
+;;1. I don't use, and
+;;2. would be useful for smaller keyboards w/o arrows
+;(global-set-key (kbd "C-[") 'previous-line)
+;(global-set-key (kbd "C-'") 'next-line)
+;(global-set-key (kbd "C-;") 'backward-char)
+;(global-set-key (kbd "C-#") 'forward-char)
+
+
 ;;Show the column numbers 
 (column-number-mode 1)
 
@@ -75,7 +88,7 @@
 (show-paren-mode 1)
 
 ;;Open terminal
-(global-set-key (kbd "C-#") 'ansi-term)
+;(global-set-key (kbd "C-=") 'ansi-term)
 ;;jump to errors
 (global-set-key (kbd "C-.") 'next-error)
 (global-set-key (kbd "C-,") 'previous-error)
@@ -142,8 +155,9 @@
     ))
 (setq ispell-dictionary "british")
 
-;; Open org mode on start up!
-(find-file  (concat"~/.emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" )))
+;; This function can be used to create an org file with today as it's filename
+(defun dear-diary ()
+	   (find-file  (concat"~/.emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" ))))
 
 (custom-set-variables
  '(org-directory "~/.emacs.d/org/daily")
@@ -363,6 +377,23 @@
     (yas-global-mode 0)
     ))
 
+(custom-set-variables
+ '(comint-scroll-to-bottom-on-input t)  ; always insert at the bottom
+ '(comint-scroll-to-bottom-on-output t) ; always add output at the bottom
+ '(comint-scroll-show-maximum-output t) ; scroll to show max possible output
+ '(comint-completion-autolist t)        ; show completion list when ambiguous
+ '(comint-input-ignoredups t)           ; no duplicates in command history
+ '(comint-completion-addsuffix t)       ; insert space/slash after file completion
+ )
+
+
+; interpret and use ansi color codes in shell output windows
+(ansi-color-for-comint-mode-on)
+
+; make completion buffers disappear after 3 seconds.
+(add-hook 'completion-setup-hook
+  (lambda () (run-at-time 3 nil
+    (lambda () (delete-windows-on "*Completions*")))))
 
 ;; Octave setup (THIS SHOULD BE DEFAULT PLEASE FIX IN EMACS 25>)
 (setq auto-mode-alist

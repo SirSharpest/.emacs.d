@@ -15,7 +15,7 @@ Possibly add a few at random points around the green house
 
 * Gravimetrics 
   
-** TODO Look at hardware revamps 
+** DONE Look at hardware revamps 
 
 There are various things that need done to make the hardware of Gravi suitable for expansion, 
 these tasks should correct these issues and create solutions to them to be implemented in the redesign
@@ -34,7 +34,7 @@ For the weighing problem new more specialised plates may be required?
 [[http://departments.agri.huji.ac.il/botany/people/Menachem_Moshelion/][Contact info / Project information]]  
 
 
-*** DONE Consider moving Pi's to local benches 
+*** TODO Consider moving Pi's to local benches 
     CLOSED: [2016-06-23 Thu 10:12]
 
 ** DONE Rewrite Perl functionality in C/C++ 
@@ -71,7 +71,7 @@ for the balances and the scales. [[http://linux.die.net/man/2/stat][Stat functio
 Interacting with the relays and solenoids needs rewritten in C/C++ 
 *** TODO Testing of the new* system needs done 
 
-** TODO Proposal for new system needs written up 
+** DONE Proposal for new system needs written up 
 *** TODO Outline system redesign 
 Briefly talk about what the system currently does and then talk about why it needs improved. 
 Talk about what a new system could do better over the current system. 
@@ -127,8 +127,36 @@ Comes from the main pannel
 *** TODO Write out a physical flow diagram of all components for watering 
 *** TODO Look at a 555 chip 
 
-** TODO Core functionality in C++ and interface in Python
+** DONE Core functionality in C++ and interface in Python
 
 *** TODO Make Watering to weight a single program
 *** TODO Make Balance reading a single program 
 *** TODO Write a Python program to fulfil 
+
+
+** TODO Get ready for minimum functionality: 
+
+*** 3/4 of wiring for the balances is done (I should be able to finish most of it this morning)
+    This is mostly done now, 1 more to go 
+
+*** For us to get the wiring finished for the data collection (i.e. The raspberry pi's)
+we would need a few more ip655 boxes, pi's and a few  pi connection boards)
+
+*** As I've been going through the wiring quite thoroughly...
+    I'd taken apart some of the wiring for the water valves and discovered it had been put together just by knotting wires together, I've had to start redoing it too, but I would expect it would take a few days max to be up to scratch.
+
+*** Jason has gotten all the benches lowered and they're  looking much bette
+    we just need to make some decisions on the table tops themselves. (we should stick a few weights where plants would be on the current demo and see if they display any kind of problems)
+
+*** Software wise we are sorted, I was hoping to go through some database organisation with Colin/Tom to try and get better interoperability between our systems' databases. (but testing ones are up and running already)
+
+*** We're still putting together demo solutions for the future...
+    we have one close to completion but for finding a suitable base. One of the robotics people over on penglais has been very helpful and has put together a pneumatic demo for us to have a look at, it's just being tested currently and we will hopefully have access to soon.
+
+*** Colin has applied for an additional grant for us to put together some of the more expensive prototypes too
+    this would be great as it would allow us to purchase some high quality load cells and test them out compared to the current balances.
+
+*** Other than this, it would be nice to do very extensive testing on the system 
+    Particularly before we start accepting any experiments as we really don't want it becoming unsuitable part way through another experiment.
+    
+*** I think that's most everything that's currently being looked at for gravi. 
