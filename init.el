@@ -48,8 +48,8 @@
     ))
 
 (mapc #'(lambda (package)
-    (unless (package-installed-p package)
-      (package-install package)))
+	  (unless (package-installed-p package)
+	    (package-install package)))
       myPackages)
 
 ;;Actually load packages required! 
@@ -58,7 +58,7 @@
 ;; GENERAL SETUP
 ;; --------------------------------------
 
-(shell) ;; I like to turn on the shell when I startup!
+;;(shell) ;; I like to turn on the shell when I startup!
 ;; Just aside note, eshell isn't great for completion
 ;; Applications such as Vi still don't work great and I've no idea how to fix just yet 
 
@@ -75,10 +75,10 @@
 ;;Adding some keybinds that
 ;;1. I don't use, and
 ;;2. would be useful for smaller keyboards w/o arrows
-;(global-set-key (kbd "C-[") 'previous-line)
-;(global-set-key (kbd "C-'") 'next-line)
-;(global-set-key (kbd "C-;") 'backward-char)
-;(global-set-key (kbd "C-#") 'forward-char)
+					;(global-set-key (kbd "C-[") 'previous-line)
+					;(global-set-key (kbd "C-'") 'next-line)
+					;(global-set-key (kbd "C-;") 'backward-char)
+					;(global-set-key (kbd "C-#") 'forward-char)
 
 
 ;;Show the column numbers 
@@ -88,7 +88,7 @@
 (show-paren-mode 1)
 
 ;;Open terminal
-;(global-set-key (kbd "C-=") 'ansi-term)
+					;(global-set-key (kbd "C-=") 'ansi-term)
 ;;jump to errors
 (global-set-key (kbd "C-.") 'next-error)
 (global-set-key (kbd "C-,") 'previous-error)
@@ -102,12 +102,12 @@
 
 ;;Hide some of the more annoying stuff
 (menu-bar-mode -1)
-  (when (fboundp 'tool-bar-mode)
-    (tool-bar-mode -1))
-  (when (fboundp 'scroll-bar-mode)
-    (scroll-bar-mode -1))
-  (when (fboundp 'horizontal-scroll-bar-mode)
-    (horizontal-scroll-bar-mode -1))
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
+(when (fboundp 'horizontal-scroll-bar-mode)
+  (horizontal-scroll-bar-mode -1))
 
 
 ;;Load paren display
@@ -148,16 +148,17 @@
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 (eval-after-load "flyspell"
   '(progn
-    (define-key flyspell-mode-map (kbd "C-.") nil)
-    (define-key flyspell-mode-map (kbd "C-,") nil)
-    (define-key flyspell-mode-map (kbd "C-<") 'flyspell-goto-next-error)
-    (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
-    ))
+     (define-key flyspell-mode-map (kbd "C-.") nil)
+     (define-key flyspell-mode-map (kbd "C-,") nil)
+     (define-key flyspell-mode-map (kbd "C-<") 'flyspell-goto-next-error)
+     (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
+     ))
 (setq ispell-dictionary "british")
 
-;; This function can be used to create an org file with today as it's filename
 (defun dear-diary ()
-	   (find-file  (concat"~/.emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" ))))
+  "This function can be used to create an org file with today as it's filename"
+  (interactive)
+  (find-file  (concat "~/.emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" ))))
 
 (custom-set-variables
  '(org-directory "~/.emacs.d/org/daily")
@@ -248,35 +249,35 @@
 
 ;;EMMS
 
- ;;** EMMS
- ;; Autoload the id3-browser and bind it to F7.
- ;; You can change this to your favorite EMMS interface.
- (autoload 'emms-smart-browse "emms-browser.el" "Browse with EMMS" t)
- (global-set-key [(f7)] 'emms-smart-browse)
+;;** EMMS
+;; Autoload the id3-browser and bind it to F7.
+;; You can change this to your favorite EMMS interface.
+(autoload 'emms-smart-browse "emms-browser.el" "Browse with EMMS" t)
+(global-set-key [(f7)] 'emms-smart-browse)
 
- (with-eval-after-load 'emms
-   (emms-standard) ;; or (emms-devel) if you want all features
-   (setq emms-source-file-default-directory "~/music"
-         emms-info-asynchronously t
-         emms-show-format "♪ %s")
+(with-eval-after-load 'emms
+  (emms-standard) ;; or (emms-devel) if you want all features
+  (setq emms-source-file-default-directory "~/Music"
+	emms-info-asynchronously t
+	emms-show-format "♪ %s")
 
-   ;; Might want to check `emms-info-functions',
-   ;; `emms-info-libtag-program-name',
-   ;; `emms-source-file-directory-tree-function'
-   ;; as well.
+  ;; Might want to check `emms-info-functions',
+  ;; `emms-info-libtag-program-name',
+  ;; `emms-source-file-directory-tree-function'
+  ;; as well.
 
-   ;; Determine which player to use.
-   ;; If you don't have strong preferences or don't have
-   ;; exotic files from the past (wma) `emms-default-players`
-   ;; is probably all you need.
-   (if (executable-find "mplayer")
-       (setq emms-player-list '(emms-player-mplayer))
-     (emms-default-players))
+  ;; Determine which player to use.
+  ;; If you don't have strong preferences or don't have
+  ;; exotic files from the past (wma) `emms-default-players`
+  ;; is probably all you need.
+  (if (executable-find "mplayer")
+      (setq emms-player-list '(emms-player-mplayer))
+    (emms-default-players))
 
-   ;; For libre.fm see `emms-librefm-scrobbler-username' and
-   ;; `emms-librefm-scrobbler-password'.
-   ;; Future versions will use .authoinfo.gpg.
-   )
+  ;; For libre.fm see `emms-librefm-scrobbler-username' and
+  ;; `emms-librefm-scrobbler-password'.
+  ;; Future versions will use .authoinfo.gpg.
+  )
 
 
 ;; LATEX SETUP;;
@@ -285,7 +286,7 @@
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
 (defun turn-on-outline-minor-mode ()
-(outline-minor-mode 1))
+  (outline-minor-mode 1))
 (add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
 (add-hook 'latex-mode-hook 'turn-on-outline-minor-mode)
 (setq outline-minor-mode-prefix "\C-c \C-o") ; Or something else
@@ -299,15 +300,15 @@
 
 ;; Better object colouring
 (font-lock-add-keywords 'c++-mode
-  `((,(concat
-       "\\<[_a-zA-Z][_a-zA-Z0-9]*\\>"       ; Object identifier
-       "\\s *"                              ; Optional white space
-       "\\(?:\\.\\|->\\)"                   ; Member access
-       "\\s *"                              ; Optional white space
-       "\\<\\([_a-zA-Z][_a-zA-Z0-9]*\\)\\>" ; Member identifier
-       "\\s *"                              ; Optional white space
-       "(")                                 ; Paren for method invocation
-     1 'font-lock-function-name-face t)))
+			`((,(concat
+			     "\\<[_a-zA-Z][_a-zA-Z0-9]*\\>"       ; Object identifier
+			     "\\s *"                              ; Optional white space
+			     "\\(?:\\.\\|->\\)"                   ; Member access
+			     "\\s *"                              ; Optional white space
+			     "\\<\\([_a-zA-Z][_a-zA-Z0-9]*\\)\\>" ; Member identifier
+			     "\\s *"                              ; Optional white space
+			     "(")                                 ; Paren for method invocation
+			   1 'font-lock-function-name-face t)))
 
 
 ;;Turn on the irony modes
@@ -374,8 +375,8 @@
 ;; -------------------------------------------------------------------------
 (eval-after-load "term"
   '(progn
-    (yas-global-mode 0)
-    ))
+     (yas-global-mode 0)
+     ))
 
 (custom-set-variables
  '(comint-scroll-to-bottom-on-input t)  ; always insert at the bottom
@@ -386,24 +387,38 @@
  '(comint-completion-addsuffix t)       ; insert space/slash after file completion
  )
 
-
-; interpret and use ansi color codes in shell output windows
+					; interpret and use ansi color codes in shell output windows
 (ansi-color-for-comint-mode-on)
 
-; make completion buffers disappear after 3 seconds.
+					; make completion buffers disappear after 3 seconds.
 (add-hook 'completion-setup-hook
-  (lambda () (run-at-time 3 nil
-    (lambda () (delete-windows-on "*Completions*")))))
+	  (lambda () (run-at-time 3 nil
+				  (lambda () (delete-windows-on "*Completions*")))))
+
+
+;; run a few shells.
+(shell "*shell5*")
+(shell "*shell6*")
+(shell "*shell7*")
+
+					; C-5, 6, 7 to switch to shells
+(global-set-key [(control \5)]
+		(lambda () (interactive) (switch-to-buffer "*shell5*")))
+(global-set-key [(control \6)]
+		(lambda () (interactive) (switch-to-buffer "*shell6*")))
+(global-set-key [(control \7)]
+		(lambda () (interactive) (switch-to-buffer "*shell7*")))
+
 
 ;; Octave setup (THIS SHOULD BE DEFAULT PLEASE FIX IN EMACS 25>)
 (setq auto-mode-alist
-(cons '("\\.m$" . octave-mode) auto-mode-alist))
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
 (add-hook 'octave-mode-hook
-(lambda ()
-(abbrev-mode 1)
-(auto-fill-mode 1)
-(if (eq window-system 'x)
-(font-lock-mode 1))))
+	  (lambda ()
+	    (abbrev-mode 1)
+	    (auto-fill-mode 1)
+	    (if (eq window-system 'x)
+		(font-lock-mode 1))))
 (setq-default octave-auto-indent t)
 (setq-default octave-auto-newline t)
 (setq-default octave-blink-matching-block t)
