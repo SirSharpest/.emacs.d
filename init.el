@@ -71,6 +71,9 @@
 (global-set-key (kbd "C-<down>") 'forward-sexp)
 (global-set-key (kbd "C-<up>") 'backward-sexp)
 
+;;Helm-projectile to jump across to other files!
+(global-set-key (kbd "M-o") 'helm-projectile-find-other-file)
+
 
 ;;Adding some keybinds that
 ;;1. I don't use, and
@@ -201,7 +204,7 @@
 (global-set-key (kbd "C-f") 'helm-projectile)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x g") 'helm-for-files)
+(global-set-key (kbd "C-x A") 'helm-for-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-b") 'helm-mini)
 
@@ -370,6 +373,11 @@
        (insert "/**\n * @brief  \n *\n * LongerDescription \n *\n * @param \n * @return \n */"))
 
 (define-key global-map [(S-f1)] 'insert-doc-comment)
+
+(eval-after-load "cc-mode"
+  '(progn
+     (define-key c-mode-map (kbd "C-c C-a") nil)
+     ))
 
 ;; BASH;;
 ;; -------------------------------------------------------------------------
