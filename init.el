@@ -301,36 +301,9 @@
 ;;apt install cppchecker
 ;;apt install clang
 
-;; Better object colouring
-(font-lock-add-keywords 'c++-mode
-			`((,(concat
-			     "\\<[_a-zA-Z][_a-zA-Z0-9]*\\>"       ; Object identifier
-			     "\\s *"                              ; Optional white space
-			     "\\(?:\\.\\|->\\)"                   ; Member access
-			     "\\s *"                              ; Optional white space
-			     "\\<\\([_a-zA-Z][_a-zA-Z0-9]*\\)\\>" ; Member identifier
-			     "\\s *"                              ; Optional white space
-			     "(")                                 ; Paren for method invocation
-			   1 'font-lock-function-name-face t)))
 
-
-;;Turn on the irony modes
-(add-hook 'c++-mode-hook 'irony-mode)
-
-(add-hook 'c-mode-hook 'irony-mode
-	  (lambda ()
-	    (setq flycheck-select-checker 'c/c++-gcc)
-	    (setq flycheck-gcc-language-standard "c11")
-	    (setq flycheck-gcc-warnings '("pedantic" "all" "extra"))))
-
-;;Not 100% about this section as it
-;;messes up some of my indents 
-;; (defun my-irony-mode-hook ()
-;;   (define-key irony-mode-map [remap completion-at-point]
-;;     'irony-completion-at-point-async)
-;;   (define-key irony-mode-map [remap complete-symbol]
-;;     'irony-completion-at-point-async))
-;;(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+;; This makes fly check work with irony 
+(add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
 
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
@@ -347,11 +320,11 @@
   '(add-to-list
     'company-backends '(company-irony-c-headers company-irony)))
 
-;; This makes fly check work with irony 
-(add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
+
+
 
 ;;For some c++ stuff
-(add-hook 'c++-mode-hook
+(add-hook 'c++-mode-hook 'irony-mode
           (lambda ()
 	    (setq flycheck-clang-include-path
 		  (list (expand-file-name "~/local/include/")))
@@ -366,6 +339,14 @@
 					  "zero-as-null-pointer-constant"
 					  "suggest-final-types" "suggest-final-methods"
 					  "suggest-override" "strict-prototypes"))))
+
+
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (setq flycheck-select-checker 'c/c++-gcc)
+	    (setq flycheck-gcc-language-standard "c99")
+	    (setq flycheck-gcc-warnings '("pedantic" "all" "extra"))))
+
 
 
 ;; Custom comment function for C/C++
