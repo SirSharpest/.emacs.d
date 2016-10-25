@@ -30,7 +30,7 @@
     company-jedi
     helm-projectile
     py-autopep8
-    ;;flycheck-pyflakes
+    flycheck-pyflakes
     flyspell
     sr-speedbar
     flycheck
@@ -40,10 +40,11 @@
     projectile
     flycheck-irony
     python-pep8
-    ;;python-pylint
+    python-pylint
     helm
     w3m
     latex-preview-pane
+    zone-rainbow
     ))
 
 (mapc #'(lambda (package)
@@ -57,7 +58,15 @@
 ;; GENERAL SETUP
 ;; --------------------------------------
 
+;; enable helm being loaded
+;; to get rid of unassigned errors 
 (require 'helm)
+
+
+
+;; Set the default font size to stop different DE's  changing size
+(set-face-attribute 'default nil :height 110) 
+
 
 ;;(shell) ;; I like to turn on the shell when I startup!
 ;; Just aside note, eshell isn't great for completion
@@ -71,6 +80,7 @@
 (global-set-key [C-tab] 'company-complete)
 (global-set-key (kbd "C-<down>") 'forward-sexp)
 (global-set-key (kbd "C-<up>") 'backward-sexp)
+(global-set-key (kbd "C-=") 'magit-status)
 
 ;;Helm-projectile to jump across to other files!
 (global-set-key (kbd "M-o") 'helm-projectile-find-other-file)
@@ -160,7 +170,7 @@
 (setq ispell-dictionary "british")
 
 (defun dear-diary ()
-  "This function can be used to create an org file with today as it's filename"
+  "This function can be used to create an org file with today as it's file name."
   (interactive)
   (find-file  (concat "~/.emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" ))))
 
@@ -180,7 +190,7 @@
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
-    (magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
+    (flycheck-clangcheck zone-rainbow magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
  '(python-shell-interpreter "python3"))
 
@@ -338,8 +348,6 @@
     'company-backends '(company-irony-c-headers company-irony)))
 
 
-
-
 ;;For some c++ stuff
 (add-hook 'c++-mode-hook 'irony-mode
           (lambda ()
@@ -415,6 +423,9 @@
 (setq-default octave-send-line-auto-forward t)
 (setq-default octave-send-show-buffer t)
 
+
+;; Window manager settings
+(set-frame-parameter nil 'fullscreen 'fullboth)
 
 
 
