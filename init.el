@@ -1,4 +1,6 @@
 ;;Adding the required repos for the package manager
+
+;;; Code:
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
@@ -45,6 +47,7 @@
     w3m
     latex-preview-pane
     zone-rainbow
+    org-bullets
     ))
 
 (mapc #'(lambda (package)
@@ -52,7 +55,7 @@
 	    (package-install package)))
       myPackages)
 
-;;Actually load packages required! 
+;;Actually load packages required!
 (package-initialize)
 
 ;; GENERAL SETUP
@@ -62,7 +65,8 @@
 ;; to get rid of unassigned errors 
 (require 'helm)
 
-
+;; Turn on org-mode syntax highlighting for src blocks
+(setq org-src-fontify-natively t)
 
 ;; Set the default font size to stop different DE's  changing size
 (set-face-attribute 'default nil :height 110) 
@@ -185,12 +189,15 @@
  '(comint-move-point-for-output t)
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
+ '(custom-safe-themes
+   (quote
+    ("7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "86c1c3872d471c399c753855479b33fdf19d427a6bcb1d3b3dee38a6d84f63a0" default)))
  '(flycheck-c/c++-gcc-executable nil)
  '(org-agenda-files (list org-directory))
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
-    (flycheck-clangcheck zone-rainbow magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
+    (htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
  '(python-shell-interpreter "python3"))
 
@@ -425,7 +432,7 @@
 
 
 ;; Window manager settings
-(set-frame-parameter nil 'fullscreen 'fullboth)
+;;(set-frame-parameter nil 'fullscreen 'fullboth)
 
 
 
