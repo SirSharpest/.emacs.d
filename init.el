@@ -260,17 +260,18 @@
 ;; pip install yapf
 ;; apt install virtualenv
 ;; pip install pylint for syntax checks
+;; IF ON A NEWER OS WILL USE PYTHON RATHER THAN PYTHON3 FOR THIS
 (elpy-enable)
 ;;(setq elpy-rpc-backend "jedi")
 (setq python-shell-completion-native-enable nil)
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-(setq py-python-command "python3")
+(setq py-python-command "python")
 (add-hook 'python-mode-hook 'jedi:setup)
 ;;(setq jedi:complete-on-dot t)                 ; optional
-(setq elpy-rpc-python-command "python3")
+(setq elpy-rpc-python-command "python")
 ;;Use jedi as the backend for company
-(setq flycheck-python-pylint-executable "pylint3")
+(setq flycheck-python-pylint-executable "pylint")
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi)
   (setq flycheck-checker 'python-pylint))
