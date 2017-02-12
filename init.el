@@ -31,6 +31,7 @@
     company-ycm
     company-jedi
     helm-projectile
+    helm-swoop
     py-autopep8
     flycheck-pyflakes
     flyspell
@@ -48,6 +49,7 @@
     latex-preview-pane
     zone-rainbow
     org-bullets
+    smyx-theme
     ))
 
 (mapc #'(lambda (package)
@@ -61,9 +63,15 @@
 ;; GENERAL SETUP
 ;; --------------------------------------
 
-;; enable helm being loaded
-;; to get rid of unassigned errors 
-(require 'helm)
+;; auto close bracket insertion. New in emacs 24
+(electric-pair-mode 1)
+
+;; setup some font information
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 110
+                    :weight 'normal
+                    :width 'normal)
 
 ;; Turn on org-mode syntax highlighting for src blocks
 (setq org-src-fontify-natively t)
@@ -131,7 +139,7 @@
 ;;Load paren display
 (setq show-paren-delay 0)
 (setq inhibit-startup-message t) ;; hide the startup message
-(load-theme 'alect-dark t) ;; load  theme
+(load-theme 'smyx t) ;; load  theme
 (global-linum-mode t) ;; enable line numbers globally
 (ido-mode 0) ;; turn off ido because its annoying
 
@@ -191,13 +199,13 @@
  '(comint-scroll-to-bottom-on-input t)
  '(custom-safe-themes
    (quote
-    ("7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "86c1c3872d471c399c753855479b33fdf19d427a6bcb1d3b3dee38a6d84f63a0" default)))
+    ("8288b9b453cdd2398339a9fd0cec94105bc5ca79b86695bd7bf0381b1fbe8147" "d5b121d69e48e0f2a84c8e4580f0ba230423391a78fcb4001ccb35d02494d79e" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "86c1c3872d471c399c753855479b33fdf19d427a6bcb1d3b3dee38a6d84f63a0" default)))
  '(flycheck-c/c++-gcc-executable nil)
  '(org-agenda-files (list org-directory))
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
-    (htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
+    (helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode sr-speedbar flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
  '(python-shell-interpreter "python3"))
 
@@ -205,6 +213,13 @@
 ;;-------------------------------------------
 (require 'helm)
 (require 'helm-config)
+(require 'helm-swoop)
+
+;; Change the keybinds to whatever you like :)
+(global-set-key (kbd "M-i") 'helm-swoop)
+(global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+(global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+(global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
@@ -266,12 +281,12 @@
 (setq python-shell-completion-native-enable nil)
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-(setq py-python-command "python")
+(setq py-python-command "python3")
 (add-hook 'python-mode-hook 'jedi:setup)
 ;;(setq jedi:complete-on-dot t)                 ; optional
-(setq elpy-rpc-python-command "python")
+(setq elpy-rpc-python-command "python3")
 ;;Use jedi as the backend for company
-(setq flycheck-python-pylint-executable "pylint")
+(setq flycheck-python-pylint-executable "pylint3")
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi)
   (setq flycheck-checker 'python-pylint))
