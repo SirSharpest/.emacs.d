@@ -51,6 +51,8 @@
     smyx-theme
     neotree
     doom-themes
+    openwith
+    org-ref
     ))
 
 (mapc #'(lambda (package)
@@ -70,11 +72,32 @@
       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
+(setq org-latex-pdf-process
+   "pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")
+
+
 ;; Turn on languages for org mode
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((R . t)
-   (python . t)))
+   (python . t)
+   (plantuml .t)))
+
+
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/plantuml.jar"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; Load up org-stuff								 ;;
+;; (setq reftex-default-bibliography '("~/Dropbox/bibliography/references.bib")) ;;
+;; 										 ;;
+;; ;; see org-ref for use of these variables					 ;;
+;; (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"		 ;;
+;;       org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib") ;;
+;;       org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")		 ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 
 ;; auto close bracket insertion. New in emacs 24
 (electric-pair-mode 1)
@@ -115,7 +138,10 @@
 (setq neo-smart-open t)
  (global-set-key [f8] 'neotree-toggle)
 
-
+;; Open with external application 
+(require 'openwith)
+(openwith-mode t)
+(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
 
 ;;Adding some keybinds that
 ;;1. I don't use, and
@@ -158,7 +184,7 @@
 ;;Load paren display
 (setq show-paren-delay 0)
 (setq inhibit-startup-message t) ;; hide the startup message
-;; (load-theme 'leuven t) ;; load  theme
+(load-theme 'leuven t) ;; load  theme
 
 ;;; load doom theme
 (require 'doom-themes)
@@ -166,10 +192,6 @@
 ;; Global settings (defaults)
 (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
       doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
-;; may have their own settings.
-(load-theme 'doom-one t)
 
 ;; Enable flashing mode-line on errors
 (doom-themes-visual-bell-config)
@@ -186,6 +208,8 @@
 ;;turn on some saving data
 (savehist-mode 1)
 
+;;
+(require 'org-ref)
 
 ;;yasnippet
 (require 'yasnippet)
@@ -233,15 +257,17 @@
  '(comint-scroll-to-bottom-on-input t)
  '(custom-safe-themes
    (quote
-    ("611e38c2deae6dcda8c5ac9dd903a356c5de5b62477469133c89b2785eb7a14d" "4182c491b5cc235ba5f27d3c1804fc9f11f51bf56fb6d961f94788be034179ad" "5900bec889f57284356b8216a68580bfa6ece73a6767dfd60196e56d050619bc" "365d9553de0e0d658af60cff7b8f891ca185a2d7ba3fc6d29aadba69f5194c7f" "b81bfd85aed18e4341dbf4d461ed42d75ec78820a60ce86730fc17fc949389b2" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "ad9747dc51ca23d1c1382fa9bd5d76e958a5bfe179784989a6a666fe801aadf2" "8288b9b453cdd2398339a9fd0cec94105bc5ca79b86695bd7bf0381b1fbe8147" "d5b121d69e48e0f2a84c8e4580f0ba230423391a78fcb4001ccb35d02494d79e" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "86c1c3872d471c399c753855479b33fdf19d427a6bcb1d3b3dee38a6d84f63a0" default)))
+    ("9f569b5e066dd6ca90b3578ff46659bc09a8764e81adf6265626d7dc0fac2a64" "611e38c2deae6dcda8c5ac9dd903a356c5de5b62477469133c89b2785eb7a14d" "4182c491b5cc235ba5f27d3c1804fc9f11f51bf56fb6d961f94788be034179ad" "5900bec889f57284356b8216a68580bfa6ece73a6767dfd60196e56d050619bc" "365d9553de0e0d658af60cff7b8f891ca185a2d7ba3fc6d29aadba69f5194c7f" "b81bfd85aed18e4341dbf4d461ed42d75ec78820a60ce86730fc17fc949389b2" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "ad9747dc51ca23d1c1382fa9bd5d76e958a5bfe179784989a6a666fe801aadf2" "8288b9b453cdd2398339a9fd0cec94105bc5ca79b86695bd7bf0381b1fbe8147" "d5b121d69e48e0f2a84c8e4580f0ba230423391a78fcb4001ccb35d02494d79e" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "86c1c3872d471c399c753855479b33fdf19d427a6bcb1d3b3dee38a6d84f63a0" default)))
  '(flycheck-c/c++-gcc-executable nil)
- '(org-agenda-files (list org-directory))
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/University Documents/2017-2018/Ruby/Assignment1/writeup/writeup.org" "~/org")))
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
-    (neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
+    ( web-mode scss-mode org-ref neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
- '(python-shell-interpreter "python3"))
+ '(python-shell-interpreter "python"))
 
 ;;Helm SETUP;;
 ;;-------------------------------------------
@@ -315,12 +341,12 @@
 (setq python-shell-completion-native-enable nil)
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-(setq py-python-command "python3")
+(setq py-python-command "python")
 (add-hook 'python-mode-hook 'jedi:setup)
 ;;(setq jedi:complete-on-dot t)                 ; optional
-(setq elpy-rpc-python-command "python3")
+(setq elpy-rpc-python-command "python")
 ;;Use jedi as the backend for company
-(setq flycheck-python-pylint-executable "pylint3")
+(setq flycheck-python-pylint-executable "pylint")
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi)
   (setq flycheck-checker 'python-pylint))
