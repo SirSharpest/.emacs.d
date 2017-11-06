@@ -68,12 +68,12 @@
 
 (setq org-latex-listings 'minted
       org-latex-packages-alist '(("" "minted"))
-      org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+      org-latex-pdf-process (quote ("texi2dvi --pdf --clean --verbose
+--batch %f" "bibtex %b" "texi2dvi --pdf --clean --verbose --batch %f"
+"texi2dvi --pdf --clean --verbose --batch %f")))
 
-(setq org-latex-pdf-process
-   "pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")
+
+(setq org-latex-pdf-process (quote ("texi2dvi -p -b -V %f")))
 
 
 ;; Turn on languages for org mode
@@ -102,12 +102,6 @@
 ;; auto close bracket insertion. New in emacs 24
 (electric-pair-mode 1)
 
-;; setup some font information
-(set-face-attribute 'default nil
-                    :family "Source Code Pro"
-                    :height 110
-                    :weight 'normal
-                    :width 'normal)
 
 ;; Turn on org-mode syntax highlighting for src blocks
 (setq org-src-fontify-natively t)
@@ -265,9 +259,9 @@
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
-    ( web-mode scss-mode org-ref neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
+    (web-mode scss-mode org-ref neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
- '(python-shell-interpreter "python"))
+ '(python-shell-interpreter "python3"))
 
 ;;Helm SETUP;;
 ;;-------------------------------------------
