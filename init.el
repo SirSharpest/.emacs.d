@@ -83,7 +83,8 @@
       org-latex-packages-alist '(("" "minted"))
       org-latex-pdf-process (quote ("texi2dvi --pdf %f
 pdflatex --shell-escape %f 
-texi2dvi --pdf %f --shell-escape")))
+texi2dvi --pdf %f --shell-escape
+latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
 
 ;; Turn on languages for org mode
 (org-babel-do-load-languages
@@ -92,6 +93,7 @@ texi2dvi --pdf %f --shell-escape")))
    (python . t)
    (plantuml .t)))
 
+(setq org-confirm-babel-evaluate nil)
 
 ;; For ruby
 (eval-after-load 'company
@@ -262,7 +264,7 @@ texi2dvi --pdf %f --shell-escape")))
  '(flycheck-c/c++-gcc-executable nil)
  '(org-agenda-files
    (quote
-    ("~/Dropbox/University Documents/2017-2018/Ruby/Assignment1/writeup/writeup.org" "~/org")))
+    ("~/Dropbox/University-Documents/2017-2018/Ruby/Assignment2/writeup.org" "~/Dropbox/University Documents/2017-2018/Ruby/Assignment1/writeup/writeup.org" "~/org")))
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
