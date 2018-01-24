@@ -190,7 +190,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 (require 'doom-themes)
 
 ;; Brighter files 
-(add-hook 'find-file-hook #'doom-buffer-mode-maybe)
+;;(add-hook 'find-file-hook #'doom-buffer-mode-maybe)
 ;; Global settings (defaults)
 (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
       doom-themes-enable-italic t) ; if nil, italics is universally disabled
@@ -269,9 +269,9 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
-    (dracula-theme sass-mode haml-mode web-mode scss-mode org-ref neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
+    (ein ipython dracula-theme sass-mode haml-mode web-mode scss-mode org-ref neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
- '(python-shell-interpreter "python3"))
+ '(python-shell-interpreter "python"))
 
 ;;Helm SETUP;;
 ;;-------------------------------------------
@@ -345,12 +345,12 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 (setq python-shell-completion-native-enable nil)
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-(setq py-python-command "python3")
+(setq py-python-command "python")
 (add-hook 'python-mode-hook 'jedi:setup)
 ;;(setq jedi:complete-on-dot t)                 ; optional
-(setq elpy-rpc-python-command "python3")
+(setq elpy-rpc-python-command "python")
 ;;Use jedi as the backend for company
-(setq flycheck-python-pylint-executable "pylint3")
+(setq flycheck-python-pylint-executable "pylint")
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi)
   (setq flycheck-checker 'python-pylint))
