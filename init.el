@@ -248,6 +248,11 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
   (interactive)
   (find-file  (concat "~/.emacs.d/org/daily/" (format-time-string "%Y-%m-%d.org" ))))
 
+(defun diss-summary ()
+  "This function can be used to create an org file with today as it's file name."
+  (interactive)
+  (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -269,7 +274,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
  '(org-directory "~/.emacs.d/org/daily")
  '(package-selected-packages
    (quote
-    (ein ipython dracula-theme sass-mode haml-mode web-mode scss-mode org-ref neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
+    (ox-twbs csv-mode csv-nav ein ipython dracula-theme sass-mode haml-mode web-mode scss-mode org-ref neotree helm-swoop smartparens smyx-theme blackboard-theme sublime-themes htmlize edit-server-htmlize excorporate flycheck-clangcheck zone-rainbow magit puml-mode flycheck-pyflakes py-autopep8 jedi company-jedi company-ycm company-web company-auctex company-arduino auctex markdown-mode golden-ratio alect-themes nyan-mode elpy)))
  '(python-check-command "flake8")
  '(python-shell-interpreter "python"))
 
@@ -316,6 +321,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 
 (global-set-key (kbd "C-f") 'helm-projectile)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x A") 'helm-for-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -514,9 +520,31 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 
 
 
+;; Setup for webpage
+(setq org-publish-project-alist
+      `(("Dissertation"
+         :base-directory "~/Dropbox/Website/"
+         :recursive t
+	 :auto-sitemap t
+	 :sitemap-sort-files anti-chronologically	
+	 :with-toc nil
+	 :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
+         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
+         :publishing-function org-html-publish-to-html
+	 )
+	("images"
+	 :base-directory "~/Dropbox/Website/images"
+	 :base-extension "png\\|gif"
+	 :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html/images"
+	 :publishing-function org-publish-attachment
+     )
+	("DissertationWebsite" :components("Dissertation images"))
+   )
+) 
+
+
 ;; Window manager settings
 ;;(set-frame-parameter nil 'fullscreen 'fullboth)
-
 
 
 (custom-set-faces
@@ -525,3 +553,4 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
