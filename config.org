@@ -36,6 +36,7 @@
     openwith
     auto-complete
     jedi
+    powerline
     ))
 
 (mapc #'(lambda (package)
@@ -43,6 +44,10 @@
       (package-install package)))
       myPackages)
 
+(require 'powerline)
+(require 'golden-ratio)
+(golden-ratio-mode 1)
+(setq golden-ratio-auto-scale t)
 (load-theme 'material t) ;; load material theme
 (tool-bar-mode -1) ;; turn off that annoying top bar
 (menu-bar-mode -1) ;; turn off that annoying menu
@@ -140,6 +145,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
 
+(require 'jedi)
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
 
