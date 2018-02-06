@@ -34,6 +34,8 @@
     org-ref
     org-bullets
     openwith
+    auto-complete
+    jedi
     ))
 
 (mapc #'(lambda (package)
@@ -139,9 +141,15 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 ;; --------------------------------------
 
 (elpy-enable)
+(setq elpy-rpc-backend "jedi")
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
+
+(define-key jedi-mode-map (kbd "<C-tab>") 'jedi:complete)
 
 ;; use flycheck not flymake with elpy
 (when (require 'flycheck nil t)
