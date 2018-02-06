@@ -1,0 +1,145 @@
+* Global Setup
+
+#+BEGIN_SRC emacs-lisp
+
+;; INSTALL PACKAGES
+;; --------------------------------------
+
+(require 'package)
+
+
+;;; Code:
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(defvar myPackages
+  '(better-defaults
+    ein
+    elpy
+    flycheck
+    material-theme
+    py-autopep8
+    flyspell
+    projectile
+    magit
+    golden-ratio
+    projectile
+    helm
+    helm-projectile
+    org-ref
+    org-bullets
+    openwith
+    ))
+
+(mapc #'(lambda (package)
+    (unless (package-installed-p package)
+      (package-install package)))
+      myPackages)
+
+(load-theme 'material t) ;; load material theme
+(menu-bar-mode -1) ;; turn off that annoying top bar
+(global-set-key (kbd "C-=") 'magit-status)
+(recentf-mode 1)
+(setq-default recent-save-file "~/.emacs.d/recentf")
+#+END_SRC
+
+* Spelling Setup
+
+#+BEGIN_SRC emacs-lisp
+;; SPELLING CONFIGURATION
+;; --------------------------------------
+;; Spell check activate
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(eval-after-load "flyspell"
+  '(progn
+     (define-key flyspell-mode-map (kbd "C-.") nil)
+     (define-key flyspell-mode-map (kbd "C-,") nil)
+     (define-key flyspell-mode-map (kbd "C-<") 'flyspell-goto-next-error)
+     (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
+     ))
+(setq ispell-dictionary "british")
+
+#+END_SRC
+
+* Org Mode Setup
+
+#+BEGIN_SRC emacs-lisp
+;; ORG CONFIGURATION
+;; --------------------------------------
+
+(setq org-latex-listings 'minted
+      org-latex-packages-alist '(("" "minted"))
+      org-latex-pdf-process (quote ("texi2dvi --pdf %f
+pdflatex --shell-escape %f 
+texi2dvi --pdf %f --shell-escape
+latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+
+;; Turn on languages for org mode
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)
+   (python . t)
+   (plantuml .t)))
+
+(setq org-confirm-babel-evaluate nil)
+(require 'org-ref)
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/plantuml.jar"))
+
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+;; Turn on org-mode syntax highlighting for src blocks
+(setq org-src-fontify-natively t)
+
+;; Open with external application 
+(require 'openwith)
+(openwith-mode t)
+(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+
+#+END_SRC
+
+* Python Mode Setup
+
+#+BEGIN_SRC emacs-lisp
+;; PYTHON CONFIGURATION
+;; --------------------------------------
+
+(elpy-enable)
+
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+
+;; use flycheck not flymake with elpy
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;; enable autopep8 formatting on save
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+#+END_SRC
+
+* Helm Mode Setup
+
+#+BEGIN_SRC emacs-lisp
+(require 'helm)
+(require 'helm-projectile)
+(helm-mode 1)
+(helm-projectile-on)
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(global-set-key (kbd "C-f") 'helm-projectile)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x A") 'helm-for-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+
+#+END_SRC
