@@ -143,3 +143,28 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 
 
 #+END_SRC
+
+* Webpage Project Management
+
+#+BEGIN_SRC emacs-lisp
+;; Setup for webpage
+(setq org-publish-project-alist
+      `(("Dissertation"
+         :base-directory "~/Dropbox/Website/"
+         :recursive t
+	 :auto-sitemap t
+	 :sitemap-sort-files anti-chronologically	
+	 :with-toc nil
+	 :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
+         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
+         :publishing-function org-html-publish-to-html
+	 )
+	("images"
+	 :base-directory "~/Dropbox/Website/images"
+	 :base-extension "png\\|gif"
+	 :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html/images"
+	 :publishing-function org-publish-attachment
+     )
+	("DissertationWebsite" :components("Dissertation images"))
+   )
+#+END_SRC
