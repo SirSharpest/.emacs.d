@@ -1,5 +1,5 @@
 * Global Setup
-
+  
 #+BEGIN_SRC emacs-lisp
 
 ;; INSTALL PACKAGES
@@ -54,6 +54,16 @@
 (global-set-key (kbd "C-=") 'magit-status)
 (recentf-mode 1)
 (setq-default recent-save-file "~/.emacs.d/recentf")
+#+END_SRC
+
+* Misc Functions
+
+** Create diary entries for Dissertation
+#+BEGIN_SRC emacs-lisp
+(defun diss-summary ()
+  "This function can be used to create an org file with today as it's file name."
+  (interactive)
+  (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
 #+END_SRC
 
 * Spelling Setup
