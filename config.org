@@ -37,6 +37,7 @@
     auto-complete
     jedi
     powerline
+    langtool
     ))
 
 (mapc #'(lambda (package)
@@ -60,6 +61,8 @@
 
 ** Create diary entries for Dissertation
 #+BEGIN_SRC emacs-lisp
+;; This is actually my first custom emacs funciton 
+;; Don't judge me on it!
 (defun diss-summary ()
   "This function can be used to create an org file with today as it's file name."
   (interactive)
@@ -82,6 +85,16 @@
      (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
      ))
 (setq ispell-dictionary "british")
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+;; GRAMMAR CONFIG
+;; --------------------------------------
+;; Langtool setup 
+
+(require 'langtool)
+(setq langtool-language-tool-jar "~/.emacs.d/LanguageTool-4.0/languagetool-commandline.jar")
 
 #+END_SRC
 
