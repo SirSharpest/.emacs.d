@@ -133,6 +133,12 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 (openwith-mode t)
 (setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
 
+;; Set the agenda to be what I document in my website
+(setq org-agenda-files '("~/Dropbox/Website/"))
+
+;; Add a timestamp to closed topics
+(setq org-log-done 'time)
+
 #+END_SRC
 
 ** Webpage Project Management
