@@ -196,6 +196,18 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+;; Resets python buffer so you can easily refresh classes
+
+(defun reset-py ()
+  (interactive)
+  (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+  (kill-buffer "*Python*")
+  (elpy-shell-send-region-or-buffer-and-step))
+
+(define-key jedi-mode-map (kbd "<C-c c-r>") 'rest-py)
+#+END_SRC
+
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
