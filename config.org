@@ -66,6 +66,7 @@
 (require 'use-package)
 (require 'iedit)
 (global-set-key (kbd "C-c e") 'iedit-mode)
+(add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
 * Misc Functions
@@ -184,29 +185,16 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 #+BEGIN_SRC emacs-lisp
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
-
-(use-package flycheck
-  :ensure t
-  :init
-  (global-flycheck-mode t))
+(elpy-enable)  
+(setq elpy-rpc-backend "jedi")
 
 ;; enable autopep8 formatting on save
 (require 'py-autopep8)
 (setq py-autopep8-options '("--max-line-length=100"))
-
-(use-package jedi
-  :ensure t
-  :init
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (add-hook 'python-mode-hook 'jedi:ac-setup)
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
-
-(setq jedi:complete-on-dot t)
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
-(define-key jedi-mode-map (kbd "<C-tab>") 'jedi:complete)
-
-
+(define-key python-mode-map (kbd "<C-tab>") 'elpy-company-backend)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 #+END_SRC
 
@@ -219,9 +207,9 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
   (kill-buffer "*Python*")
   (elpy-shell-send-region-or-buffer-and-step))
 
-(define-key jedi-mode-map (kbd "<C-c c-r>") 'rest-py)
+(define-key elpy-mode-map (kbd "<C-c c-r>") 'reset-py)
 #+END_SRC
-
+  
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
