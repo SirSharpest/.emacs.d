@@ -19,6 +19,7 @@
 
 (defvar myPackages
   '(better-defaults
+    doom-themes
     ein
     elpy
     flycheck
@@ -38,6 +39,8 @@
     jedi
     powerline
     langtool
+    use-package
+    iedit
     ))
 
 (mapc #'(lambda (package)
@@ -46,19 +49,27 @@
       myPackages)
 
 (require 'powerline)
+(powerline-default-theme)
 (require 'golden-ratio)
 (golden-ratio-mode 1)
 (setq golden-ratio-auto-scale t)
-(load-theme 'material t) ;; load material theme
+(require 'doom-themes)
+(load-theme 'doom-one t) ;; load material theme
+(doom-themes-org-config)
+(doom-themes-visual-bell-config)
 (tool-bar-mode -1) ;; turn off that annoying top bar
+(toggle-scroll-bar -1) ;; turn off scrolling too! 
 (menu-bar-mode -1) ;; turn off that annoying menu
 (global-set-key (kbd "C-=") 'magit-status)
 (recentf-mode 1)
 (setq-default recent-save-file "~/.emacs.d/recentf")
+(require 'use-package)
+(require 'iedit)
+(global-set-key (kbd "C-c e") 'iedit-mode)
 #+END_SRC
 
 * Misc Functions
-
+  
 ** Create diary entries for Dissertation
 #+BEGIN_SRC emacs-lisp
 ;; This is actually my first custom emacs funciton 
@@ -174,26 +185,29 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
 
-(require 'jedi)
-(elpy-enable)
-(setq elpy-rpc-backend "jedi")
-
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt")
-
-(define-key jedi-mode-map (kbd "<C-tab>") 'jedi:complete)
-
-;; use flycheck not flymake with elpy
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode t))
 
 ;; enable autopep8 formatting on save
 (require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(setq py-autopep8-options '("--max-line-length=100"))
+
+(use-package jedi
+  :ensure t
+  :init
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (add-hook 'python-mode-hook 'jedi:ac-setup)
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
+
+(setq jedi:complete-on-dot t)
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+(define-key jedi-mode-map (kbd "<C-tab>") 'jedi:complete)
+
+
+
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
