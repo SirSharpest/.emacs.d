@@ -2,101 +2,114 @@
   
 #+BEGIN_SRC emacs-lisp
 
-;; INSTALL PACKAGES
-;; --------------------------------------
+  ;; INSTALL PACKAGES
+  ;; --------------------------------------
 
-(require 'package)
+  (require 'package)
 
 
-;;; Code:
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+  ;;; Code:
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("marmalade" . "https://marmalade-repo.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")))
 
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
 
-(defvar myPackages
-  '(better-defaults
-    doom-themes
-    ein
-    elpy
-    flycheck
-    material-theme
-    py-autopep8
-    flyspell
-    projectile
-    magit
-    golden-ratio
-    projectile
-    helm
-    helm-projectile
-    org-ref
-    org-bullets
-    openwith
-    auto-complete
-    jedi
-    powerline
-    langtool
-    use-package
-    iedit
-    ))
+  (defvar myPackages
+    '(better-defaults
+      doom-themes
+      ein
+      elpy
+      flycheck
+      material-theme
+      py-autopep8
+      flyspell
+      projectile
+      magit
+      golden-ratio
+      projectile
+      helm
+      helm-projectile
+      org-ref
+      org-bullets
+      openwith
+      auto-complete
+      jedi
+      powerline
+      langtool
+      use-package
+      iedit
+      guide-key
+      sphinx-doc
+      ace-window
+      ))
 
-(mapc #'(lambda (package)
-    (unless (package-installed-p package)
-      (package-install package)))
-      myPackages)
+  (mapc #'(lambda (package)
+      (unless (package-installed-p package)
+        (package-install package)))
+        myPackages)
 
-(require 'powerline)
-(powerline-default-theme)
-(require 'golden-ratio)
-(golden-ratio-mode 1)
-(setq golden-ratio-auto-scale t)
-(require 'doom-themes)
-(load-theme 'doom-one t) ;; load material theme
-(doom-themes-org-config)
-(doom-themes-visual-bell-config)
-(tool-bar-mode -1) ;; turn off that annoying top bar
-(toggle-scroll-bar -1) ;; turn off scrolling too! 
-(menu-bar-mode -1) ;; turn off that annoying menu
-(global-set-key (kbd "C-=") 'magit-status)
-(recentf-mode 1)
-(setq-default recent-save-file "~/.emacs.d/recentf")
-(require 'use-package)
-(require 'iedit)
-(global-set-key (kbd "C-c e") 'iedit-mode)
-(add-hook 'after-init-hook 'global-company-mode)
+  (require 'powerline)
+  (powerline-default-theme)
+  (require 'golden-ratio)
+  (golden-ratio-mode 1)
+  (setq golden-ratio-auto-scale t)
+  (require 'doom-themes)
+  (load-theme 'doom-one t) ;; load material theme
+  (doom-themes-org-config)
+  (doom-themes-visual-bell-config)
+  (tool-bar-mode -1) ;; turn off that annoying top bar
+  (toggle-scroll-bar -1) ;; turn off scrolling too! 
+  (menu-bar-mode -1) ;; turn off that annoying menu
+  (global-set-key (kbd "C-=") 'magit-status)
+  (recentf-mode 1)
+  (setq-default recent-save-file "~/.emacs.d/recentf")
+  (require 'use-package)
+  (require 'iedit)
+  (global-set-key (kbd "C-c e") 'iedit-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
+
+  ;; Setup keybind reminders
+  (require 'guide-key)
+  (setq guide-key/guide-key-sequence '("C-c" "C-x"))
+  (guide-key-mode 1) 
+
+
+  ;; Enable ace window
+  (global-set-key (kbd "M-o") 'ace-window)
+  (electric-pair-mode)
 #+END_SRC
 
 * Misc Functions
   
 ** Create diary entries for Dissertation
 #+BEGIN_SRC emacs-lisp
-;; This is actually my first custom emacs funciton 
-;; Don't judge me on it!
-(defun diss-summary ()
-  "This function can be used to create an org file with today as it's file name."
-  (interactive)
-  (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
+  ;; This is actually my first custom emacs funciton 
+  ;; Don't judge me on it!
+  (defun diss-summary ()
+    "This function can be used to create an org file with today as it's file name."
+    (interactive)
+    (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
 #+END_SRC
 
 * Spelling Setup
 
 #+BEGIN_SRC emacs-lisp
-;; SPELLING CONFIGURATION
-;; --------------------------------------
-;; Spell check activate
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-(eval-after-load "flyspell"
-  '(progn
-     (define-key flyspell-mode-map (kbd "C-.") nil)
-     (define-key flyspell-mode-map (kbd "C-,") nil)
-     (define-key flyspell-mode-map (kbd "C-<") 'flyspell-goto-next-error)
-     (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
-     ))
-(setq ispell-dictionary "british")
+  ;; SPELLING CONFIGURATION
+  ;; --------------------------------------
+  ;; Spell check activate
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (eval-after-load "flyspell"
+    '(progn
+       (define-key flyspell-mode-map (kbd "C-.") nil)
+       (define-key flyspell-mode-map (kbd "C-,") nil)
+       (define-key flyspell-mode-map (kbd "C-<") 'flyspell-goto-next-error)
+       (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
+       ))
+  (setq ispell-dictionary "british")
 
 #+END_SRC
 
@@ -113,43 +126,81 @@
 * Org Mode Setup
 
 #+BEGIN_SRC emacs-lisp
-;; ORG CONFIGURATION
-;; --------------------------------------
+  ;; ORG CONFIGURATION
+  ;; --------------------------------------
 
-(setq org-latex-listings 'minted
-      org-latex-packages-alist '(("" "minted"))
-      org-latex-pdf-process (quote ("texi2dvi --pdf %f
-pdflatex --shell-escape %f 
-texi2dvi --pdf %f --shell-escape
-latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+  (setq org-latex-listings 'minted
+        org-latex-packages-alist '(("" "minted"))
+        org-latex-pdf-process (quote ("texi2dvi --pdf %f
+  pdflatex --shell-escape %f 
+  texi2dvi --pdf %f --shell-escape
+  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
 
-;; Turn on languages for org mode
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((R . t)
-   (python . t)
-   (plantuml .t)))
+  ;; Turn on languages for org mode
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R . t)
+     (python . t)
+     (plantuml .t)))
 
-(setq org-confirm-babel-evaluate nil)
-(require 'org-ref)
-(setq org-plantuml-jar-path
-      (expand-file-name "~/.emacs.d/plantuml.jar"))
+  (setq org-confirm-babel-evaluate nil)
+  (require 'org-ref)
+  (setq org-plantuml-jar-path
+        (expand-file-name "~/.emacs.d/plantuml.jar"))
 
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-;; Turn on org-mode syntax highlighting for src blocks
-(setq org-src-fontify-natively t)
+  ;; Turn on org-mode syntax highlighting for src blocks
+  (setq org-src-fontify-natively t)
 
-;; Open with external application 
-(require 'openwith)
-(openwith-mode t)
-(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+  ;; Open with external application 
+  (require 'openwith)
+  (openwith-mode t)
+  (setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
 
-;; Set the agenda to be what I document in my website
-(setq org-agenda-files '("~/Dropbox/Website/"))
+  ;; Set the agenda to be what I document in my website
+  (setq org-agenda-files '("~/Dropbox/Website/"))
 
-;; Add a timestamp to closed topics
-(setq org-log-done 'time)
+  ;; Add a timestamp to closed topics
+  (setq org-log-done 'time)
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;; Some of my own functions which help with misc tasks
+  (defun org-insert-default-header ()
+    (interactive)
+    (find-file (read-file-name))
+    (insert (format "#+TITLE: %s
+  ,#+AUTHOR: Nathan Hughes 
+  ,#+OPTIONS: toc:nil H:4 ^:nil
+  ,#+LaTeX_CLASS: article
+  ,#+LaTeX_CLASS_OPTIONS: [a4paper]
+  ,#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
+  ,#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
+  ,#+LaTeX_HEADER: \\usepackage{fancyhdr} 
+  ,#+LaTeX_HEADER: \\pagestyle{fancy} 
+  ,#+LaTeX_HEADER: \\usepackage{lastpage} 
+  ,#+LaTeX_HEADER: \\usepackage{float} 
+  ,#+LaTeX_HEADER: \\restylefloat{figure} 
+  ,#+LaTeX_HEADER: \\usepackage{hyperref}
+  ,#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
+  ,#+LaTex_HEADER: \\usepackage{titlesec}
+  ,#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
+  ,#+LaTeX_HEADER: \\usepackage{minted}
+  ,#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
+  ,#+LaTeX_HEADER: \\chead{}
+  ,#+LaTeX_HEADER: \\rhead{\\today}
+  ,#+LaTeX_HEADER: \\cfoot{}
+  ,#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
+  ,#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
+  ,#+LaTeX_HEADER:\\usepackage{subfig}
+  ,#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
+  ,#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
+  ,#+LATEX: \\maketitle
+  ,#+LATEX: \\clearpage
+  ,#+LATEX: \\tableofcontents
+  ,#+LATEX: \\clearpage" (read-string "Enter Document Title:") )))
 
 #+END_SRC
 
@@ -183,48 +234,54 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"
 * Python Mode Setup
 
 #+BEGIN_SRC emacs-lisp
-;; PYTHON CONFIGURATION
-;; --------------------------------------
-(elpy-enable)  
-(setq elpy-rpc-backend "jedi")
+  ;; PYTHON CONFIGURATION
+  ;; --------------------------------------
+  (elpy-enable)  
+  (setq elpy-rpc-backend "jedi")
 
-;; enable autopep8 formatting on save
-(require 'py-autopep8)
-(setq py-autopep8-options '("--max-line-length=100"))
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt")
-(define-key python-mode-map (kbd "<C-tab>") 'elpy-company-backend)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+  ;; enable autopep8 formatting on save
+  (require 'py-autopep8)
+  (setq py-autopep8-options '("--max-line-length=100"))
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "-i --simple-prompt")
+  (define-key python-mode-map (kbd "<C-tab>") 'elpy-company-backend)
+  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+
+  ;; Add Sphinx as a auto documenter
+  (add-hook 'python-mode-hook (lambda ()
+                                (require 'sphinx-doc)
+                                (sphinx-doc-mode t)))
 
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-;; Resets python buffer so you can easily refresh classes
+  ;; Resets python buffer so you can easily refresh classes
 
-(defun reset-py ()
-  (interactive)
-  (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
-  (kill-buffer "*Python*")
-  (elpy-shell-send-region-or-buffer-and-step))
+  (defun reset-py ()
+    (interactive)
+    (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+    (kill-buffer "*Python*")
+    (elpy-shell-send-region-or-buffer-and-step))
 
-(define-key elpy-mode-map (kbd "<C-c c-r>") 'reset-py)
+  (define-key elpy-mode-map (kbd "<C-c c-r>") 'reset-py)
 #+END_SRC
   
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
-(require 'helm)
-(require 'helm-projectile)
-(helm-mode 1)
-(helm-projectile-on)
+  (require 'helm)
+  (require 'helm-projectile)
+  (helm-mode 1)
+  (helm-projectile-on)
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(global-set-key (kbd "C-f") 'helm-projectile)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-b") 'helm-buffers-list)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x A") 'helm-for-files)
-(global-set-key (kbd "M-x") 'helm-M-x)
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+  (global-set-key (kbd "C-f") 'helm-projectile)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x A") 'helm-for-files)
+  (global-set-key (kbd "M-x") 'helm-M-x)
 
 
 #+END_SRC
