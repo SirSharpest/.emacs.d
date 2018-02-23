@@ -168,42 +168,43 @@
 
 #+BEGIN_SRC emacs-lisp
   ;; Some of my own functions which help with misc tasks
-  (defun org-insert-default-header ()
+  (defun org-insert-latex-headers ()
     (interactive)
-    (find-file (read-file-name))
+    (progn
+    (find-file (read-file-name "Enter Filename:"))    
     (insert (format "#+TITLE: %s
-  ,#+AUTHOR: Nathan Hughes 
-  ,#+OPTIONS: toc:nil H:4 ^:nil
-  ,#+LaTeX_CLASS: article
-  ,#+LaTeX_CLASS_OPTIONS: [a4paper]
-  ,#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
-  ,#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
-  ,#+LaTeX_HEADER: \\usepackage{fancyhdr} 
-  ,#+LaTeX_HEADER: \\pagestyle{fancy} 
-  ,#+LaTeX_HEADER: \\usepackage{lastpage} 
-  ,#+LaTeX_HEADER: \\usepackage{float} 
-  ,#+LaTeX_HEADER: \\restylefloat{figure} 
-  ,#+LaTeX_HEADER: \\usepackage{hyperref}
-  ,#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
-  ,#+LaTex_HEADER: \\usepackage{titlesec}
-  ,#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
-  ,#+LaTeX_HEADER: \\usepackage{minted}
-  ,#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
-  ,#+LaTeX_HEADER: \\chead{}
-  ,#+LaTeX_HEADER: \\rhead{\\today}
-  ,#+LaTeX_HEADER: \\cfoot{}
-  ,#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
-  ,#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
-  ,#+LaTeX_HEADER:\\usepackage{subfig}
-  ,#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
-  ,#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
-  ,#+LATEX: \\maketitle
-  ,#+LATEX: \\clearpage
-  ,#+LATEX: \\tableofcontents
-  ,#+LATEX: \\clearpage" (read-string "Enter Document Title:") )))
+#+AUTHOR: Nathan Hughes 
+#+OPTIONS: toc:nil H:4 ^:nil
+#+LaTeX_CLASS: article
+#+LaTeX_CLASS_OPTIONS: [a4paper]
+#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
+#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
+#+LaTeX_HEADER: \\usepackage{fancyhdr} 
+#+LaTeX_HEADER: \\pagestyle{fancy} 
+#+LaTeX_HEADER: \\usepackage{lastpage} 
+#+LaTeX_HEADER: \\usepackage{float} 
+#+LaTeX_HEADER: \\restylefloat{figure} 
+#+LaTeX_HEADER: \\usepackage{hyperref}
+#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
+#+LaTex_HEADER: \\usepackage{titlesec}
+#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
+#+LaTeX_HEADER: \\usepackage{minted}
+#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
+#+LaTeX_HEADER: \\chead{}
+#+LaTeX_HEADER: \\rhead{\\today}
+#+LaTeX_HEADER: \\cfoot{}
+#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
+#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
+#+LaTeX_HEADER:\\usepackage{subfig}
+#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
+#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
+#+LATEX: \\maketitle
+#+LATEX: \\clearpage
+#+LATEX: \\tableofcontents
+#+LATEX: \\clearpage" (read-string "Enter Document Title:")) )))
 
 #+END_SRC
-
+  
 ** Webpage Project Management
 
 #+BEGIN_SRC emacs-lisp
@@ -230,7 +231,7 @@
    )
 ) 
 #+END_SRC
-
+   
 * Python Mode Setup
 
 #+BEGIN_SRC emacs-lisp
