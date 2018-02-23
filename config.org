@@ -268,9 +268,9 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (defun populate-org-buffer (buffer filename)
+  (defun populate-org-buffer (buffer filename root)
     (goto-char (point-min))
-    (let ((to-insert (concat "* " filename "\n")))
+    (let ((to-insert (concat "* " (replace-regexp-in-string root "" filename) "\n") ))
       (while (re-search-forward
               (rx (group (or "def" "class"))
                   space
@@ -301,7 +301,7 @@
       (dolist (file files)
         (with-temp-buffer
           (insert-file-contents file)
-          (populate-org-buffer doc-buf file)))
+          (populate-org-buffer doc-buf file dir)))
       (with-current-buffer doc-buf
         (org-mode))))
 #+END_SRC
