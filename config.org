@@ -36,13 +36,13 @@
       org-bullets
       openwith
       auto-complete
-      jedi
+      company-jedi
       powerline
       langtool
       use-package
       iedit
       guide-key
-      sphinx-doc
+      spacemacs-theme
       ace-window
       ))
 
@@ -57,8 +57,8 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'doom-one t) ;; load material theme
-  (doom-themes-org-config)
+  (load-theme 'spacemacs-dark t) ;; load material theme
+  ;; (doom-themes-org-config)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too! 
@@ -71,6 +71,7 @@
   (global-set-key (kbd "C-c e") 'iedit-mode)
   (add-hook 'after-init-hook 'global-company-mode)
 
+  (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
   ;; Setup keybind reminders
   (require 'guide-key)
   (setq guide-key/guide-key-sequence '("C-c" "C-x"))
@@ -249,10 +250,6 @@
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 
-  ;; Add Sphinx as a auto documenter
-  (add-hook 'python-mode-hook (lambda ()
-                                (require 'sphinx-doc)
-                                (sphinx-doc-mode t)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
