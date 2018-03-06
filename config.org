@@ -11,8 +11,7 @@
   ;;; Code:
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                            ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")
-                            ("org" . "http://orgmode.org/elpa/")))
+                           ("melpa" . "https://melpa.org/packages/")))
 
   (package-initialize)
   (when (not package-archive-contents)
@@ -35,7 +34,6 @@
       helm-projectile
       org-ref
       org-bullets
-      ox-pandoc
       openwith
       auto-complete
       company-jedi
