@@ -11,7 +11,8 @@
   ;;; Code:
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                            ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")))
+                           ("melpa" . "https://melpa.org/packages/")
+                            ("org" . "http://orgmode.org/elpa/")))
 
   (package-initialize)
   (when (not package-archive-contents)
@@ -34,6 +35,7 @@
       helm-projectile
       org-ref
       org-bullets
+      ox-pandoc
       openwith
       auto-complete
       company-jedi
@@ -208,14 +210,15 @@
 #+END_SRC
 
 
-#+BEGIN_SRC elisp
-  (add-to-list 'org-latex-classes
-      '("dissertation_report"
-        "\\documentclass[11pt]{report}"
-        ("\\chapter{%s}" . "\\chapter*{%s}")
-        ("\\section{%s}" . "\\section*{%s}")
-        ("\\subsection{%s}" . "\\subsection*{%s}")
-        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org-mode
+    (add-to-list 'org-latex-classes
+		 '("dissertation_report"
+		   "\\documentclass[11pt]{report}"
+		   ("\\chapter{%s}" . "\\chapter*{%s}")
+		   ("\\section{%s}" . "\\section*{%s}")
+		   ("\\subsection{%s}" . "\\subsection*{%s}")
+		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 #+END_SRC  
 ** Webpage Project Management
 
