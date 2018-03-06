@@ -42,7 +42,7 @@
       use-package
       iedit
       guide-key
-      spacemacs-theme
+      darktooth-theme
       ace-window
       ))
 
@@ -57,7 +57,7 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'spacemacs-dark t) ;; load material theme
+  (load-theme 'darktooth t) ;; load material theme
   ;; (doom-themes-org-config)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
@@ -70,6 +70,7 @@
   (require 'iedit)
   (global-set-key (kbd "C-c e") 'iedit-mode)
   (add-hook 'after-init-hook 'global-company-mode)
+  (global-hl-line-mode +1) ;; why is this not default! 
 
   (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
   ;; Setup keybind reminders
@@ -205,7 +206,17 @@
 #+LATEX: \\clearpage" (read-string "Enter Document Title:")) )))
 
 #+END_SRC
-  
+
+
+#+BEGIN_SRC elisp
+  (add-to-list 'org-latex-classes
+      '("dissertation_report"
+        "\\documentclass[11pt]{report}"
+        ("\\chapter{%s}" . "\\chapter*{%s}")
+        ("\\section{%s}" . "\\section*{%s}")
+        ("\\subsection{%s}" . "\\subsection*{%s}")
+        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+#+END_SRC  
 ** Webpage Project Management
 
 #+BEGIN_SRC emacs-lisp
@@ -238,16 +249,24 @@
 #+BEGIN_SRC emacs-lisp
   ;; PYTHON CONFIGURATION
   ;; --------------------------------------
-  (elpy-enable)  
-  (setq elpy-rpc-backend "jedi")
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode t))
+
+  (use-package jedi
+    :ensure t
+    :init
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (add-hook 'python-mode-hook 'jedi:ac-setup))
 
   ;; enable autopep8 formatting on save
   (require 'py-autopep8)
   (setq py-autopep8-options '("--max-line-length=100"))
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "-i --simple-prompt")
-  (define-key python-mode-map (kbd "<C-tab>") 'elpy-company-backend)
-  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+  (define-key jedi-mode-map (kbd "<C-tab>") 'jedi:complete)
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 
 
 #+END_SRC
@@ -259,9 +278,10 @@
     (interactive)
     (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
     (kill-buffer "*Python*")
-    (elpy-shell-send-region-or-buffer-and-step))
+    (run-python)
+    (python-shell-send-buffer))
 
-  (define-key elpy-mode-map (kbd "<C-c c-r>") 'reset-py)
+  (define-key jedi-mode-map (kbd "<C-c c-r>") 'reset-py)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -302,7 +322,7 @@
       (with-current-buffer doc-buf
         (org-mode))))
 #+END_SRC
-
+  
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
