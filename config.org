@@ -96,6 +96,15 @@
     (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
 #+END_SRC
 
+* LaTeX Setup
+#+BEGIN_SRC emacs-lisp
+  (defun run-latex ()
+      (interactive)
+      (let ((process (TeX-active-process))) (if process (delete-process process)))
+      (let ((TeX-save-query nil)) (TeX-save-document ""))
+      (TeX-command-menu "LaTeX"))
+  (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-x C-s") #'run-latex)))
+#+END_SRC
 * Spelling Setup
 
 #+BEGIN_SRC emacs-lisp
@@ -209,7 +218,7 @@
 
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org-mode
+  (with-eval-after-load 'org
     (add-to-list 'org-latex-classes
 		 '("dissertation_report"
 		   "\\documentclass[11pt]{report}"
