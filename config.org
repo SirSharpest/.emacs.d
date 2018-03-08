@@ -35,8 +35,6 @@
       org-ref
       org-bullets
       openwith
-      auto-complete
-      company-jedi
       powerline
       langtool
       use-package
@@ -57,8 +55,10 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'darktooth t) ;; load material theme
-  ;; (doom-themes-org-config)
+  (load-theme 'doom-peacock t) ;; load material theme
+  (set-frame-font "DejaVuSans:pixelsize=18") ;; set font
+  ;; on first run! 
+  ;; curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too! 
@@ -264,34 +264,30 @@
     :init
     (global-flycheck-mode t))
 
-  (use-package jedi
-    :ensure t
-    :init
-    (add-hook 'python-mode-hook 'jedi:setup)
-    (add-hook 'python-mode-hook 'jedi:ac-setup))
+(elpy-enable)
 
-  ;; enable autopep8 formatting on save
-  (require 'py-autopep8)
-  (setq py-autopep8-options '("--max-line-length=100"))
-  (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args "-i --simple-prompt")
-  (define-key jedi-mode-map (kbd "<C-tab>") 'jedi:complete)
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
 
+;; use flycheck not flymake with elpy
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;; enable autopep8 formatting on save
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   ;; Resets python buffer so you can easily refresh classes
-
-  (defun reset-py ()
-    (interactive)
-    (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
-    (kill-buffer "*Python*")
-    (run-python)
-    (python-shell-send-buffer))
-
-  (define-key jedi-mode-map (kbd "<C-c c-r>") 'reset-py)
+(defun reset-py ()
+  (interactive)
+  (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+  (kill-buffer "*Python*")
+  (elpy-shell-send-region-or-buffer-and-step))
+(define-key elpy-mode-map (kbd "<C-c c-r>") 'reset-py)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
