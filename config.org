@@ -252,8 +252,9 @@
     :init
     (global-flycheck-mode t))
 
+;; Load up elpy
 (elpy-enable)
-
+(setq elpy-rpc-backend "jedi")
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
 
