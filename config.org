@@ -1,5 +1,5 @@
 * Global Setup
-  
+
 #+BEGIN_SRC emacs-lisp
 
   ;; INSTALL PACKAGES
@@ -10,8 +10,8 @@
 
   ;;; Code:
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")))
+			   ("marmalade" . "https://marmalade-repo.org/packages/")
+			   ("melpa" . "https://melpa.org/packages/")))
 
   (package-initialize)
   (when (not package-archive-contents)
@@ -46,8 +46,8 @@
 
   (mapc #'(lambda (package)
       (unless (package-installed-p package)
-        (package-install package)))
-        myPackages)
+	(package-install package)))
+	myPackages)
 
   (require 'powerline)
   (powerline-default-theme)
@@ -57,11 +57,11 @@
   (require 'doom-themes)
   (load-theme 'doom-peacock t) ;; load material theme
   (set-frame-font "DejaVuSans:pixelsize=18") ;; set font
-  ;; on first run! 
+  ;; on first run!
   ;; curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
-  (toggle-scroll-bar -1) ;; turn off scrolling too! 
+  (toggle-scroll-bar -1) ;; turn off scrolling too!
   (menu-bar-mode -1) ;; turn off that annoying menu
   (global-set-key (kbd "C-=") 'magit-status)
   (recentf-mode 1)
@@ -70,30 +70,18 @@
   (require 'iedit)
   (global-set-key (kbd "C-c e") 'iedit-mode)
   (add-hook 'after-init-hook 'global-company-mode)
-  (global-hl-line-mode +1) ;; why is this not default! 
-
+  (global-hl-line-mode +1) ;; why is this not default!
+  (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
   (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
   ;; Setup keybind reminders
   (require 'guide-key)
   (setq guide-key/guide-key-sequence '("C-c" "C-x"))
-  (guide-key-mode 1) 
+  (guide-key-mode 1)
 
 
   ;; Enable ace window
   (global-set-key (kbd "M-o") 'ace-window)
   (electric-pair-mode)
-#+END_SRC
-
-* Misc Functions
-  
-** Create diary entries for Dissertation
-#+BEGIN_SRC emacs-lisp
-  ;; This is actually my first custom emacs funciton 
-  ;; Don't judge me on it!
-  (defun diss-summary ()
-    "This function can be used to create an org file with today as it's file name."
-    (interactive)
-    (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
 #+END_SRC
 
 * LaTeX Setup
@@ -127,7 +115,7 @@
 #+BEGIN_SRC emacs-lisp
 ;; GRAMMAR CONFIG
 ;; --------------------------------------
-;; Langtool setup 
+;; Langtool setup
 
 (require 'langtool)
 (setq langtool-language-tool-jar "~/.emacs.d/LanguageTool-4.0/languagetool-commandline.jar")
@@ -141,9 +129,9 @@
   ;; --------------------------------------
 
   (setq org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process (quote ("texi2dvi --pdf %f
-  pdflatex --shell-escape %f 
+	org-latex-packages-alist '(("" "minted"))
+	org-latex-pdf-process (quote ("texi2dvi --pdf %f
+  pdflatex --shell-escape %f
   texi2dvi --pdf %f --shell-escape
   latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
 
@@ -157,14 +145,14 @@
   (setq org-confirm-babel-evaluate nil)
   (require 'org-ref)
   (setq org-plantuml-jar-path
-        (expand-file-name "~/.emacs.d/plantuml.jar"))
+	(expand-file-name "~/.emacs.d/plantuml.jar"))
 
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
   ;; Turn on org-mode syntax highlighting for src blocks
   (setq org-src-fontify-natively t)
 
-  ;; Open with external application 
+  ;; Open with external application
   (require 'openwith)
   (openwith-mode t)
   (setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
@@ -182,19 +170,19 @@
   (defun org-insert-latex-headers ()
     (interactive)
     (progn
-    (find-file (read-file-name "Enter Filename:"))    
+    (find-file (read-file-name "Enter Filename:"))
     (insert (format "#+TITLE: %s
-#+AUTHOR: Nathan Hughes 
+#+AUTHOR: Nathan Hughes
 #+OPTIONS: toc:nil H:4 ^:nil
 #+LaTeX_CLASS: article
 #+LaTeX_CLASS_OPTIONS: [a4paper]
 #+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
 #+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
-#+LaTeX_HEADER: \\usepackage{fancyhdr} 
-#+LaTeX_HEADER: \\pagestyle{fancy} 
-#+LaTeX_HEADER: \\usepackage{lastpage} 
-#+LaTeX_HEADER: \\usepackage{float} 
-#+LaTeX_HEADER: \\restylefloat{figure} 
+#+LaTeX_HEADER: \\usepackage{fancyhdr}
+#+LaTeX_HEADER: \\pagestyle{fancy}
+#+LaTeX_HEADER: \\usepackage{lastpage}
+#+LaTeX_HEADER: \\usepackage{float}
+#+LaTeX_HEADER: \\restylefloat{figure}
 #+LaTeX_HEADER: \\usepackage{hyperref}
 #+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
 #+LaTex_HEADER: \\usepackage{titlesec}
@@ -226,7 +214,7 @@
 		   ("\\section{%s}" . "\\section*{%s}")
 		   ("\\subsection{%s}" . "\\subsection*{%s}")
 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-#+END_SRC  
+#+END_SRC
 ** Webpage Project Management
 
 #+BEGIN_SRC emacs-lisp
@@ -234,14 +222,14 @@
 ;; Setup for webpage
 (setq org-publish-project-alist
       `(("Dissertation"
-         :base-directory "~/Dropbox/Website/"
-         :recursive t
+	 :base-directory "~/Dropbox/Website/"
+	 :recursive t
 	 :auto-sitemap t
-	 :sitemap-sort-files anti-chronologically	
+	 :sitemap-sort-files anti-chronologically
 	 :with-toc nil
 	 :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
-         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
-         :publishing-function org-html-publish-to-html
+	 :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
+	 :publishing-function org-html-publish-to-html
 	 )
 	("images"
 	 :base-directory "~/Dropbox/Website/images"
@@ -251,9 +239,9 @@
      )
 	("DissertationWebsite" :components("Dissertation images"))
    )
-) 
+)
 #+END_SRC
-   
+
 * Python Mode Setup
 
 #+BEGIN_SRC emacs-lisp
@@ -295,40 +283,40 @@
     (goto-char (point-min))
     (let ((to-insert (concat "* " (replace-regexp-in-string root "" filename) "\n") ))
       (while (re-search-forward
-              (rx (group (or "def" "class"))
-                  space
-                  (group (+ (not (any "()"))))
-                  (? "(" (* nonl) "):" (+ "\n") (+ space)
-                     (= 3 "\"")
-                     (group (+? anything))
-                     (= 3 "\"")))
-              nil 'noerror)
-        (setq to-insert
-              (concat
-               to-insert
-               (if (string= "class" (match-string 1))
-                   "** "
-                 "*** ")
-               (match-string 2)
-               "\n"
-               (and (match-string 3)
-                    (concat (match-string 3) "\n")))))
+	      (rx (group (or "def" "class"))
+		  space
+		  (group (+ (not (any "()"))))
+		  (? "(" (* nonl) "):" (+ "\n") (+ space)
+		     (= 3 "\"")
+		     (group (+? anything))
+		     (= 3 "\"")))
+	      nil 'noerror)
+	(setq to-insert
+	      (concat
+	       to-insert
+	       (if (string= "class" (match-string 1))
+		   "** "
+		 "*** ")
+	       (match-string 2)
+	       "\n"
+	       (and (match-string 3)
+		    (concat (match-string 3) "\n")))))
       (with-current-buffer buffer
-        (insert to-insert))))
+	(insert to-insert))))
 
   (defun org-documentation-from-dir (&optional dir)
     (interactive)
     (let* ((dir  (or dir (read-directory-name "Choose base directory: ")))
-           (files (directory-files-recursively dir "\py$"))
-           (doc-buf (get-buffer-create "org-docs")))
+	   (files (directory-files-recursively dir "\py$"))
+	   (doc-buf (get-buffer-create "org-docs")))
       (dolist (file files)
-        (with-temp-buffer
-          (insert-file-contents file)
-          (populate-org-buffer doc-buf file dir)))
+	(with-temp-buffer
+	  (insert-file-contents file)
+	  (populate-org-buffer doc-buf file dir)))
       (with-current-buffer doc-buf
-        (org-mode))))
+	(org-mode))))
 #+END_SRC
-  
+
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
@@ -346,4 +334,16 @@
   (global-set-key (kbd "M-x") 'helm-M-x)
 
 
+#+END_SRC
+
+* Misc Functions
+
+** Create diary entries for Dissertation
+#+BEGIN_SRC emacs-lisp
+  ;; This is actually my first custom emacs funciton
+  ;; Don't judge me on it!
+  (defun diss-summary ()
+    "This function can be used to create an org file with today as it's file name."
+    (interactive)
+    (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
 #+END_SRC
