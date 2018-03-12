@@ -43,6 +43,8 @@
       darktooth-theme
       ace-window
       smooth-scrolling
+      company-quickhelp
+      company-jedi
       ))
 
   (mapc #'(lambda (package)
@@ -56,8 +58,8 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'doom-peacock t) ;; load material theme
-  (set-frame-font "DejaVuSans:pixelsize=18") ;; set font
+  (load-theme 'material t) ;; load material theme
+  ;;(set-frame-font "Inconsolata:pixelsize=18")
   ;; on first run!
   ;; curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash
   (doom-themes-visual-bell-config)
@@ -71,6 +73,7 @@
   (require 'iedit)
   (global-set-key (kbd "C-c e") 'iedit-mode)
   (add-hook 'after-init-hook 'global-company-mode)
+
   (global-hl-line-mode +1) ;; why is this not default!
   (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
   (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
@@ -86,6 +89,58 @@
   ;; Enable ace window
   (global-set-key (kbd "M-o") 'ace-window)
   (electric-pair-mode)
+#+END_SRC
+
+** Company stuff
+#+BEGIN_SRC emacs-lisp
+  (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
+		company-idle-delay 0.3
+		company-echo-delay 0
+		company-show-numbers t
+		company-tooltip-align-annotations t ; align annotations to the right tooltip border.
+		company-tooltip-flip-when-above t
+		company-tooltip-limit 10          ; tooltip candidates max limit.
+		company-tooltip-minimum 6         ; minimum candidates limit.
+		company-tooltip-minimum-width 0   ; The minimum width of the tooltip's inner area.
+					  ; This doesn't include the margins and the scroll bar.
+		company-tooltip-margin 2          ; width of margin columns to show around the tooltip
+		company-tooltip-offset-display 'scrollbar ; 'lines - how to show tooltip unshown candidates number.
+		company-show-numbers nil ; t: show quick access numbers for the first ten candidates.
+		company-selection-wrap-around t ; loop over candidates
+		;; company-async-wait 0.03
+		;; company-async-timeout 2
+		)
+
+  ;;; help document preview & popup
+  (require 'company-quickhelp)
+  (setq company-quickhelp--delay 0.1)
+  (company-quickhelp-mode 1)
+
+  (setq-default company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
+				    company-preview-if-just-one-frontend
+				    company-echo-metadata-frontend
+				    company-quickhelp-frontend
+				    ))
+
+  (setq-default company-backends '((company-capf company-keywords
+						 company-yasnippet
+						 company-tempo ; flexible template insertion
+						 )
+				   (company-gtags company-etags)
+				   company-elisp ; Emacs Lisp
+				   ;; company-semantic ; C/C++
+				   (company-clang  company-cmake) ; C/C++
+				   ;; company-eclim ; Java
+				   ;; company-ropemacs ; Python
+				   company-nxml company-css ; HTML, CSS, XML
+				   ;; company-xcode ; for Xcode projects
+				   company-bbdb ; BBDB
+				   (company-dabbrev-code company-dabbrev company-abbrev) ; abbrev
+				   company-files ; files & directory
+				   company-ispell ; Ispell
+				   ;; company-oddmuse ; wiki
+				   ))
+
 #+END_SRC
 
 * LaTeX Setup
@@ -249,27 +304,27 @@
 * Python Mode Setup
 
 #+BEGIN_SRC emacs-lisp
-  ;; PYTHON CONFIGURATION
-  ;; --------------------------------------
-  (use-package flycheck
-    :ensure t
-    :init
-    (global-flycheck-mode t))
+    ;; PYTHON CONFIGURATION
+    ;; --------------------------------------
+    (use-package flycheck
+      :ensure t
+      :init
+      (global-flycheck-mode t))
 
-;; Load up elpy
-(elpy-enable)
-(setq elpy-rpc-backend "jedi")
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt")
+  ;; Load up elpy
+  (elpy-enable)
+  (setq elpy-rpc-backend "jedi")
+  (setq python-shell-interpreter "ipython"
+	python-shell-interpreter-args "-i --simple-prompt")
 
-;; use flycheck not flymake with elpy
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+  ;; use flycheck not flymake with elpy
+  (when (require 'flycheck nil t)
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-;; enable autopep8 formatting on save
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+  ;; enable autopep8 formatting on save
+  (require 'py-autopep8)
+  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 #+END_SRC
 
