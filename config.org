@@ -42,6 +42,7 @@
       guide-key
       darktooth-theme
       ace-window
+      smooth-scrolling
       ))
 
   (mapc #'(lambda (package)
@@ -78,6 +79,9 @@
   (setq guide-key/guide-key-sequence '("C-c" "C-x"))
   (guide-key-mode 1)
 
+  ;; Smooth scrolling please and thank you!
+  (require 'smooth-scrolling)
+  (smooth-scrolling-mode 1)
 
   ;; Enable ace window
   (global-set-key (kbd "M-o") 'ace-window)
