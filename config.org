@@ -58,7 +58,9 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'material t) ;; load material theme
+  (load-theme 'doom-city-lights t) ;; load material theme
+  (set-background-color "#313742") ;; adds a nice colour that agrees with arc-them
+
   ;;(set-frame-font "Inconsolata:pixelsize=18")
   ;; on first run!
   ;; curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash
@@ -73,7 +75,7 @@
   (require 'iedit)
   (global-set-key (kbd "C-c e") 'iedit-mode)
   (add-hook 'after-init-hook 'global-company-mode)
-
+  (global-linum-mode t)
   (global-hl-line-mode +1) ;; why is this not default!
   (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
   (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
@@ -91,7 +93,7 @@
   (electric-pair-mode)
 #+END_SRC
 
-** Company stuff
+* Company stuff
 #+BEGIN_SRC emacs-lisp
   (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
 		company-idle-delay 0.3
@@ -314,7 +316,7 @@
   ;; Load up elpy
   (elpy-enable)
   (setq elpy-rpc-backend "jedi")
-  (setq python-shell-interpreter "ipython"
+  (setq python-shell-interpreter "ipython3"
 	python-shell-interpreter-args "-i --simple-prompt")
 
   ;; use flycheck not flymake with elpy
