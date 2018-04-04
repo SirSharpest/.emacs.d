@@ -1,5 +1,4 @@
 * Global Setup
-
 #+BEGIN_SRC emacs-lisp
 
   ;; INSTALL PACKAGES
@@ -58,12 +57,17 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'doom-city-lights t) ;; load material theme
-  (set-background-color "#313742") ;; adds a nice colour that agrees with arc-them
+  (load-theme 'atom-one-dark t) ;; load material theme
+
 
   ;;(set-frame-font "Inconsolata:pixelsize=18")
   ;; on first run!
   ;; curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash
+  (set-face-attribute 'default nil
+		      :family "Source Code Pro"
+		      :height 110
+		      :weight 'normal
+		      :width 'normal)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too!
@@ -91,6 +95,12 @@
   ;; Enable ace window
   (global-set-key (kbd "M-o") 'ace-window)
   (electric-pair-mode)
+#+END_SRC
+
+** Turning off backups of temp files
+#+BEGIN_SRC emacs-lisp
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
 #+END_SRC
 
 * Company stuff
@@ -155,7 +165,6 @@
   (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-x C-s") #'run-latex)))
 #+END_SRC
 * Spelling Setup
-
 #+BEGIN_SRC emacs-lisp
   ;; SPELLING CONFIGURATION
   ;; --------------------------------------
@@ -184,7 +193,6 @@
 #+END_SRC
 
 * Org Mode Setup
-
 #+BEGIN_SRC emacs-lisp
   ;; ORG CONFIGURATION
   ;; --------------------------------------
@@ -216,7 +224,7 @@
   ;; Open with external application
   (require 'openwith)
   (openwith-mode t)
-  (setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+  (setq openwith-associations '(("\\.pdf\\'" "xreader" (file))))
 
   ;; Set the agenda to be what I document in my website
   (setq org-agenda-files '("~/Dropbox/Website/"))
@@ -265,7 +273,6 @@
 
 #+END_SRC
 
-
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
     (add-to-list 'org-latex-classes
@@ -303,8 +310,21 @@
 )
 #+END_SRC
 
-* Python Mode Setup
 
+** Google calender integration
+#+BEGIN_SRC emacs-lisp
+  ;; (setq package-check-signature nil)
+
+
+  ;; (use-package org-gcal
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq org-gcal-client-id "oauth 2.0 client ID"
+  ;;         org-gcal-client-secret "client secret"
+  ;;         org-gcal-file-alist '(("nathan1hughes@gmail.com" .  "~/Dropbox/orgfiles/gcal.org"))))
+#+END_SRC
+
+* Python Mode Setup
 #+BEGIN_SRC emacs-lisp
     ;; PYTHON CONFIGURATION
     ;; --------------------------------------
@@ -315,6 +335,7 @@
 
   ;; Load up elpy
   (elpy-enable)
+  (setq elpy-rpc-python-command "python3")
   (setq elpy-rpc-backend "jedi")
   (setq python-shell-interpreter "ipython3"
 	python-shell-interpreter-args "-i --simple-prompt")
@@ -392,7 +413,7 @@
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
   (global-set-key (kbd "C-b") 'helm-buffers-list)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x A") 'helm-for-files)
+  (global-set-key (kbd "C-x a") 'helm-for-files)
   (global-set-key (kbd "M-x") 'helm-M-x)
 
 
