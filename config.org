@@ -34,7 +34,7 @@
       org-ref
       org-bullets
       openwith
-      powerline
+      telephone-line
       langtool
       use-package
       iedit
@@ -46,6 +46,8 @@
       company-jedi
       expand-region
       ace-jump-mode
+      all-the-icons-dired
+      challenger-deep-theme
       ))
 
   (mapc #'(lambda (package)
@@ -53,13 +55,12 @@
 	(package-install package)))
 	myPackages)
 
-  (require 'powerline)
-  (powerline-default-theme)
+
   (require 'golden-ratio)
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'material t) ;; load material theme
+  (load-theme 'challenger-deep t) ;; load material theme
 
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
@@ -84,6 +85,16 @@
   ;; Smooth scrolling please and thank you!
   (require 'smooth-scrolling)
   (smooth-scrolling-mode 1)
+
+
+  ;; Icons
+  (use-package all-the-icons
+    :demand t
+    :config
+    (use-package all-the-icons-dired
+      :demand t
+      :config
+      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
   ;; Enable ace window
   (global-set-key (kbd "M-o") 'ace-window)
@@ -307,7 +318,6 @@
 )
 #+END_SRC
 
-
 * Python Mode Setup
 #+BEGIN_SRC emacs-lisp
     ;; PYTHON CONFIGURATION
@@ -382,6 +392,32 @@
 	  (populate-org-buffer doc-buf file dir)))
       (with-current-buffer doc-buf
 	(org-mode))))
+#+END_SRC
+
+** Ace Jump Mode
+#+BEGIN_SRC emacs-lisp
+  (require 'ace-jump-mode)
+
+  (define-key global-map (kbd "C-c s") 'ace-jump-mode)
+
+  ;;
+  ;; enable a more powerful jump back function from ace jump mode
+  ;;
+  (autoload
+    'ace-jump-mode-pop-mark
+    "ace-jump-mode"
+    "Ace jump back:-)"
+    t)
+  (eval-after-load "ace-jump-mode"
+    '(ace-jump-mode-enable-mark-sync))
+  (define-key global-map (kbd "C-c b") 'ace-jump-mode-pop-mark)
+
+#+END_SRC
+
+* Telephone-line
+#+BEGIN_SRC emacs-lisp
+(require 'telephone-line)
+(telephone-line-mode 1)
 #+END_SRC
 
 * Helm Mode Setup
