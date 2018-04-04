@@ -44,6 +44,8 @@
       smooth-scrolling
       company-quickhelp
       company-jedi
+      expand-region
+      ace-jump-mode
       ))
 
   (mapc #'(lambda (package)
@@ -57,22 +59,13 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'atom-one-dark t) ;; load material theme
+  (load-theme 'material t) ;; load material theme
 
-
-  ;;(set-frame-font "Inconsolata:pixelsize=18")
-  ;; on first run!
-  ;; curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash
-  (set-face-attribute 'default nil
-		      :family "Source Code Pro"
-		      :height 110
-		      :weight 'normal
-		      :width 'normal)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too!
   (menu-bar-mode -1) ;; turn off that annoying menu
-  (global-set-key (kbd "C-=") 'magit-status)
+  (global-set-key (kbd "C-+") 'magit-status)
   (recentf-mode 1)
   (setq-default recent-save-file "~/.emacs.d/recentf")
   (require 'use-package)
@@ -95,9 +88,13 @@
   ;; Enable ace window
   (global-set-key (kbd "M-o") 'ace-window)
   (electric-pair-mode)
+  (require 'expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region)
 #+END_SRC
 
 ** Turning off backups of temp files
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
 #+BEGIN_SRC emacs-lisp
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
@@ -143,7 +140,7 @@
 				   ;; company-semantic ; C/C++
 				   (company-clang  company-cmake) ; C/C++
 				   ;; company-eclim ; Java
-				   ;; company-ropemacs ; Python
+				   company-jedi ; Python
 				   company-nxml company-css ; HTML, CSS, XML
 				   ;; company-xcode ; for Xcode projects
 				   company-bbdb ; BBDB
@@ -310,19 +307,6 @@
 )
 #+END_SRC
 
-
-** Google calender integration
-#+BEGIN_SRC emacs-lisp
-  ;; (setq package-check-signature nil)
-
-
-  ;; (use-package org-gcal
-  ;;   :ensure t
-  ;;   :config
-  ;;   (setq org-gcal-client-id "oauth 2.0 client ID"
-  ;;         org-gcal-client-secret "client secret"
-  ;;         org-gcal-file-alist '(("nathan1hughes@gmail.com" .  "~/Dropbox/orgfiles/gcal.org"))))
-#+END_SRC
 
 * Python Mode Setup
 #+BEGIN_SRC emacs-lisp
