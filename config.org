@@ -45,6 +45,8 @@
       smooth-scrolling
       company-quickhelp
       company-jedi
+      expand-region
+      ace-jump-mode
       ))
 
   (mapc #'(lambda (package)
@@ -68,7 +70,7 @@
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too!
   (menu-bar-mode -1) ;; turn off that annoying menu
-  (global-set-key (kbd "C-=") 'magit-status)
+  (global-set-key (kbd "C-+") 'magit-status)
   (recentf-mode 1)
   (setq-default recent-save-file "~/.emacs.d/recentf")
   (require 'use-package)
@@ -91,7 +93,32 @@
   ;; Enable ace window
   (global-set-key (kbd "M-o") 'ace-window)
   (electric-pair-mode)
+  (require 'expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region)
 #+END_SRC
+
+
+** Ace Jump Mode
+#+BEGIN_SRC emacs-lisp
+
+  (require 'ace-jump-mode)
+
+  (define-key global-map (kbd "C-c s") 'ace-jump-mode)
+
+  ;;
+  ;; enable a more powerful jump back function from ace jump mode
+  ;;
+  (autoload
+    'ace-jump-mode-pop-mark
+    "ace-jump-mode"
+    "Ace jump back:-)"
+    t)
+  (eval-after-load "ace-jump-mode"
+    '(ace-jump-mode-enable-mark-sync))
+  (define-key global-map (kbd "C-c b") 'ace-jump-mode-pop-mark)
+
+#+END_SRC
+
 
 * Company stuff
 #+BEGIN_SRC emacs-lisp
@@ -133,7 +160,7 @@
 				   ;; company-semantic ; C/C++
 				   (company-clang  company-cmake) ; C/C++
 				   ;; company-eclim ; Java
-				   ;; company-ropemacs ; Python
+				   company-jedi ; Python
 				   company-nxml company-css ; HTML, CSS, XML
 				   ;; company-xcode ; for Xcode projects
 				   company-bbdb ; BBDB
