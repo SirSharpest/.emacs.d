@@ -28,7 +28,6 @@
       projectile
       magit
       golden-ratio
-      projectile
       helm
       helm-projectile
       org-ref
@@ -48,6 +47,7 @@
       ace-jump-mode
       all-the-icons-dired
       challenger-deep-theme
+      telephone-line
       ))
 
   (mapc #'(lambda (package)
@@ -426,8 +426,10 @@
   (require 'helm)
   (require 'helm-projectile)
   (helm-mode 1)
-  (helm-projectile-on)
+  (projectile-global-mode)
+  (setq projectile-enable-caching t)
 
+  (helm-projectile-on)
   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
   (global-set-key (kbd "C-f") 'helm-projectile)
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
@@ -435,8 +437,6 @@
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x a") 'helm-for-files)
   (global-set-key (kbd "M-x") 'helm-M-x)
-
-
 #+END_SRC
 
 * Misc Functions
