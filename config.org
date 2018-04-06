@@ -60,7 +60,7 @@
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'challenger-deep t) ;; load material theme
+  (load-theme 'doom-one t) ;; load material theme
 
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
@@ -416,8 +416,87 @@
 
 * Telephone-line
 #+BEGIN_SRC emacs-lisp
-(require 'telephone-line)
-(telephone-line-mode 1)
+  (eyebrowse-mode t)
+  (use-package powerline
+      :ensure t
+      :config
+
+      (defun make-rect (color height width)
+	"Create an XPM bitmap."
+	(when window-system
+	  (propertize
+	   " " 'display
+	   (let ((data nil)
+		 (i 0))
+	     (setq data (make-list height (make-list width 1)))
+	     (pl/make-xpm "percent" color color (reverse data))))))
+
+
+      ;; fix solid color bar
+
+      (set-face-attribute 'powerline-active0 nil :background (face-attribute 'mode-line :background))
+      (set-face-attribute 'powerline-active1 nil :background (face-attribute 'mode-line :background))
+      (set-face-attribute 'powerline-active2 nil :background (face-attribute 'mode-line :background))
+
+      (set-face-attribute 'powerline-inactive0 nil :background (face-attribute 'mode-line :background))
+      (set-face-attribute 'powerline-inactive1 nil :background (face-attribute 'mode-line :background))
+      (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line :background))
+
+      (defun powerline-mode-icon ()
+	(let ((icon (all-the-icons-icon-for-buffer)))
+	  (unless (symbolp icon) ;; This implies it's the major mode
+	    (format " %s"
+		    (propertize icon
+				'help-echo (format "Major-mode: `%s`" major-mode)
+				'face `(:height 1 :family ,(all-the-icons-icon-family-for-buffer)))))))
+
+
+      (setq-default mode-line-format
+		    '("%e"
+		      (:eval
+		       (let* ((active (powerline-selected-window-active))
+			      (modified (buffer-modified-p))
+			      (face1 (if active 'powerline-active1 'powerline-active1))
+			      (face2 (if active 'powerline-active2 'powerline-active2))
+			      (bar-color (cond ((and active modified) (face-foreground 'error))
+					       (active (face-background 'cursor))
+					       (t (face-background 'tooltip))))
+			      (lhs (list
+				    (make-rect bar-color 30 3)
+				    (when modified
+				      (concat
+				       " "
+				       (all-the-icons-faicon "floppy-o"
+							     :face (when active 'error)
+							     :v-adjust -0.01)))
+				    " "
+				    (powerline-buffer-id)
+				    "| "
+				    (powerline-vc)
+				    " "
+				    ))
+			      (center (list
+				       " "
+				       (powerline-mode-icon)
+				       " "
+				       (powerline-major-mode)
+				       " "))
+			      (rhs (list
+				    (format "%s" (eyebrowse--get 'current-slot))
+				    " | "
+				    (powerline-raw "%l:%c" 'mode-line 'r)
+				    " |"
+				    (powerline-hud 'highlight 'region 1)
+				    " "
+				    ))
+			      )
+			 (concat
+			  (powerline-render lhs)
+			  (powerline-fill-center face1 (/ (powerline-width center) 2.2))
+			  (powerline-render center)
+			  (powerline-fill face2 (powerline-width rhs))
+			  (powerline-render rhs))))))
+      )
 #+END_SRC
 
 * Helm Mode Setup
