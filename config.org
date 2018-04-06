@@ -48,6 +48,7 @@
       all-the-icons-dired
       challenger-deep-theme
       telephone-line
+      pylint
       ))
 
   (mapc #'(lambda (package)
@@ -55,12 +56,11 @@
 	(package-install package)))
 	myPackages)
 
-
   (require 'golden-ratio)
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale t)
   (require 'doom-themes)
-  (load-theme 'doom-one t) ;; load material theme
+  (load-theme 'doom-dracula t) ;; load material theme
 
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
@@ -283,6 +283,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
+  (add-hook 'org-mode-hook #'visual-line-mode)
     (add-to-list 'org-latex-classes
 		 '("dissertation_report"
 		   "\\documentclass[11pt]{report}"
@@ -320,7 +321,7 @@
 
 * Python Mode Setup
 #+BEGIN_SRC emacs-lisp
-    ;; PYTHON CONFIGURATION
+  ;; PYTHON CONFIGURATION
     ;; --------------------------------------
     (use-package flycheck
       :ensure t
@@ -337,7 +338,10 @@
   ;; use flycheck not flymake with elpy
   (when (require 'flycheck nil t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode))
+    (add-hook 'elpy-mode-hook 'flycheck-mode)
+    (setq flycheck-python-pylint-executable "pylint3")
+    (setq flycheck-python-flake8-executable "flake8")
+    )
 
   ;; enable autopep8 formatting on save
   (require 'py-autopep8)
@@ -507,6 +511,9 @@
   (helm-mode 1)
   (projectile-global-mode)
   (setq projectile-enable-caching t)
+  (setq projectile-globally-ignored-directories (append '(".git" ".*" ) projectile-globally-ignored-directories))
+  (setq projectile-globally-ignored-files (append '("*.png" "*.jpeg" "*.jpg" "*.tif" "*.o" "*.pyc") projectile-globally-ignored-files))
+
 
   (helm-projectile-on)
   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
@@ -516,6 +523,13 @@
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x a") 'helm-for-files)
   (global-set-key (kbd "M-x") 'helm-M-x)
+
+  (defun project-change ()
+    (interactive)
+    (helm-projectile-switch-project)
+    (neotree-dir (projectile-project-root)))
+
+  (global-set-key (kbd "C-x p") 'project-change)
 #+END_SRC
 
 * Misc Functions
