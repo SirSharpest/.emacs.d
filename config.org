@@ -1,119 +1,124 @@
 * Global Setup
 #+BEGIN_SRC emacs-lisp
 
-  ;; INSTALL PACKAGES
-  ;; --------------------------------------
+    ;; INSTALL PACKAGES
+    ;; --------------------------------------
 
-  (require 'package)
-
-
-  ;;; Code:
-  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			   ("marmalade" . "https://marmalade-repo.org/packages/")
-			   ("melpa" . "https://melpa.org/packages/")))
-
-  (package-initialize)
-  (when (not package-archive-contents)
-    (package-refresh-contents))
-
-  (defvar myPackages
-    '(better-defaults
-      doom-themes
-      ein
-      elpy
-      flycheck
-      material-theme
-      py-autopep8
-      flyspell
-      projectile
-      magit
-      golden-ratio
-      helm
-      helm-projectile
-      helm-ag
-      org-ref
-      org-bullets
-      openwith
-      telephone-line
-      langtool
-      use-package
-      iedit
-      guide-key
-      darktooth-theme
-      ace-window
-      smooth-scrolling
-      company-quickhelp
-      company-jedi
-      expand-region
-      ace-jump-mode
-      all-the-icons-dired
-      challenger-deep-theme
-      telephone-line
-      pylint
-      sublimity
-      ))
-
-  (mapc #'(lambda (package)
-      (unless (package-installed-p package)
-	(package-install package)))
-	myPackages)
-
-  (require 'golden-ratio)
-  (golden-ratio-mode 1)
-  (require 'doom-themes)
-  (load-theme 'doom-dracula t) ;; load material theme
-
-  (doom-themes-visual-bell-config)
-  (tool-bar-mode -1) ;; turn off that annoying top bar
-  (toggle-scroll-bar -1) ;; turn off scrolling too!
-  (menu-bar-mode -1) ;; turn off that annoying menu
-  (global-set-key (kbd "C-+") 'magit-status)
-  (recentf-mode 1)
-  (setq-default recent-save-file "~/.emacs.d/recentf")
-  (require 'use-package)
-  (require 'iedit)
-  (global-set-key (kbd "C-c e") 'iedit-mode)
-  (add-hook 'after-init-hook 'global-company-mode)
-  (global-linum-mode t)
-  (global-hl-line-mode +1) ;; why is this not default!
-  (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
-  (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
-  ;; Setup keybind reminders
-  (require 'guide-key)
-  (setq guide-key/guide-key-sequence '("C-c" "C-x"))
-  (guide-key-mode 1)
-
-  ;; Smooth scrolling please and thank you!
-  ;; (require 'smooth-scrolling)
-  ;; (smooth-scrolling-mode 1)
+    (require 'package)
 
 
-  ;; load sublimify
-  (require 'sublimity)
-  (require 'sublimity-scroll)
-  (sublimity-mode 1)
+    ;;; Code:
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+			     ("marmalade" . "https://marmalade-repo.org/packages/")
+			     ("melpa" . "https://melpa.org/packages/")))
 
-  ;; Icons
-  (use-package all-the-icons
-    :demand t
-    :config
-    (use-package all-the-icons-dired
+    (package-initialize)
+    (when (not package-archive-contents)
+      (package-refresh-contents))
+
+    (defvar myPackages
+      '(better-defaults
+	doom-themes
+	ein
+	elpy
+	flycheck
+	material-theme
+	py-autopep8
+	flyspell
+	projectile
+	magit
+	golden-ratio
+	helm
+	helm-projectile
+        helm-ag
+	org-ref
+	org-bullets
+	openwith
+	telephone-line
+	langtool
+	use-package
+	iedit
+	guide-key
+	darktooth-theme
+	ace-window
+	smooth-scrolling
+	company-quickhelp
+	company-jedi
+	expand-region
+	ace-jump-mode
+	all-the-icons-dired
+	challenger-deep-theme
+	telephone-line
+	pylint
+	eyebrowse
+	))
+
+    (mapc #'(lambda (package)
+	(unless (package-installed-p package)
+	  (package-install package)))
+	  myPackages)
+
+    (require 'golden-ratio)
+    (setq golden-ratio-exclude-modes '("dired-mode"
+				       "ediff-mode"
+				       "eshell-mode"
+				       "neotree-mode"
+				       "sr-speedbar-mode"
+				       "ranger-mode"
+				       "ranger"
+				       "Ranger:name"))
+
+  (setq golden-ration-exclude-buffer-names '("*ranger-prev*"
+					     "") )
+
+
+
+    (require 'doom-themes)
+    (load-theme 'doom-dracula t) ;; load material theme
+
+    (doom-themes-visual-bell-config)
+    (tool-bar-mode -1) ;; turn off that annoying top bar
+    (toggle-scroll-bar -1) ;; turn off scrolling too!
+    (menu-bar-mode -1) ;; turn off that annoying menu
+    (global-set-key (kbd "C-+") 'magit-status)
+    (recentf-mode 1)
+    (setq-default recent-save-file "~/.emacs.d/recentf")
+    (require 'use-package)
+    (require 'iedit)
+    (global-set-key (kbd "C-c e") 'iedit-mode)
+    (add-hook 'after-init-hook 'global-company-mode)
+    (global-linum-mode t)
+    (global-hl-line-mode +1) ;; why is this not default!
+    (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
+    (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
+    ;; Setup keybind reminders
+    (require 'guide-key)
+    (setq guide-key/guide-key-sequence '("C-c" "C-x"))
+    (guide-key-mode 1)
+
+    ;; Smooth scrolling please and thank you!
+    (require 'smooth-scrolling)
+    (smooth-scrolling-mode 1)
+
+
+    ;; Icons
+    (use-package all-the-icons
       :demand t
       :config
-      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+      (use-package all-the-icons-dired
+	:demand t
+	:config
+	(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
-  ;; Enable ace window
-  (global-set-key (kbd "M-o") 'ace-window)
-  ;; Setup for GR
-  (add-to-list 'golden-ratio-extra-commands 'ace-window)
-  (electric-pair-mode)
-  (require 'expand-region)
-  (global-set-key (kbd "C-=") 'er/expand-region)
+    ;; Enable ace window
+    (global-set-key (kbd "M-o") 'ace-window)
+    (electric-pair-mode)
+    (require 'expand-region)
+    (global-set-key (kbd "C-=") 'er/expand-region)
 #+END_SRC
 
 ** Turning off backups of temp files
-(setq make-backup-files nil) ; stop creating backup~ files
-(setq auto-save-default nil) ; stop creating #autosave# files
+
 #+BEGIN_SRC emacs-lisp
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
@@ -435,9 +440,11 @@
 
 #+END_SRC
 
-* Powerline-line
+* Powerline Mode
 #+BEGIN_SRC emacs-lisp
   (eyebrowse-mode t)
+
+
     (use-package powerline
       :ensure t
       :config
@@ -452,14 +459,7 @@
 	     (setq data (make-list height (make-list width 1)))
 	     (pl/make-xpm "percent" color color (reverse data))))))
 
-
-      (defun powerline-mode-icon ()
-	(let ((icon (all-the-icons-icon-for-buffer)))
-	  (unless (symbolp icon) ;; This implies it's the major mode
-	    (format " %s"
-		    (propertize icon
-				'help-echo (format "Major-mode: `%s`" major-mode)
-				'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))))
+      ;; fix solid color bar
 
       (set-face-attribute 'powerline-active0 nil :background (face-attribute 'mode-line :background))
       (set-face-attribute 'powerline-active1 nil :background (face-attribute 'mode-line :background))
@@ -468,6 +468,15 @@
       (set-face-attribute 'powerline-inactive0 nil :background (face-attribute 'mode-line :background))
       (set-face-attribute 'powerline-inactive1 nil :background (face-attribute 'mode-line :background))
       (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line :background))
+
+
+      (defun powerline-mode-icon ()
+	(let ((icon (all-the-icons-icon-for-buffer)))
+	  (unless (symbolp icon) ;; This implies it's the major mode
+	    (format " %s"
+		    (propertize icon
+				'help-echo (format "Major-mode: `%s`" major-mode)
+				'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))))
 
 
       (setq-default mode-line-format
@@ -516,8 +525,10 @@
 			  (powerline-fill face2 (powerline-width rhs))
 			  (powerline-render rhs))))))
       )
-#+END_SRC
 
+
+#+END_SRC
+  
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
