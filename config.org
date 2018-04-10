@@ -30,7 +30,7 @@
 	golden-ratio
 	helm
 	helm-projectile
-        helm-ag
+	helm-ag
 	org-ref
 	org-bullets
 	openwith
@@ -51,6 +51,7 @@
 	telephone-line
 	pylint
 	eyebrowse
+	ranger
 	))
 
     (mapc #'(lambda (package)
@@ -133,6 +134,20 @@
 		      :weight 'normal
 		      :width 'normal)
 #+END_SRC
+
+* Ranger Mode
+#+BEGIN_SRC emacs-lisp
+  (require 'ranger)
+  (setq ranger-show-literal nil)
+  (setq ranger-cleanup-on-disable t)
+  (setq ranger-hide-cursor nil)
+  (setq ranger-excluded-extensions '("mkv"
+				     "iso"
+				     "mp4"
+				     "pdf"))
+  (setq ranger-dont-show-binary t)
+#+END_SRC
+
 * Company stuff
 #+BEGIN_SRC emacs-lisp
   (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
@@ -528,7 +543,7 @@
 
 
 #+END_SRC
-  
+
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
