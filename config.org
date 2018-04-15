@@ -51,7 +51,7 @@
 	telephone-line
 	pylint
 	eyebrowse
-	ranger
+	multiple-cursors
 	))
 
     (mapc #'(lambda (package)
@@ -133,19 +133,6 @@
 		      :height 130
 		      :weight 'normal
 		      :width 'normal)
-#+END_SRC
-
-* Ranger Mode
-#+BEGIN_SRC emacs-lisp
-  (require 'ranger)
-  (setq ranger-show-literal nil)
-  (setq ranger-cleanup-on-disable t)
-  (setq ranger-hide-cursor nil)
-  (setq ranger-excluded-extensions '("mkv"
-				     "iso"
-				     "mp4"
-				     "pdf"))
-  (setq ranger-dont-show-binary t)
 #+END_SRC
 
 * Company stuff
@@ -244,10 +231,7 @@
 
   (setq org-latex-listings 'minted
 	org-latex-packages-alist '(("" "minted"))
-	org-latex-pdf-process (quote ("texi2dvi --pdf %f
-  pdflatex --shell-escape %f
-  texi2dvi --pdf %f --shell-escape
-  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+	org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
 
   ;; Turn on languages for org mode
   (org-babel-do-load-languages
@@ -255,7 +239,7 @@
    '((R . t)
      (python . t)
      (plantuml .t)))
-
+  (setq org-babel-python-command "python3")
   (setq org-confirm-babel-evaluate nil)
   (require 'org-ref)
   (setq org-plantuml-jar-path
@@ -270,9 +254,6 @@
   (require 'openwith)
   (openwith-mode t)
   (setq openwith-associations '(("\\.pdf\\'" "xreader" (file))))
-
-  ;; Set the agenda to be what I document in my website
-  (setq org-agenda-files '("~/Dropbox/Website/"))
 
   ;; Add a timestamp to closed topics
   (setq org-log-done 'time)
@@ -439,9 +420,9 @@
 #+BEGIN_SRC emacs-lisp
   (require 'ace-jump-mode)
 
-  (define-key global-map (kbd "C-c s") 'ace-jump-mode)
+(global-set-key [C-tab] 'ace-jump-word-mode)
 
-  ;;
+;;
   ;; enable a more powerful jump back function from ace jump mode
   ;;
   (autoload
@@ -557,14 +538,15 @@
 
 
   (helm-projectile-on)
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+  (define-key
+  helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
   (global-set-key (kbd "C-f") 'helm-projectile)
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
   (global-set-key (kbd "C-b") 'helm-buffers-list)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x a") 'helm-for-files)
   (global-set-key (kbd "M-x") 'helm-M-x)
-
+  (global-set-key (kbd "M-i") 'helm-imenu)
   (defun project-change ()
     (interactive)
     (helm-projectile-switch-project)
@@ -583,4 +565,16 @@
     "This function can be used to create an org file with today as it's file name."
     (interactive)
     (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
+#+END_SRC
+* Custom Keybinds
+** Multiple Cursors
+As this will require a lot of overrides I want it towards the end of the file
+#+BEGIN_SRC emacs-lisp
+  (require 'multiple-cursors)
+
+  (global-set-key (kbd "C-c C-b") 'mc/edit-lines)
+  (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C->") 'mc/skip-to-next-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (define-key mc/keymap (kbd "<return>") nil)
 #+END_SRC
