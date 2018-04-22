@@ -3,7 +3,7 @@
 
     ;; INSTALL PACKAGES
     ;; --------------------------------------
-
+    (setq warning-minimum-level :emergency) ;; to fix annoying start up
     (require 'package)
 
 
@@ -127,12 +127,19 @@
 
 * Fonts
 #+BEGIN_SRC emacs-lisp
-  ;; Set default font
-  (set-face-attribute 'default nil
-		      :family "Source Code Pro"
-		      :height 130
-		      :weight 'normal
-		      :width 'normal)
+;; set a default font
+(when (member "DejaVu Sans Mono" (font-family-list))
+  (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
+
+;; specify font for all unicode characters
+(when (member "Symbola" (font-family-list))
+  (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+
+;; specify font for chinese characters using default chinese font on linux
+(when (member "WenQuanYi Micro Hei" (font-family-list))
+  (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+
+(set-face-attribute 'default nil :height 130)
 #+END_SRC
 
 * Company stuff
@@ -571,10 +578,9 @@
 As this will require a lot of overrides I want it towards the end of the file
 #+BEGIN_SRC emacs-lisp
   (require 'multiple-cursors)
-
-  (global-set-key (kbd "C-c C-b") 'mc/edit-lines)
   (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
   (global-set-key (kbd "C->") 'mc/skip-to-next-like-this)
+  (global-set-key (kbd "C-c m l") 'mc/edit-lines)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
   (define-key mc/keymap (kbd "<return>") nil)
 #+END_SRC
