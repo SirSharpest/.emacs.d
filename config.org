@@ -52,6 +52,7 @@
 	pylint
 	eyebrowse
 	multiple-cursors
+	rainbow-mode
 	))
 
     (mapc #'(lambda (package)
