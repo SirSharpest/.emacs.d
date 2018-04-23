@@ -82,6 +82,7 @@
     (toggle-scroll-bar -1) ;; turn off scrolling too!
     (menu-bar-mode -1) ;; turn off that annoying menu
     (global-set-key (kbd "C-+") 'magit-status)
+    (global-set-key (kbd "C-l") 'ace-jump-line-mode)
     (recentf-mode 1)
     (setq-default recent-save-file "~/.emacs.d/recentf")
     (require 'use-package)
@@ -208,12 +209,11 @@
   ;; Spell check activate
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'prog-mode-hook 'rainbow-mode)
   (eval-after-load "flyspell"
     '(progn
        (define-key flyspell-mode-map (kbd "C-.") nil)
        (define-key flyspell-mode-map (kbd "C-,") nil)
-       (define-key flyspell-mode-map (kbd "C-<") 'flyspell-goto-next-error)
-       (define-key flyspell-mode-map (kbd "C->") 'company-ispell)
        ))
   (setq ispell-dictionary "british")
 
@@ -262,7 +262,7 @@
 
   ;; Add a timestamp to closed topics
   (setq org-log-done 'time)
-
+  (define-key org-mode-map (kbd "C-<tab>") nil)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
