@@ -90,7 +90,6 @@
     (require 'iedit)
     (global-set-key (kbd "C-c e") 'iedit-mode)
     (add-hook 'after-init-hook 'global-company-mode)
-    (global-linum-mode t)
     (global-hl-line-mode +1) ;; why is this not default!
     (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
     (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
@@ -252,7 +251,7 @@
 	(expand-file-name "~/.emacs.d/plantuml.jar"))
 
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-
+  (setq org-export-in-background t)
   ;; Turn on org-mode syntax highlighting for src blocks
   (setq org-src-fontify-natively t)
 
