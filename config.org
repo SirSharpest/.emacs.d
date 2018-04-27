@@ -238,6 +238,10 @@
 	org-latex-packages-alist '(("" "minted"))
 	org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
 
+    (setq org-latex-minted-options
+       '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
+
+
   ;; Turn on languages for org mode
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -354,7 +358,7 @@
   ;; Load up elpy
   (elpy-enable)
   (setq elpy-rpc-python-command "python3")
-  (setq elpy-rpc-backend "jedi")
+  (setq elpy-rpc-backend "rope")
   (setq python-shell-interpreter "ipython3"
 	python-shell-interpreter-args "-i --simple-prompt")
 
