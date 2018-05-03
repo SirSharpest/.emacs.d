@@ -1,122 +1,109 @@
 * Global Setup
 #+BEGIN_SRC emacs-lisp
 
-    ;; INSTALL PACKAGES
-    ;; --------------------------------------
-    (setq warning-minimum-level :emergency) ;; to fix annoying start up
-    (require 'package)
+  ;; INSTALL PACKAGES
+  ;; --------------------------------------
+  (setq warning-minimum-level :emergency) ;; to fix annoying start up
+  (require 'package)
 
 
-    ;;; Code:
-    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			     ("marmalade" . "https://marmalade-repo.org/packages/")
-			     ("melpa" . "https://melpa.org/packages/")))
+  ;;; Code:
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+			   ("marmalade" . "https://marmalade-repo.org/packages/")
+			   ("melpa" . "https://melpa.org/packages/")))
 
-    (package-initialize)
-    (when (not package-archive-contents)
-      (package-refresh-contents))
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
 
-    (defvar myPackages
-      '(better-defaults
-	doom-themes
-	ein
-	elpy
-	flycheck
-	material-theme
-	py-autopep8
-	flyspell
-	projectile
-	magit
-	golden-ratio
-	helm
-	helm-projectile
-	helm-ag
-	org-ref
-	org-bullets
-	openwith
-	telephone-line
-	langtool
-	use-package
-	iedit
-	guide-key
-	darktooth-theme
-	ace-window
-	smooth-scrolling
-	company-quickhelp
-	company-jedi
-	expand-region
-	ace-jump-mode
-	all-the-icons-dired
-	challenger-deep-theme
-	telephone-line
-	pylint
-	eyebrowse
-	multiple-cursors
-	rainbow-mode
-	))
+  (defvar myPackages
+    '(better-defaults
+      doom-themes
+      ein
+      elpy
+      flycheck
+      py-autopep8
+      flyspell
+      projectile
+      magit
+      golden-ratio
+      helm
+      helm-projectile
+      helm-ag
+      org-ref
+      org-bullets
+      openwith
+      telephone-line
+      langtool
+      use-package
+      iedit
+      guide-key
+      ace-window
+      smooth-scrolling
+      company-quickhelp
+      expand-region
+      ace-jump-mode
+      all-the-icons-dired
+      telephone-line
+      pylint
+      eyebrowse
+      multiple-cursors
+      rainbow-mode
+      dracula-theme
+      ))
 
-    (mapc #'(lambda (package)
-	(unless (package-installed-p package)
-	  (package-install package)))
-	  myPackages)
+  (mapc #'(lambda (package)
+      (unless (package-installed-p package)
+	(package-install package)))
+	myPackages)
 
-    (require 'golden-ratio)
-    (setq golden-ratio-exclude-modes '("dired-mode"
-				       "ediff-mode"
-				       "eshell-mode"
-				       "neotree-mode"
-				       "sr-speedbar-mode"
-				       "ranger-mode"
-				       "ranger"
-				       "Ranger:name"))
+  (require 'golden-ratio)
+  (require 'doom-themes)
+  (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
+  (load-theme 'doom-dracula t)
+  (doom-themes-visual-bell-config)
+  (tool-bar-mode -1) ;; turn off that annoying top bar
+  (toggle-scroll-bar -1) ;; turn off scrolling too!
+  (menu-bar-mode -1) ;; turn off that annoying menu
+  (global-set-key (kbd "C-+") 'magit-status)
+  (global-set-key (kbd "C-l") 'ace-jump-line-mode)
+  (recentf-mode 1)
+  (setq-default recent-save-file "~/.emacs.d/recentf")
+  (require 'use-package)
+  (require 'iedit)
+  (global-set-key (kbd "C-c e") 'iedit-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-hl-line-mode +1) ;; why is this not default!
+  (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
+  (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
+  ;; Setup keybind reminders
+  (require 'guide-key)
+  (setq guide-key/guide-key-sequence '("C-c" "C-x"))
+  (guide-key-mode 1)
 
-  (setq golden-ration-exclude-buffer-names '("*ranger-prev*"
-					     "") )
+  ;; Smooth scrolling please and thank you!
+  (require 'smooth-scrolling)
+  (smooth-scrolling-mode 1)
 
+  ;; Fix some frame issues
+  (frame-parameter (make-frame '((border-width . 10))) 'border-width)
+  (set-face-background 'vertical-border "gray")
+  (set-face-foreground 'vertical-border (face-background 'vertical-border))
 
-
-    (require 'doom-themes)
-    (load-theme 'doom-dracula t) ;; load material theme
-
-    (doom-themes-visual-bell-config)
-    (tool-bar-mode -1) ;; turn off that annoying top bar
-    (toggle-scroll-bar -1) ;; turn off scrolling too!
-    (menu-bar-mode -1) ;; turn off that annoying menu
-    (global-set-key (kbd "C-+") 'magit-status)
-    (global-set-key (kbd "C-l") 'ace-jump-line-mode)
-    (recentf-mode 1)
-    (setq-default recent-save-file "~/.emacs.d/recentf")
-    (require 'use-package)
-    (require 'iedit)
-    (global-set-key (kbd "C-c e") 'iedit-mode)
-    (add-hook 'after-init-hook 'global-company-mode)
-    (global-hl-line-mode +1) ;; why is this not default!
-    (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
-    (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
-    ;; Setup keybind reminders
-    (require 'guide-key)
-    (setq guide-key/guide-key-sequence '("C-c" "C-x"))
-    (guide-key-mode 1)
-
-    ;; Smooth scrolling please and thank you!
-    (require 'smooth-scrolling)
-    (smooth-scrolling-mode 1)
-
-
-    ;; Icons
-    (use-package all-the-icons
+;; Icons
+  (use-package all-the-icons
+    :demand t
+    :config
+    (use-package all-the-icons-dired
       :demand t
       :config
-      (use-package all-the-icons-dired
-	:demand t
-	:config
-	(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
-    ;; Enable ace window
-    (global-set-key (kbd "M-o") 'ace-window)
-    (electric-pair-mode)
-    (require 'expand-region)
-    (global-set-key (kbd "C-=") 'er/expand-region)
+  ;; Enable ace window
+  (global-set-key (kbd "M-o") 'ace-window)
+  (electric-pair-mode)
+  (require 'expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region)
 #+END_SRC
 
 ** Turning off backups of temp files
@@ -193,6 +180,74 @@
 				   )))
 #+END_SRC
 
+* Window Arranging
+
+#+BEGIN_SRC emacs-lisp
+
+  (defun toggle-window-split ()
+    (interactive)
+    (if (= (count-windows) 2)
+	(let* ((this-win-buffer (window-buffer))
+	   (next-win-buffer (window-buffer (next-window)))
+	   (this-win-edges (window-edges (selected-window)))
+	   (next-win-edges (window-edges (next-window)))
+	   (this-win-2nd (not (and (<= (car this-win-edges)
+		       (car next-win-edges))
+		       (<= (cadr this-win-edges)
+		       (cadr next-win-edges)))))
+	   (splitter
+	    (if (= (car this-win-edges)
+	       (car (window-edges (next-window))))
+	    'split-window-horizontally
+	  'split-window-vertically)))
+      (delete-other-windows)
+      (let ((first-win (selected-window)))
+	(funcall splitter)
+	(if this-win-2nd (other-window 1))
+	(set-window-buffer (selected-window) this-win-buffer)
+	(set-window-buffer (next-window) next-win-buffer)
+	(select-window first-win)
+	(if this-win-2nd (other-window 1))))))
+
+  (global-set-key (kbd "C-x |") 'toggle-window-split)
+
+#+END_SRC
+
+* PDF tools
+#+BEGIN_SRC emacs-lisp
+  ;; wrapper for save-buffer ignoring arguments
+  (defun bjm/save-buffer-no-args ()
+    "Save buffer ignoring arguments"
+    (save-buffer))
+
+
+  (use-package pdf-tools
+   :pin manual ;;manually update
+   :config
+   ;; initialise
+   (pdf-tools-install)
+   (setq-default pdf-view-display-size 'fit-page)
+   ;; automatically annotate highlights
+   (setq pdf-annot-activate-created-annotations t)
+   ;; use isearch instead of swiper
+   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+   ;; turn off cua so copy works
+   (add-hook 'pdf-view-mode-hook (lambda () (cua-mode 0)))
+   ;; more fine-grained zooming
+   (setq pdf-view-resize-factor 1.1)
+   ;; keyboard shortcuts
+   (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
+   (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
+   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete)
+   ;; wait until map is available
+   (with-eval-after-load "pdf-annot"
+     (define-key pdf-annot-edit-contents-minor-mode-map (kbd "<return>") 'pdf-annot-edit-contents-commit)
+     (define-key pdf-annot-edit-contents-minor-mode-map (kbd "<S-return>") 'newline)
+     ;; save after adding comment
+     (advice-add 'pdf-annot-edit-contents-commit :after 'bjm/save-buffer-no-args)))
+
+#+END_SRC
+
 * LaTeX Setup
 #+BEGIN_SRC emacs-lisp
   (defun run-latex ()
@@ -231,42 +286,44 @@
 
 * Org Mode Setup
 #+BEGIN_SRC emacs-lisp
-  ;; ORG CONFIGURATION
-  ;; --------------------------------------
+    ;; ORG CONFIGURATION
+    ;; --------------------------------------
 
-  (setq org-latex-listings 'minted
-	org-latex-packages-alist '(("" "minted"))
-	org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+  (global-set-key [f5] (lambda () (interactive) (org-latex-export-to-pdf)))
 
-    (setq org-latex-minted-options
-       '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
+    (setq org-latex-listings 'minted
+	  org-latex-packages-alist '(("" "minted"))
+	  org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+
+      (setq org-latex-minted-options
+	 '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
 
 
-  ;; Turn on languages for org mode
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((R . t)
-     (python . t)
-     (plantuml .t)))
-  (setq org-babel-python-command "python3")
-  (setq org-confirm-babel-evaluate nil)
-  (require 'org-ref)
-  (setq org-plantuml-jar-path
-	(expand-file-name "~/.emacs.d/plantuml.jar"))
+    ;; Turn on languages for org mode
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((R . t)
+       (python . t)
+       (plantuml .t)))
+    (setq org-babel-python-command "python3")
+    (setq org-confirm-babel-evaluate nil)
+    (require 'org-ref)
+    (setq org-plantuml-jar-path
+	  (expand-file-name "~/.emacs.d/plantuml.jar"))
 
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-export-in-background t)
-  ;; Turn on org-mode syntax highlighting for src blocks
-  (setq org-src-fontify-natively t)
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+    (setq org-export-in-background t)
+    ;; Turn on org-mode syntax highlighting for src blocks
+    (setq org-src-fontify-natively t)
 
-  ;; Open with external application
-  (require 'openwith)
-  (openwith-mode t)
-  (setq openwith-associations '(("\\.pdf\\'" "xreader" (file))))
+    ;; Open with external application
+    (require 'openwith)
+    ;(openwith-mode t)
+    ;(setq openwith-associations '(("\\.pdf\\'" "xreader" (file))))
 
-  ;; Add a timestamp to closed topics
-  (setq org-log-done 'time)
-  (define-key org-mode-map (kbd "C-<tab>") nil)
+    ;; Add a timestamp to closed topics
+    (setq org-log-done 'time)
+    (define-key org-mode-map (kbd "C-<tab>") nil)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -348,33 +405,34 @@
 
 * Python Mode Setup
 #+BEGIN_SRC emacs-lisp
-  ;; PYTHON CONFIGURATION
-    ;; --------------------------------------
-    (use-package flycheck
-      :ensure t
-      :init
-      (global-flycheck-mode t))
+    ;; PYTHON CONFIGURATION
+      ;; --------------------------------------
+      (use-package flycheck
+	:ensure t
+	:init
+	(global-flycheck-mode t))
 
-  ;; Load up elpy
+    ;; Load up elpy
   (elpy-enable)
   (setq elpy-rpc-python-command "python3")
-  (setq elpy-rpc-backend "rope")
   (setq python-shell-interpreter "ipython3"
 	python-shell-interpreter-args "-i --simple-prompt")
 
-  ;; use flycheck not flymake with elpy
+
+    ;; use flycheck not flymake with elpy
   (when (require 'flycheck nil t)
-    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode)
-    (setq flycheck-python-pylint-executable "pylint3")
-    (setq flycheck-python-flake8-executable "flake8")
-    )
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+      (add-hook 'elpy-mode-hook 'flycheck-mode)
+      (setq flycheck-python-pylint-executable "pylint3")
+      (setq flycheck-python-flake8-executable "flake8")
+      )
 
   ;; enable autopep8 formatting on save
   (require 'py-autopep8)
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 #+END_SRC
+
 
 #+BEGIN_SRC emacs-lisp
   ;; Resets python buffer so you can easily refresh classes
@@ -586,3 +644,7 @@ As this will require a lot of overrides I want it towards the end of the file
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
   (define-key mc/keymap (kbd "<return>") nil)
 #+END_SRC
+* TODO Modes that would be useful
+1. A method of using helm to jump between pdfview mode and org mode
+2. A mode to grab latest matplotlib figure and display properly
+3. A quickhelp option to look u p dictonary words for auto complete?
