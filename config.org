@@ -49,7 +49,6 @@
       eyebrowse
       multiple-cursors
       rainbow-mode
-      dracula-theme
       ))
 
   (mapc #'(lambda (package)
@@ -60,7 +59,7 @@
   (require 'golden-ratio)
   (require 'doom-themes)
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
-  (load-theme 'doom-dracula t)
+  (load-theme 'doom-nord t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too!
@@ -86,7 +85,6 @@
   (smooth-scrolling-mode 1)
 
   ;; Fix some frame issues
-  (frame-parameter (make-frame '((border-width . 10))) 'border-width)
   (set-face-background 'vertical-border "gray")
   (set-face-foreground 'vertical-border (face-background 'vertical-border))
 
@@ -112,6 +110,20 @@
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
 #+END_SRC
+
+
+* Here be daemons
+#+BEGIN_SRC emacs-lisp
+  (defun load-nord-theme (frame)
+    (select-frame frame)
+    (load-theme 'doom-nord t))
+
+  (if (daemonp)
+	  (add-hook 'after-make-frame-functions #'load-nord-theme)
+    (load-theme 'doom-nord t)
+    (toggle-scroll-bar -1))
+#+END_SRC
+
 
 * Fonts
 #+BEGIN_SRC emacs-lisp
@@ -219,8 +231,6 @@
   (defun bjm/save-buffer-no-args ()
     "Save buffer ignoring arguments"
     (save-buffer))
-
-
   (use-package pdf-tools
    :pin manual ;;manually update
    :config
@@ -249,6 +259,15 @@
 #+END_SRC
 
 * LaTeX Setup
+#+BEGIN_SRC emacs-lisp
+;; Use pdf-tools to open PDF files
+(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+      TeX-source-correlate-start-server t)
+
+;; Update PDF buffers after successful LaTeX runs
+(add-hook 'TeX-after-compilation-finished-functions
+	   #'TeX-revert-document-buffer)
+#+END_SRC
 #+BEGIN_SRC emacs-lisp
   (defun run-latex ()
       (interactive)
@@ -288,6 +307,15 @@
 #+BEGIN_SRC emacs-lisp
     ;; ORG CONFIGURATION
     ;; --------------------------------------
+
+
+  (setq org-todo-keywords '((type "TODO" "IDEA" "|" "DONE")))
+
+
+
+  (setq org-agenda-files (list "~/Dropbox/org/work.org"
+			       "~/Dropbox/org/university.org"
+			       "~/Dropbox/org/home.org"))
 
   (global-set-key [f5] (lambda () (interactive) (org-latex-export-to-pdf)))
 
@@ -506,8 +534,6 @@
 * Powerline Mode
 #+BEGIN_SRC emacs-lisp
   (eyebrowse-mode t)
-
-
     (use-package powerline
       :ensure t
       :config
@@ -578,7 +604,7 @@
 				    " | "
 				    (powerline-raw "%6p" 'mode-line 'r)
 				    (powerline-hud 'highlight 'region 1)
-				    " "
+				    "    "
 				    ))
 			      )
 			 (concat
@@ -588,8 +614,6 @@
 			  (powerline-fill face2 (powerline-width rhs))
 			  (powerline-render rhs))))))
       )
-
-
 #+END_SRC
 
 * Helm Mode Setup
