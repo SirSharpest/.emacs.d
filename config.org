@@ -1,4 +1,4 @@
-2* Global Setup
+* Global Setup
 #+BEGIN_SRC emacs-lisp
 
   ;; INSTALL PACKAGES
@@ -177,23 +177,29 @@
 				    company-quickhelp-frontend
 				    ))
 
-  (setq-default company-backends '((company-files
-				    company-capf
-				    company-keywords
-				    company-yasnippet
-				    company-tempo
-				    company-gtags
-				    company-etags
-				    company-elisp
-				    company-jedi ; Python
-				    company-nxml
-				    company-css ; HTML, CSS, XML
-				    company-bbdb ; BBDB
-				    company-dabbrev-code
-				    company-dabbrev
-				    company-abbrev
-				    company-ispell ; Ispell
-				   )))
+  ;; (setq-default company-backends '((company-files
+  ;;				  company-jedi ; Python
+  ;;				  company-capf
+  ;;				  company-keywords
+  ;;				  company-yasnippet
+  ;;				  company-tempo
+  ;;				  company-gtags
+  ;;				  company-etags
+  ;;				  company-elisp
+  ;;				  company-nxml
+  ;;				  company-css ; HTML, CSS, XML
+  ;;				  company-bbdb ; BBDB
+  ;;				  company-dabbrev-code
+  ;;				  company-dabbrev
+  ;;				  company-abbrev
+  ;;				  company-ispell ; Ispell
+  ;;				 )))
+
+
+  (defun my-dot-p (input)
+    (eq ?. (string-to-char input)))
+  (setq company-auto-complete-chars #'my-dot-p)
+
 #+END_SRC
 
 * Window Arranging
@@ -572,17 +578,19 @@
 #+BEGIN_SRC emacs-lisp
     ;; PYTHON CONFIGURATION
       ;; --------------------------------------
-      (use-package flycheck
-	:ensure t
-	:init
-	(global-flycheck-mode t))
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode t))
 
-    ;; Load up elpy
+  ;; Load up elpy
   (elpy-enable)
   (setq elpy-rpc-python-command "python3")
   (setq python-shell-interpreter "ipython3"
 	python-shell-interpreter-args "-i --simple-prompt")
 
+  ;;(add-hook 'python-mode-hook 'jedi:setup)
+  ;;(define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
 
     ;; use flycheck not flymake with elpy
   (when (require 'flycheck nil t)
@@ -591,7 +599,6 @@
       (setq flycheck-python-pylint-executable "pylint3")
       (setq flycheck-python-flake8-executable "flake8")
       )
-
   ;; enable autopep8 formatting on save
   (require 'py-autopep8)
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
