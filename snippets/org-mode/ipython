@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+#name : ipython
+#key : ipy
+#contributor : Nathan Hughes
+# --
+#+BEGIN_SRC ipython :session :results raw drawer
+  %matplotlib inline
+  import matplotlib.pyplot as plt
+  import numpy as np
+
+  $0
+#+END_SRC
