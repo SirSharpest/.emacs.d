@@ -93,7 +93,7 @@
     ;; Fix some frame issues
     (set-face-background 'vertical-border "gray")
     (set-face-foreground 'vertical-border (face-background 'vertical-border))
-
+    (require 'ob-ipython)
   ;; Icons
     (use-package all-the-icons
       :demand t
@@ -128,16 +128,6 @@
   (if (daemonp)
 	  (add-hook 'after-make-frame-functions #'load-nord-theme)
     (load-theme 'doom-nord t))
-#+END_SRC
-
-* Yasnippet
-#+BEGIN_SRC emacs-lisp
-(require 'yasnippet)
-(require 'helm-c-yasnippet)
-(setq helm-yas-space-match-any-greedy t)
-(global-set-key (kbd "C-c y") 'helm-yas-complete)
-(yas-global-mode 1)
-(yas-load-directory "~/.emacs.d/snippets/")
 #+END_SRC
 
 * Fonts
@@ -456,6 +446,8 @@
   (setq org-todo-keywords '((type "TODO" "IDEA" "|" "DONE")))
 
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+  ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
+  ;;(require 'ob-ipython)
 
 
   (setq org-agenda-files (list "~/Dropbox/org/work.org"
@@ -473,6 +465,7 @@
       (setq org-latex-minted-options
 	 '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
 
+   ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
 
     ;; Turn on languages for org mode
     (org-babel-do-load-languages
@@ -813,6 +806,94 @@
     "This function can be used to create an org file with today as it's file name."
     (interactive)
     (find-file  (concat "~/Dropbox/Dissertation/Documents/Notes/" (format-time-string "%Y-%m-%d.org" ))))
+#+END_SRC
+
+* Yasnippet
+
+#+BEGIN_SRC emacs-lisp
+(require 'yasnippet)
+(require 'helm-c-yasnippet)
+(setq helm-yas-space-match-any-greedy t)
+(global-set-key (kbd "C-c y") 'helm-yas-complete)
+(yas-global-mode 1)
+(yas-load-directory "~/.emacs.d/snippets/")
+#+END_SRC
+
+** omg make tabs great again
+
+#+BEGIN_SRC emacs-lisp
+  (defun check-expansion ()
+    (save-excursion
+      (if (looking-at "\\_>") t
+	(backward-char 1)
+	(if (looking-at "\\.") t
+      (backward-char 1)
+      (if (looking-at "->") t nil)))))
+
+  (defun do-yas-expand ()
+    (let ((yas/fallback-behavior 'return-nil))
+      (yas/expand)))
+
+  (defun tab-indent-or-complete ()
+    (interactive)
+    (cond
+     ((minibufferp)
+      (minibuffer-complete))
+     (t
+      (indent-for-tab-command)
+      (if (or (not yas/minor-mode)
+	  (null (do-yas-expand)))
+      (if (check-expansion)
+	  (progn
+	    (company-manual-begin)
+	    (if (null company-candidates)
+	    (progn
+	      (company-abort)
+	      (indent-for-tab-command)))))))))
+
+  (defun tab-complete-or-next-field ()
+    (interactive)
+    (if (or (not yas/minor-mode)
+	(null (do-y	as-expand)))
+	(if company-candidates
+	(company-complete-selection)
+      (if (check-expansion)
+	(progn
+	  (company-manual-begin)
+	  (if (null company-candidates)
+	  (progn
+	    (company-abort)
+	    (yas-next-field))))
+	(yas-next-field)))))
+
+  (defun expand-snippet-or-complete-selection ()
+    (interactive)
+    (if (or (not yas/minor-mode)
+	(null (do-yas-expand))
+	(company-abort))
+	(company-complete-selection)))
+
+  (defun abort-company-or-yas ()
+    (interactive)
+    (if (null company-candidates)
+	(yas-abort-snippet)
+      (company-abort)))
+
+  (global-set-key [tab] 'tab-indent-or-complete)
+  (global-set-key (kbd "TAB") 'tab-indent-or-complete)
+  (global-set-key [(control return)] 'company-complete-common)
+
+  (define-key company-active-map [tab] 'expand-snippet-or-complete-selection)
+  (define-key company-active-map (kbd "TAB") 'expand-snippet-or-complete-selection)
+
+  (define-key yas-minor-mode-map [tab] nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+
+  (define-key yas-keymap [tab] 'tab-complete-or-next-field)
+  (define-key yas-keymap (kbd "TAB") 'tab-complete-or-next-field)
+  (define-key yas-keymap [(control tab)] 'yas-next-field)
+  (define-key yas-keymap (kbd "C-g") 'abort-company-or-yas)
+
 #+END_SRC
 * Custom Keybinds
 ** Multiple Cursors
