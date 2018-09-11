@@ -9,8 +9,8 @@
 
     ;;; Code:
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			     ("marmalade" . "https://marmalade-repo.org/packages/")
-			     ("melpa" . "https://melpa.org/packages/")))
+                             ("marmalade" . "https://marmalade-repo.org/packages/")
+                             ("melpa" . "https://melpa.org/packages/")))
 
     (package-initialize)
     (when (not package-archive-contents)
@@ -18,48 +18,52 @@
 
     (defvar myPackages
       '(better-defaults
-	doom-themes
-	ein
-	elpy
-	flycheck
-	py-autopep8
-	flyspell
-	projectile
-	magit
-	golden-ratio
-	helm
-	helm-projectile
-	helm-ag
-	org-ref
-	org-bullets
-	openwith
-	telephone-line
-	langtool
-	use-package
-	iedit
-	guide-key
-	ace-window
-	smooth-scrolling
-	company-quickhelp
-	expand-region
-	ace-jump-mode
-	all-the-icons-dired
-	telephone-line
-	pylint
-	eyebrowse
-	multiple-cursors
-	rainbow-mode
-	zone-rainbow
-	auctex
-	yasnippet-snippets
-	helm-c-yasnippet
-	ob-ipython
-	))
+        doom-themes
+        ein
+        anaconda-mode
+        company-anaconda
+        flycheck
+        py-autopep8
+        flyspell
+        projectile
+        magit
+        golden-ratio
+        helm
+        helm-projectile
+        helm-ag
+        org-ref
+        org-bullets
+        openwith
+        telephone-line
+        langtool
+        use-package
+        iedit
+        guide-key
+        ace-window
+        smooth-scrolling
+        company-quickhelp
+        expand-region
+        ace-jump-mode
+        all-the-icons-dired
+        telephone-line
+        pylint
+        eyebrowse
+        multiple-cursors
+        rainbow-mode
+        zone-rainbow
+        auctex
+        yasnippet-snippets
+        helm-c-yasnippet
+        ob-ipython
+        undo-tree
+        winum
+        treemacs
+        ))
 
     (mapc #'(lambda (package)
-	(unless (package-installed-p package)
-	  (package-install package)))
-	  myPackages)
+        (unless (package-installed-p package)
+          (package-install package)))
+          myPackages)
 
     (require 'golden-ratio)
     (require 'doom-themes)
@@ -99,12 +103,12 @@
       :demand t
       :config
       (use-package all-the-icons-dired
-	:demand t
-	:config
-	(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+        :demand t
+        :config
+        (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
     ;; Enable ace window
-    (global-set-key (kbd "M-o") 'ace-window)
+    ;; (global-set-key (kbd "M-o") 'ace-window)
     (electric-pair-mode)
     (require 'expand-region)
     (global-set-key (kbd "C-=") 'er/expand-region)
@@ -125,7 +129,7 @@
     (load-theme 'doom-nord t))
 
   (if (daemonp)
-	  (add-hook 'after-make-frame-functions #'load-nord-theme)
+          (add-hook 'after-make-frame-functions #'load-nord-theme)
     (load-theme 'doom-nord t))
 #+END_SRC
 
@@ -149,22 +153,22 @@
 * Company stuff
 #+BEGIN_SRC emacs-lisp
   (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
-		company-idle-delay 0.3
-		company-echo-delay 0
-		company-show-numbers t
-		company-tooltip-align-annotations t ; align annotations to the right tooltip border.
-		company-tooltip-flip-when-above t
-		company-tooltip-limit 10          ; tooltip candidates max limit.
-		company-tooltip-minimum 6         ; minimum candidates limit.
-		company-tooltip-minimum-width 0   ; The minimum width of the tooltip's inner area.
-					  ; This doesn't include the margins and the scroll bar.
-		company-tooltip-margin 2          ; width of margin columns to show around the tooltip
-		company-tooltip-offset-display 'scrollbar ; 'lines - how to show tooltip unshown candidates number.
-		company-show-numbers nil ; t: show quick access numbers for the first ten candidates.
-		company-selection-wrap-around t ; loop over candidates
-		;; company-async-wait 0.03
-		;; company-async-timeout 2
-		)
+                company-idle-delay 0.3
+                company-echo-delay 0
+                company-show-numbers t
+                company-tooltip-align-annotations t ; align annotations to the right tooltip border.
+                company-tooltip-flip-when-above t
+                company-tooltip-limit 10          ; tooltip candidates max limit.
+                company-tooltip-minimum 6         ; minimum candidates limit.
+                company-tooltip-minimum-width 0   ; The minimum width of the tooltip's inner area.
+                                          ; This doesn't include the margins and the scroll bar.
+                company-tooltip-margin 2          ; width of margin columns to show around the tooltip
+                company-tooltip-offset-display 'scrollbar ; 'lines - how to show tooltip unshown candidates number.
+                company-show-numbers nil ; t: show quick access numbers for the first ten candidates.
+                company-selection-wrap-around t ; loop over candidates
+                ;; company-async-wait 0.03
+                ;; company-async-timeout 2
+                )
 
   ;;; help document preview & popup
   (require 'company-quickhelp)
@@ -172,10 +176,10 @@
   (company-quickhelp-mode 1)
 
   (setq-default company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
-				    company-preview-if-just-one-frontend
-				    company-echo-metadata-frontend
-				    company-quickhelp-frontend
-				    ))
+                                    company-preview-if-just-one-frontend
+                                    company-echo-metadata-frontend
+                                    company-quickhelp-frontend
+                                    ))
 
   ;; (setq-default company-backends '((company-files
   ;;				  company-jedi ; Python
@@ -209,27 +213,27 @@
   (defun toggle-window-split ()
     (interactive)
     (if (= (count-windows) 2)
-	(let* ((this-win-buffer (window-buffer))
-	   (next-win-buffer (window-buffer (next-window)))
-	   (this-win-edges (window-edges (selected-window)))
-	   (next-win-edges (window-edges (next-window)))
-	   (this-win-2nd (not (and (<= (car this-win-edges)
-		       (car next-win-edges))
-		       (<= (cadr this-win-edges)
-		       (cadr next-win-edges)))))
-	   (splitter
-	    (if (= (car this-win-edges)
-	       (car (window-edges (next-window))))
-	    'split-window-horizontally
-	  'split-window-vertically)))
+        (let* ((this-win-buffer (window-buffer))
+           (next-win-buffer (window-buffer (next-window)))
+           (this-win-edges (window-edges (selected-window)))
+           (next-win-edges (window-edges (next-window)))
+           (this-win-2nd (not (and (<= (car this-win-edges)
+                       (car next-win-edges))
+                       (<= (cadr this-win-edges)
+                       (cadr next-win-edges)))))
+           (splitter
+            (if (= (car this-win-edges)
+               (car (window-edges (next-window))))
+            'split-window-horizontally
+          'split-window-vertically)))
       (delete-other-windows)
       (let ((first-win (selected-window)))
-	(funcall splitter)
-	(if this-win-2nd (other-window 1))
-	(set-window-buffer (selected-window) this-win-buffer)
-	(set-window-buffer (next-window) next-win-buffer)
-	(select-window first-win)
-	(if this-win-2nd (other-window 1))))))
+        (funcall splitter)
+        (if this-win-2nd (other-window 1))
+        (set-window-buffer (selected-window) this-win-buffer)
+        (set-window-buffer (next-window) next-win-buffer)
+        (select-window first-win)
+        (if this-win-2nd (other-window 1))))))
 
   (global-set-key (kbd "C-x |") 'toggle-window-split)
 
@@ -281,7 +285,7 @@
 (setq TeX-PDF-mode t); PDF mode (rather than DVI-mode)
 
 (add-hook 'TeX-mode-hook
-	  (lambda () (TeX-fold-mode 1))); Automatically activate TeX-fold-mode.
+          (lambda () (TeX-fold-mode 1))); Automatically activate TeX-fold-mode.
 (setq LaTeX-babel-hyphen nil); Disable language-specific hyphen insertion.
 
 ;; " expands into csquotes macros (for this to work babel must be loaded after csquotes).
@@ -307,90 +311,90 @@
 ;     (setq reftex-default-bibliography '("UNCOMMENT LINE AND INSERT PATH TO YOUR BIBLIOGRAPHY HERE")); So that RefTeX in Org-mode knows bibliography
      (setcdr (assoc 'caption reftex-default-context-regexps) "\\\\\\(rot\\|sub\\)?caption\\*?[[{]"); Recognize \subcaptions, e.g. reftex-citation
      (setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
-	   '((?t . "\\textcite[]{%l}")
-	     (?a . "\\autocite[]{%l}")
-	     (?c . "\\cite[]{%l}")
-	     (?s . "\\smartcite[]{%l}")
-	     (?f . "\\footcite[]{%l}")
-	     (?n . "\\nocite{%l}")
-	     (?b . "\\blockcquote[]{%l}{}")))))
+           '((?t . "\\textcite[]{%l}")
+             (?a . "\\autocite[]{%l}")
+             (?c . "\\cite[]{%l}")
+             (?s . "\\smartcite[]{%l}")
+             (?f . "\\footcite[]{%l}")
+             (?n . "\\nocite{%l}")
+             (?b . "\\blockcquote[]{%l}{}")))))
 
 ;; Fontification (remove unnecessary entries as you notice them) http://lists.gnu.org/archive/html/emacs-orgmode/2009-05/msg00236.html http://www.gnu.org/software/auctex/manual/auctex/Fontification-of-macros.html
 (setq font-latex-match-reference-keywords
       '(
-	;; biblatex
-	("printbibliography" "[{")
-	("addbibresource" "[{")
-	;; Standard commands
-	;; ("cite" "[{")
-	("Cite" "[{")
-	("parencite" "[{")
-	("Parencite" "[{")
-	("footcite" "[{")
-	("footcitetext" "[{")
-	;; ;; Style-specific commands
-	("textcite" "[{")
-	("Textcite" "[{")
-	("smartcite" "[{")
-	("Smartcite" "[{")
-	("cite*" "[{")
-	("parencite*" "[{")
-	("supercite" "[{")
-	; Qualified citation lists
-	("cites" "[{")
-	("Cites" "[{")
-	("parencites" "[{")
-	("Parencites" "[{")
-	("footcites" "[{")
-	("footcitetexts" "[{")
-	("smartcites" "[{")
-	("Smartcites" "[{")
-	("textcites" "[{")
-	("Textcites" "[{")
-	("supercites" "[{")
-	;; Style-independent commands
-	("autocite" "[{")
-	("Autocite" "[{")
-	("autocite*" "[{")
-	("Autocite*" "[{")
-	("autocites" "[{")
-	("Autocites" "[{")
-	;; Text commands
-	("citeauthor" "[{")
-	("Citeauthor" "[{")
-	("citetitle" "[{")
-	("citetitle*" "[{")
-	("citeyear" "[{")
-	("citedate" "[{")
-	("citeurl" "[{")
-	;; Special commands
-	("fullcite" "[{")))
+        ;; biblatex
+        ("printbibliography" "[{")
+        ("addbibresource" "[{")
+        ;; Standard commands
+        ;; ("cite" "[{")
+        ("Cite" "[{")
+        ("parencite" "[{")
+        ("Parencite" "[{")
+        ("footcite" "[{")
+        ("footcitetext" "[{")
+        ;; ;; Style-specific commands
+        ("textcite" "[{")
+        ("Textcite" "[{")
+        ("smartcite" "[{")
+        ("Smartcite" "[{")
+        ("cite*" "[{")
+        ("parencite*" "[{")
+        ("supercite" "[{")
+        ; Qualified citation lists
+        ("cites" "[{")
+        ("Cites" "[{")
+        ("parencites" "[{")
+        ("Parencites" "[{")
+        ("footcites" "[{")
+        ("footcitetexts" "[{")
+        ("smartcites" "[{")
+        ("Smartcites" "[{")
+        ("textcites" "[{")
+        ("Textcites" "[{")
+        ("supercites" "[{")
+        ;; Style-independent commands
+        ("autocite" "[{")
+        ("Autocite" "[{")
+        ("autocite*" "[{")
+        ("Autocite*" "[{")
+        ("autocites" "[{")
+        ("Autocites" "[{")
+        ;; Text commands
+        ("citeauthor" "[{")
+        ("Citeauthor" "[{")
+        ("citetitle" "[{")
+        ("citetitle*" "[{")
+        ("citeyear" "[{")
+        ("citedate" "[{")
+        ("citeurl" "[{")
+        ;; Special commands
+        ("fullcite" "[{")))
 
 (setq font-latex-match-textual-keywords
       '(
-	;; biblatex brackets
-	("parentext" "{")
-	("brackettext" "{")
-	("hybridblockquote" "[{")
-	;; Auxiliary Commands
-	("textelp" "{")
-	("textelp*" "{")
-	("textins" "{")
-	("textins*" "{")
-	;; supcaption
-	("subcaption" "[{")))
+        ;; biblatex brackets
+        ("parentext" "{")
+        ("brackettext" "{")
+        ("hybridblockquote" "[{")
+        ;; Auxiliary Commands
+        ("textelp" "{")
+        ("textelp*" "{")
+        ("textins" "{")
+        ("textins*" "{")
+        ;; supcaption
+        ("subcaption" "[{")))
 
 (setq font-latex-match-variable-keywords
       '(
-	;; amsmath
-	("numberwithin" "{")
-	;; enumitem
-	("setlist" "[{")
-	("setlist*" "[{")
-	("newlist" "{")
-	("renewlist" "{")
-	("setlistdepth" "{")
-	("restartlist" "{")))
+        ;; amsmath
+        ("numberwithin" "{")
+        ;; enumitem
+        ("setlist" "[{")
+        ("setlist*" "[{")
+        ("newlist" "{")
+        ("renewlist" "{")
+        ("setlistdepth" "{")
+        ("restartlist" "{")))
 
 
 ;; Use pdf-tools to open PDF files
@@ -399,7 +403,7 @@
 
 ;; Update PDF buffers after successful LaTeX runs
 (add-hook 'TeX-after-compilation-finished-functions
-	   #'TeX-revert-document-buffer)
+           #'TeX-revert-document-buffer)
 #+END_SRC
 #+BEGIN_SRC emacs-lisp
   (defun run-latex ()
@@ -437,9 +441,12 @@
 #+END_SRC
 
 * Org Mode Setup
+
+** General Setup
 #+BEGIN_SRC emacs-lisp
     ;; ORG CONFIGURATION
     ;; --------------------------------------
+
 
 
   (setq org-todo-keywords '((type "TODO" "IDEA" "|" "DONE")))
@@ -450,19 +457,23 @@
 
 
   (setq org-agenda-files (list "~/Dropbox/org/work.org"
-			       "~/Dropbox/org/university.org"
-			       "~/Dropbox/org/home.org"))
+                               "~/Dropbox/org/university.org"
+                               "~/Dropbox/org/home.org"))
 
   (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf)))
 
 
 
-    (setq org-latex-listings 'minted
-	  org-latex-packages-alist '(("" "minted"))
-	  org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+ (setq org-latex-listings 'minted
+        org-latex-packages-alist '(("" "minted"))
+        org-latex-pdf-process (quote ("texi2dvi --pdf %f
+ pdflatex --shell-escape %f
+ texi2dvi --pdf %f --shell-escape
+ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+
 
       (setq org-latex-minted-options
-	 '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
+         '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
 
    ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
 
@@ -477,7 +488,7 @@
     (setq org-confirm-babel-evaluate nil)
     (require 'org-ref)
     (setq org-plantuml-jar-path
-	  (expand-file-name "~/.emacs.d/plantuml.jar"))
+          (expand-file-name "~/.emacs.d/plantuml.jar"))
 
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
     ;; Turn on org-mode syntax highlighting for src blocks
@@ -492,8 +503,8 @@
   (defun org-babel-run-and-display-images ()
       (interactive)
       (progn
-	(org-babel-execute-src-block-maybe)
-	(org-display-inline-images)))
+        (org-babel-execute-src-block-maybe)
+        (org-display-inline-images)))
 
   (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
 
@@ -502,6 +513,36 @@
     (define-key org-mode-map (kbd "C-<tab>") nil)
 #+END_SRC
 
+** Setup for docx export
+
+
+#+BEGIN_SRC emacs-lisp
+    ;; (defun helm-bibtex-format-pandoc-citation (keys)
+    ;;   (concat "[" (mapconcat (lambda (key) (concat "@" key)) keys "; ") "]"))
+
+    ;; inform helm-bibtex how to format the citation in org-mode
+    ;; (setf (cdr (assoc 'org-mode helm-bibtex-format-citation-functions))
+    ;;	'helm-bibtex-format-pandoc-citation)
+
+
+  (defun ox-export-to-docx-and-open ()
+   (interactive)
+   (org-latex-export-to-latex)
+   (let* ((bibfile (expand-file-name (car (org-ref-find-bibliography))))
+          (current-file (buffer-file-name))
+          (basename (file-name-sans-extension current-file))
+          (tex-file (concat basename  ".tex"))
+          (docxfile (concat basename ".docx"))
+          )
+     (save-buffer)
+     (when (file-exists-p docxfile) (delete-file docxfile))
+     (shell-command (format
+                     "pandoc %s --bibliography=%s  -o %s"
+                     tex-file bibfile docxfile))
+     (org-open-file docxfile '(16))))
+#+END_SRC
+
+** Basic Headers for org-latex
 #+BEGIN_SRC emacs-lisp
   ;; Some of my own functions which help with misc tasks
   (defun org-insert-latex-headers ()
@@ -538,19 +579,18 @@
 #+LATEX: \\clearpage
 #+LATEX: \\tableofcontents
 #+LATEX: \\clearpage" (read-string "Enter Document Title:")) )))
-
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
   (add-hook 'org-mode-hook #'visual-line-mode)
     (add-to-list 'org-latex-classes
-		 '("dissertation_report"
-		   "\\documentclass[11pt]{report}"
-		   ("\\chapter{%s}" . "\\chapter*{%s}")
-		   ("\\section{%s}" . "\\section*{%s}")
-		   ("\\subsection{%s}" . "\\subsection*{%s}")
-		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+                 '("dissertation_report"
+                   "\\documentclass[11pt]{report}"
+                   ("\\chapter{%s}" . "\\chapter*{%s}")
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 #+END_SRC
 ** Webpage Project Management
 
@@ -559,22 +599,22 @@
 ;; Setup for webpage
 (setq org-publish-project-alist
       `(("Dissertation"
-	 :base-directory "~/Dropbox/Website/"
-	 :recursive t
-	 :auto-sitemap t
-	 :sitemap-sort-files anti-chronologically
-	 :with-toc nil
-	 :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
-	 :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
-	 :publishing-function org-html-publish-to-html
-	 )
-	("images"
-	 :base-directory "~/Dropbox/Website/images"
-	 :base-extension "png\\|gif"
-	 :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html/images"
-	 :publishing-function org-publish-attachment
+         :base-directory "~/Dropbox/Website/"
+         :recursive t
+         :auto-sitemap t
+         :sitemap-sort-files anti-chronologically
+         :with-toc nil
+         :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
+         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
+         :publishing-function org-html-publish-to-html
+         )
+        ("images"
+         :base-directory "~/Dropbox/Website/images"
+         :base-extension "png\\|gif"
+         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html/images"
+         :publishing-function org-publish-attachment
      )
-	("DissertationWebsite" :components("Dissertation images"))
+        ("DissertationWebsite" :components("Dissertation images"))
    )
 )
 #+END_SRC
@@ -588,31 +628,31 @@
     :init
     (global-flycheck-mode t))
 
-  ;; Load up elpy
-  (elpy-enable)
-  (setq elpy-rpc-python-command "python3")
   (setq python-shell-interpreter "ipython3"
-	python-shell-interpreter-args "-i --simple-prompt")
+        python-shell-interpreter-args "-i --simple-prompt")
 
-  ;;(add-hook 'python-mode-hook 'jedi:setup)
-  ;;(define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
-
-    ;; use flycheck not flymake with elpy
-  (when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-      (add-hook 'elpy-mode-hook 'flycheck-mode)
-      (setq flycheck-python-pylint-executable "pylint3")
-      (setq flycheck-python-flake8-executable "flake8")
-      )
   ;; enable autopep8 formatting on save
   (require 'py-autopep8)
-  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 
   (setq python-indent-offset 4)
   (defun python-custom-settings ()
     (setq tab-width 4))
-  (add-hook 'python-mode-hook 'python-custom-settings)
+  (setq-default indent-tabs-mode nil)
+
+  (defun my-python-mode-setup ()
+    (anaconda-mode)
+    (anaconda-eldoc-mode)
+    (py-autopep8-enable-on-save)
+    (python-custom-settings)
+    (flycheck-mode)
+    (setq flycheck-python-pylint-executable "pylint3")
+    (setq flycheck-python-flake8-executable "flake8")
+    (setq-local company-backends
+                (append '((company-anaconda)) company-backends)))
+
+  (add-hook 'python-mode-hook 'my-python-mode-setup)
+
 #+END_SRC
 
 
@@ -623,7 +663,8 @@
   (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
   (kill-buffer "*Python*")
   (elpy-shell-send-region-or-buffer-and-step))
-(define-key elpy-mode-map (kbd "<C-c c-r>") 'reset-py)
+
+
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -631,41 +672,41 @@
     (goto-char (point-min))
     (let ((to-insert (concat "* " (replace-regexp-in-string root "" filename) "\n") ))
       (while (re-search-forward
-	      (rx (group (or "def" "class"))
-		  space
-		  (group (+ (not (any "()"))))
-		  (? "(" (* nonl) "):" (+ "\n") (+ space)
-		     (= 3 "\"")
-		     (group (+? anything))
-		     (= 3 "\"")))
-	      nil 'noerror)
-	(setq to-insert
-	      (concat
-	       to-insert
-	       (if (string= "class" (match-string 1))
-		   "** "
-		 "*** ")
-	       (match-string 2)
-	       "\n"
-	       (and (match-string 3)
-		    (concat (match-string 3) "\n")))))
+              (rx (group (or "def" "class"))
+                  space
+                  (group (+ (not (any "()"))))
+                  (? "(" (* nonl) "):" (+ "\n") (+ space)
+                     (= 3 "\"")
+                     (group (+? anything))
+                     (= 3 "\"")))
+              nil 'noerror)
+        (setq to-insert
+              (concat
+               to-insert
+               (if (string= "class" (match-string 1))
+                   "** "
+                 "*** ")
+               (match-string 2)
+               "\n"
+               (and (match-string 3)
+                    (concat (match-string 3) "\n")))))
       (with-current-buffer buffer
-	(insert to-insert))))
+        (insert to-insert))))
 
   (defun org-documentation-from-dir (&optional dir)
     (interactive)
     (let* ((dir  (or dir (read-directory-name "Choose base directory: ")))
-	   (files (directory-files-recursively dir "\py$"))
-	   (doc-buf (get-buffer-create "org-docs")))
+           (files (directory-files-recursively dir "\py$"))
+           (doc-buf (get-buffer-create "org-docs")))
       (dolist (file files)
-	(with-temp-buffer
-	  (insert-file-contents file)
-	  (populate-org-buffer doc-buf file dir)))
+        (with-temp-buffer
+          (insert-file-contents file)
+          (populate-org-buffer doc-buf file dir)))
       (with-current-buffer doc-buf
-	(org-mode))))
+        (org-mode))))
 #+END_SRC
 
-** Ace Jump Mode
+* Ace Jump Mode
 #+BEGIN_SRC emacs-lisp
   (require 'ace-jump-mode)
 
@@ -693,14 +734,14 @@
       :config
 
       (defun make-rect (color height width)
-	"Create an XPM bitmap."
-	(when window-system
-	  (propertize
-	   " " 'display
-	   (let ((data nil)
-		 (i 0))
-	     (setq data (make-list height (make-list width 1)))
-	     (pl/make-xpm "percent" color color (reverse data))))))
+        "Create an XPM bitmap."
+        (when window-system
+          (propertize
+           "  " 'display
+           (let ((data nil)
+                 (i 0))
+             (setq data (make-list height (make-list width 1)))
+             (pl/make-xpm "percent" color color (reverse data))))))
 
       ;; fix solid color bar
 
@@ -714,59 +755,59 @@
 
 
       (defun powerline-mode-icon ()
-	(let ((icon (all-the-icons-icon-for-buffer)))
-	  (unless (symbolp icon) ;; This implies it's the major mode
-	    (format " %s"
-		    (propertize icon
-				'help-echo (format "Major-mode: `%s`" major-mode)
-				'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))))
+        (let ((icon (all-the-icons-icon-for-buffer)))
+          (unless (symbolp icon) ;; This implies it's the major mode
+            (format " %s"
+                    (propertize icon
+                                'help-echo (format "Major-mode: `%s`" major-mode)
+                                'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))))
 
 
       (setq-default mode-line-format
-		    '("%e"
-		      (:eval
-		       (let* ((active (powerline-selected-window-active))
-			      (modified (buffer-modified-p))
-			      (face1 (if active 'powerline-active1 'powerline-inactive1))
-			      (face2 (if active 'powerline-active2 'powerline-inactive2))
-			      (bar-color (cond ((and active modified) (face-foreground 'error))
-					       (active (face-background 'cursor))
-					       (t (face-background 'tooltip))))
-			      (lhs (list
-				    (make-rect bar-color 30 3)
-				    (when modified
-				      (concat
-				       " "
-				       (all-the-icons-faicon "floppy-o"
-							     :face (when active 'error)
-							     :v-adjust -0.01)))
-				    " "
-				    (powerline-buffer-id)
-				    "| "
-				    (powerline-vc)
-				    ))
-			      (center (list
-				       " "
-				       (powerline-mode-icon)
-				       " "
-				       (powerline-major-mode)
-				       " "))
-			      (rhs (list
-				    (format "%s" (eyebrowse--get 'current-slot))
-				    " | "
-				    (powerline-raw "%l:%c" 'mode-line 'r)
-				    " | "
-				    (powerline-raw "%6p" 'mode-line 'r)
-				    (powerline-hud 'highlight 'region 1)
-				    "    "
-				    ))
-			      )
-			 (concat
-			  (powerline-render lhs)
-			  (powerline-fill-center face1 (/ (powerline-width center) 2.0))
-			  (powerline-render center)
-			  (powerline-fill face2 (powerline-width rhs))
-			  (powerline-render rhs))))))
+                    '("%e"
+                      (:eval
+                       (let* ((active (powerline-selected-window-active))
+                              (modified (buffer-modified-p))
+                              (face1 (if active 'powerline-active1 'powerline-inactive1))
+                              (face2 (if active 'powerline-active2 'powerline-inactive2))
+                              (bar-color (cond ((and active modified) (face-foreground 'error))
+                                               (active (face-background 'cursor))
+                                               (t (face-background 'tooltip))))
+                              (lhs (list
+                                    (make-rect bar-color 30 3)
+                                    (when modified
+                                      (concat
+                                       " "
+                                       (all-the-icons-faicon "floppy-o"
+                                                             :face (when active 'error)
+                                                             :v-adjust -0.01)))
+                                    " "
+                                    (powerline-buffer-id)
+                                    "| "
+                                    (powerline-vc)
+                                    ))
+                              (center (list
+                                       " "
+                                       (powerline-mode-icon)
+                                       " "
+                                       (powerline-major-mode)
+                                       " "))
+                              (rhs (list
+                                    (format "%s" (eyebrowse--get 'current-slot))
+                                    " | "
+                                    (powerline-raw "%l:%c" 'mode-line 'r)
+                                    " | "
+                                    (powerline-raw "%6p" 'mode-line 'r)
+                                    (powerline-hud 'highlight 'region 1)
+                                    "    "
+                                    ))
+                              )
+                         (concat
+                          (powerline-render lhs)
+                          (powerline-fill-center face1 (/ (powerline-width center) 2.0))
+                          (powerline-render center)
+                          (powerline-fill face2 (powerline-width rhs))
+                          (powerline-render rhs))))))
       )
 #+END_SRC
 
@@ -829,8 +870,8 @@
   (defun check-expansion ()
     (save-excursion
       (if (looking-at "\\_>") t
-	(backward-char 1)
-	(if (looking-at "\\.") t
+        (backward-char 1)
+        (if (looking-at "\\.") t
       (backward-char 1)
       (if (looking-at "->") t nil)))))
 
@@ -846,41 +887,41 @@
      (t
       (indent-for-tab-command)
       (if (or (not yas/minor-mode)
-	  (null (do-yas-expand)))
+          (null (do-yas-expand)))
       (if (check-expansion)
-	  (progn
-	    (company-manual-begin)
-	    (if (null company-candidates)
-	    (progn
-	      (company-abort)
-	      (indent-for-tab-command)))))))))
+          (progn
+            (company-manual-begin)
+            (if (null company-candidates)
+            (progn
+              (company-abort)
+              (indent-for-tab-command)))))))))
 
   (defun tab-complete-or-next-field ()
     (interactive)
     (if (or (not yas/minor-mode)
-	(null (do-y	as-expand)))
-	(if company-candidates
-	(company-complete-selection)
+        (null (do-y	as-expand)))
+        (if company-candidates
+        (company-complete-selection)
       (if (check-expansion)
-	(progn
-	  (company-manual-begin)
-	  (if (null company-candidates)
-	  (progn
-	    (company-abort)
-	    (yas-next-field))))
-	(yas-next-field)))))
+        (progn
+          (company-manual-begin)
+          (if (null company-candidates)
+          (progn
+            (company-abort)
+            (yas-next-field))))
+        (yas-next-field)))))
 
   (defun expand-snippet-or-complete-selection ()
     (interactive)
     (if (or (not yas/minor-mode)
-	(null (do-yas-expand))
-	(company-abort))
-	(company-complete-selection)))
+        (null (do-yas-expand))
+        (company-abort))
+        (company-complete-selection)))
 
   (defun abort-company-or-yas ()
     (interactive)
     (if (null company-candidates)
-	(yas-abort-snippet)
+        (yas-abort-snippet)
       (company-abort)))
 
   (global-set-key [tab] 'tab-indent-or-complete)
@@ -921,7 +962,7 @@ As this will require a lot of overrides I want it towards the end of the file
     "Toggle images display on current buffer."
     (interactive)
     (setq endless/display-images
-	  (null endless/display-images))
+          (null endless/display-images))
     (endless/backup-display-property endless/display-images))
 
 
@@ -933,22 +974,109 @@ As this will require a lot of overrides I want it towards the end of the file
   Optional OBJECT specifies the string or buffer. Nil means current
   buffer."
     (let* ((inhibit-read-only t)
-	   (from (if invert 'display-backup 'display))
-	   (to (if invert 'display 'display-backup))
-	   (pos (point-min))
-	   left prop)
+           (from (if invert 'display-backup 'display))
+           (to (if invert 'display 'display-backup))
+           (pos (point-min))
+           left prop)
       (while (and pos (/= pos (point-max)))
-	(if (get-text-property pos from object)
-	    (setq left pos)
-	  (setq left (next-single-property-change pos from object)))
-	(if (or (null left) (= left (point-max)))
-	    (setq pos nil)
-	  (setq prop (get-text-property left from object))
-	  (setq pos (or (next-single-property-change left from object)
-			(point-max)))
-	  (when (eq (car prop) 'image)
-	    (add-text-properties left pos (list from nil to prop) object))))))
+        (if (get-text-property pos from object)
+            (setq left pos)
+          (setq left (next-single-property-change pos from object)))
+        (if (or (null left) (= left (point-max)))
+            (setq pos nil)
+          (setq prop (get-text-property left from object))
+          (setq pos (or (next-single-property-change left from object)
+                        (point-max)))
+          (when (eq (car prop) 'image)
+            (add-text-properties left pos (list from nil to prop) object))))))
 
+#+END_SRC
+
+
+* Winum
+
+#+BEGIN_SRC emacs-lisp
+  (setq winum-keymap
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "C-`") 'winum-select-window-by-number)
+        (define-key map (kbd "C-²") 'winum-select-window-by-number)
+        (define-key map (kbd "M-0") 'winum-select-window-0-or-10)
+        (define-key map (kbd "M-1") 'winum-select-window-1)
+        (define-key map (kbd "M-2") 'winum-select-window-2)
+        (define-key map (kbd "M-3") 'winum-select-window-3)
+        (define-key map (kbd "M-4") 'winum-select-window-4)
+        (define-key map (kbd "M-5") 'winum-select-window-5)
+        (define-key map (kbd "M-6") 'winum-select-window-6)
+        (define-key map (kbd "M-7") 'winum-select-window-7)
+        (define-key map (kbd "M-8") 'winum-select-window-8)
+        map))
+
+  (require 'winum)
+  (winum-mode)
+#+END_SRC
+
+* Treemacs
+
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+      (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
+            treemacs-deferred-git-apply-delay   0.5
+            treemacs-display-in-side-window     t
+            treemacs-file-event-delay           5000
+            treemacs-file-follow-delay          0.2
+            treemacs-follow-after-init          t
+            treemacs-follow-recenter-distance   0.1
+            treemacs-goto-tag-strategy          'refetch-index
+            treemacs-indentation                2
+            treemacs-indentation-string         " "
+            treemacs-is-never-other-window      nil
+            treemacs-no-png-images              nil
+            treemacs-project-follow-cleanup     nil
+            treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+            treemacs-recenter-after-file-follow nil
+            treemacs-recenter-after-tag-follow  nil
+            treemacs-show-hidden-files          t
+            treemacs-silent-filewatch           nil
+            treemacs-silent-refresh             nil
+            treemacs-sorting                    'alphabetic-desc
+            treemacs-space-between-root-nodes   t
+            treemacs-tag-follow-cleanup         t
+            treemacs-tag-follow-delay           1.5
+            treemacs-width                      35)
+
+      ;; The default width and height of the icons is 22 pixels. If you are
+      ;; using a Hi-DPI display, uncomment this to double the icon size.
+      ;;(treemacs-resize-icons 44)
+
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode t)
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null (executable-find "python3"))))
+        (`(t . t)
+         (treemacs-git-mode 'extended))
+        (`(t . _)
+         (treemacs-git-mode 'simple))))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
+
+
+  (use-package treemacs-projectile
+    :after treemacs projectile
+    :ensure t)
 #+END_SRC
 
 * TODO Modes that would be useful
