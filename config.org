@@ -69,7 +69,7 @@
     (require 'doom-themes)
     (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
     (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
-    (load-theme 'doom-nord t)
+    (load-theme 'doom-one t)
     (doom-themes-visual-bell-config)
     (tool-bar-mode -1) ;; turn off that annoying top bar
     (toggle-scroll-bar -1) ;; turn off scrolling too!
