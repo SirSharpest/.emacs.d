@@ -69,7 +69,8 @@
     (require 'doom-themes)
     (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
     (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
-    (load-theme 'doom-one t)
+    (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+    (load-theme 'leuven t)
     (doom-themes-visual-bell-config)
     (tool-bar-mode -1) ;; turn off that annoying top bar
     (toggle-scroll-bar -1) ;; turn off scrolling too!
@@ -121,33 +122,41 @@
 (setq auto-save-default nil) ; stop creating #autosave# files
 #+END_SRC
 
+* OSX Specific Stuff
+
+#+BEGIN_SRC emacs-lisp
+
+  (setq mac-command-modifier 'control)
+
+#+END_SRC
+
 * Here be daemons
 #+BEGIN_SRC emacs-lisp
-  (defun load-nord-theme (frame)
-    (select-frame frame)
-    (toggle-scroll-bar -1) ;; tag along
-    (load-theme 'doom-nord t))
+  ;; (defun load-nord-theme (frame)
+  ;;   (select-frame frame)
+  ;;   (toggle-scroll-bar -1) ;; tag along
+  ;;   (load-theme 'doom-nord t))
 
-  (if (daemonp)
-          (add-hook 'after-make-frame-functions #'load-nord-theme)
-    (load-theme 'doom-nord t))
+  ;; (if (daemonp)
+  ;;         (add-hook 'after-make-frame-functions #'load-nord-theme)
+  ;;   (load-theme 'doom-nord t))
 #+END_SRC
 
 * Fonts
 #+BEGIN_SRC emacs-lisp
-;; set a default font
-(when (member "DejaVu Sans Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
+  ;; set a default font
+  ;; (when (member "DejaVu Sans Mono" (font-family-list))
+  ;;   (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
 
-;; specify font for all unicode characters
-(when (member "Symbola" (font-family-list))
-  (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+  ;; ;; specify font for all unicode characters
+  ;; (when (member "Symbola" (font-family-list))
+  ;;   (set-fontset-font t 'unicode "Symbola" nil 'prepend))
 
-;; specify font for chinese characters using default chinese font on linux
-(when (member "WenQuanYi Micro Hei" (font-family-list))
-  (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+  ;; ;; specify font for chinese characters using default chinese font on linux
+  ;; (when (member "WenQuanYi Micro Hei" (font-family-list))
+  ;;   (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
 
-(set-face-attribute 'default nil :height 130)
+  ;; (set-face-attribute 'default nil :height 130)
 #+END_SRC
 
 * Company stuff
@@ -418,6 +427,9 @@
   ;; SPELLING CONFIGURATION
   ;; --------------------------------------
   ;; Spell check activate
+
+  (setq ispell-program-name "/usr/local/bin/aspell")
+
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   (add-hook 'prog-mode-hook 'rainbow-mode)
@@ -426,7 +438,7 @@
        (define-key flyspell-mode-map (kbd "C-.") nil)
        (define-key flyspell-mode-map (kbd "C-,") nil)
        ))
-  (setq ispell-dictionary "british")
+  (setq ispell-dictionary "en_GB")
 
 #+END_SRC
 
