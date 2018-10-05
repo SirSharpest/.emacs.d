@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: orgimg-insert
+# key: orgimg
+# --
+#+CAPTION: $1
+#+ATTR_LATEX: :width 10cm
+#+NAME: fig:$1
+[[$0]]

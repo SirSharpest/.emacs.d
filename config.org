@@ -488,6 +488,7 @@
   (defun org-latex-export-to-pdf-and-clean ()
     (interactive)
     (org-latex-export-to-pdf)
+    (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
     (delete-directory "auto" 't)
     (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
     )
@@ -935,7 +936,7 @@
   (defun tab-complete-or-next-field ()
     (interactive)
     (if (or (not yas/minor-mode)
-        (null (do-y	as-expand)))
+        (null (do-yas-expand)))
         (if company-candidates
         (company-complete-selection)
       (if (check-expansion)
