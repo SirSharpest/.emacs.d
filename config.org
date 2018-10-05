@@ -467,8 +467,8 @@
 
 ** General Setup
 #+BEGIN_SRC emacs-lisp
-    ;; ORG CONFIGURATION
-    ;; --------------------------------------
+  ;; ORG CONFIGURATION
+  ;; --------------------------------------
 
 
 
@@ -479,61 +479,68 @@
   ;;(require 'ob-ipython)
 
 
-  (setq org-agenda-files (list "~/Dropbox/org/work.org"
-                               "~/Dropbox/org/university.org"
-                               "~/Dropbox/org/home.org"))
-
-  (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf)))
+  (setq org-agenda-files (list "~/Google Drive/org/work.org"
+                               "~/Google Drive/org/university.org"
+                               "~/Google Drive/org/home.org"))
 
 
 
- (setq org-latex-listings 'minted
+  (defun org-latex-export-to-pdf-and-clean ()
+    (interactive)
+    (org-latex-export-to-pdf)
+    (delete-directory "auto" 't)
+    (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
+    )
+
+  (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
+
+  (setq org-latex-listings 'minted
         org-latex-packages-alist '(("" "minted"))
         org-latex-pdf-process (quote ("texi2dvi --pdf %f
- pdflatex --shell-escape %f
- texi2dvi --pdf %f --shell-escape
- latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+  pdflatex --shell-escape %f
+  texi2dvi --pdf %f --shell-escape
+  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
 
 
-      (setq org-latex-minted-options
-         '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
+  (setq org-latex-minted-options
+        '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
 
-   ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
+  ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
 
-    ;; Turn on languages for org mode
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((R . t)
-       (python . t)
-       (ipython . t)
-       (plantuml .t)))
-    (setq org-babel-python-command "python3")
-    (setq org-confirm-babel-evaluate nil)
-    (require 'org-ref)
-    (setq org-plantuml-jar-path
-          (expand-file-name "~/.emacs.d/plantuml.jar"))
+  ;; Turn on languages for org mode
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R . t)
+     (python . t)
+     (ipython . t)
+     (plantuml .t)))
+  (setq org-babel-python-command "python3")
+  (setq org-confirm-babel-evaluate nil)
+  (require 'org-ref)
+  (setq org-plantuml-jar-path
+        (expand-file-name "~/.emacs.d/plantuml.jar"))
 
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-    ;; Turn on org-mode syntax highlighting for src blocks
-    (setq org-src-fontify-natively t)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  ;; Turn on org-mode syntax highlighting for src blocks
+  (setq org-src-fontify-natively t)
 
-    ;; Open with external application
-    (require 'openwith)
-    ;(openwith-mode t)
-    ;(setq openwith-associations '(("\\.pdf\\'" "xreader" (file))))
+  ;; Open with external application
+  (require 'openwith)
+                                          ;(openwith-mode t)
+                                          ;(setq openwith-associations '(("\\.pdf\\'" "xreader" (file))))
 
 
   (defun org-babel-run-and-display-images ()
-      (interactive)
-      (progn
-        (org-babel-execute-src-block-maybe)
-        (org-display-inline-images)))
+    (interactive)
+    (progn
+      (org-babel-execute-src-block-maybe)
+      (org-display-inline-images)))
 
   (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
 
-    ;; Add a timestamp to closed topics
-    (setq org-log-done 'time)
-    (define-key org-mode-map (kbd "C-<tab>") nil)
+  ;; Add a timestamp to closed topics
+  (setq org-log-done 'time)
+  (define-key org-mode-map (kbd "C-<tab>") nil)
 #+END_SRC
 
 ** Setup for docx export
