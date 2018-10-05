@@ -128,6 +128,17 @@
 
   (setq mac-command-modifier 'control)
 
+  (defun set-exec-path-from-shell-PATH ()
+    "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
+
+  ;; This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
+    (interactive)
+    (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+      (setenv "PATH" path-from-shell)
+      (setq exec-path (split-string path-from-shell path-separator))))
+
+
+  (set-exec-path-from-shell-PATH)
 #+END_SRC
 
 * Here be daemons
@@ -862,12 +873,12 @@
   (defun phd-diary ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
-    (find-file  (concat "~/Dropbox/PHD/Documents/Notes/" (format-time-string "phd-diary-%Y-%m-%d.org" ))))
+    (find-file  (concat "~/Documents/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" ))))
 
   (defun friday-talks ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
-    (find-file  (concat "~/Dropbox/PHD/Documents/Notes/" (format-time-string "friday-seminar-%Y-%m-%d.org" ))))
+    (find-file  (concat "~/Documents/PHD/Notes/" (format-time-string "friday-seminar-%Y-%B-%W.org" ))))
 
 #+END_SRC
 
