@@ -11,11 +11,9 @@
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                              ("marmalade" . "https://marmalade-repo.org/packages/")
                              ("melpa" . "https://melpa.org/packages/")))
-
     (package-initialize)
     (when (not package-archive-contents)
       (package-refresh-contents))
-
     (defvar myPackages
       '(better-defaults
         doom-themes
@@ -155,19 +153,19 @@
 
 * Fonts
 #+BEGIN_SRC emacs-lisp
-  ;; set a default font
-  ;; (when (member "DejaVu Sans Mono" (font-family-list))
-  ;;   (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
+  ;;set a default font
+  (when (member "DejaVu Sans Mono" (font-family-list))
+    (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
 
-  ;; ;; specify font for all unicode characters
-  ;; (when (member "Symbola" (font-family-list))
-  ;;   (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+  ;; specify font for all unicode characters
+  (when (member "Symbola" (font-family-list))
+    (set-fontset-font t 'unicode "Symbola" nil 'prepend))
 
-  ;; ;; specify font for chinese characters using default chinese font on linux
-  ;; (when (member "WenQuanYi Micro Hei" (font-family-list))
-  ;;   (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+  ;; specify font for chinese characters using default chinese font on linux
+  (when (member "WenQuanYi Micro Hei" (font-family-list))
+    (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
 
-  ;; (set-face-attribute 'default nil :height 130)
+  (set-face-attribute 'default nil :height 130)
 #+END_SRC
 
 * Company stuff
@@ -478,12 +476,9 @@
   ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
   ;;(require 'ob-ipython)
 
-
   (setq org-agenda-files (list "~/Google Drive/org/work.org"
                                "~/Google Drive/org/university.org"
                                "~/Google Drive/org/home.org"))
-
-
 
   (defun org-latex-export-to-pdf-and-clean ()
     (interactive)
@@ -518,7 +513,15 @@
   (setq org-babel-python-command "python3")
   (setq org-confirm-babel-evaluate nil)
   (require 'org-ref)
+
+  (setq reftex-default-bibliography '("~/Documents/PHD/library.bib"))
+  (setq org-ref-default-bibliography '("~/Documents/PHD/library.bib"))
+
+
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
   (setq org-plantuml-jar-path
+        (expand-file-name "~/.emacs.d/plantuml.jar"))
+  (setq plantuml-jar-path
         (expand-file-name "~/.emacs.d/plantuml.jar"))
 
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -554,7 +557,6 @@
     ;; inform helm-bibtex how to format the citation in org-mode
     ;; (setf (cdr (assoc 'org-mode helm-bibtex-format-citation-functions))
     ;;	'helm-bibtex-format-pandoc-citation)
-
 
   (defun ox-export-to-docx-and-open ()
    (interactive)
@@ -780,9 +782,10 @@
       (set-face-attribute 'powerline-active1 nil :background (face-attribute 'mode-line :background))
       (set-face-attribute 'powerline-active2 nil :background (face-attribute 'mode-line :background))
 
-      (set-face-attribute 'powerline-inactive0 nil :background (face-attribute 'mode-line :background))
-      (set-face-attribute 'powerline-inactive1 nil :background (face-attribute 'mode-line :background))
-      (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line :background))
+      (set-face-attribute 'powerline-inactive0 nil :background (face-attribute 'mode-line-inactive :background))
+      (set-face-attribute 'powerline-inactive1 nil :background (face-attribute 'mode-line-inactive :background))
+      (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line-inactive :background))
+
 
 
       (defun powerline-mode-icon ()
@@ -824,11 +827,7 @@
                                        (powerline-major-mode)
                                        " "))
                               (rhs (list
-                                    (format "%s" (eyebrowse--get 'current-slot))
-                                    " | "
-                                    (powerline-raw "%l:%c" 'mode-line 'r)
-                                    " | "
-                                    (powerline-raw "%6p" 'mode-line 'r)
+                                    (format-mode-line "L: %l C: %c | P: %6p ")
                                     (powerline-hud 'highlight 'region 1)
                                     "    "
                                     ))
@@ -881,7 +880,50 @@
   (defun phd-diary ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
+    (find-file  (concat "~/Documents/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" )))
+    (insert
+     (format
+      "#+TITLE: %s
+  ,#+AUTHOR: Nathan Hughes
+  ,#+OPTIONS: toc:nil H:4 ^:nil
+  ,#+LaTeX_CLASS: article
+  ,#+LaTeX_CLASS_OPTIONS: [a4paper]
+  ,#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
+  ,#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
+  ,#+LaTeX_HEADER: \\usepackage{fancyhdr}
+  ,#+LaTeX_HEADER: \\pagestyle{fancy}
+  ,#+LaTeX_HEADER: \\usepackage{lastpage}
+  ,#+LaTeX_HEADER: \\usepackage{float}
+  ,#+LaTeX_HEADER: \\restylefloat{figure}
+  ,#+LaTeX_HEADER: \\usepackage{hyperref}
+  ,#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
+  ,#+LaTex_HEADER: \\usepackage{titlesec}
+  ,#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
+  ,#+LaTeX_HEADER: \\usepackage{minted}
+  ,#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
+  ,#+LaTeX_HEADER: \\chead{}
+  ,#+LaTeX_HEADER: \\rhead{\\today}
+  ,#+LaTeX_HEADER: \\cfoot{}
+  ,#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
+  ,#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
+  ,#+LaTeX_HEADER:\\usepackage{subfig}
+  ,#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
+  ,#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
+  ,#+LATEX: \\maketitle
+  ,#+LATEX: \\clearpage
+  ,#+LATEX: \\tableofcontents
+  ,#+LATEX: \\clearpage
+
+
+  bibliography:~/library.bib
+  bibliographystyle:unsrt
+  " ("PhD Diary")) ))
+
+
+  (defun find-phd-diary ()
+  (interactive)
     (find-file  (concat "~/Documents/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" ))))
+
 
   (defun friday-talks ()
     "This function can be used to create an org file with today as it's file name."
@@ -1028,7 +1070,6 @@ As this will require a lot of overrides I want it towards the end of the file
             (add-text-properties left pos (list from nil to prop) object))))))
 
 #+END_SRC
-
 
 * Winum
 
