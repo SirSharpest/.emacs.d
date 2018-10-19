@@ -68,7 +68,7 @@
     (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
     (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
     (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-    (load-theme 'leuven t)
+    (load-theme 'doom-nord t)
     (doom-themes-visual-bell-config)
     (tool-bar-mode -1) ;; turn off that annoying top bar
     (toggle-scroll-bar -1) ;; turn off scrolling too!
@@ -495,7 +495,7 @@
         org-latex-pdf-process (quote ("texi2dvi --pdf %f
   pdflatex --shell-escape %f
   texi2dvi --pdf %f --shell-escape
-  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f")))
+  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
 
 
   (setq org-latex-minted-options
@@ -514,8 +514,8 @@
   (setq org-confirm-babel-evaluate nil)
   (require 'org-ref)
 
-  (setq reftex-default-bibliography '("~/Documents/PHD/library.bib"))
-  (setq org-ref-default-bibliography '("~/Documents/PHD/library.bib"))
+  (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
+  (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
 
 
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
@@ -787,7 +787,6 @@
       (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line-inactive :background))
 
 
-
       (defun powerline-mode-icon ()
         (let ((icon (all-the-icons-icon-for-buffer)))
           (unless (symbolp icon) ;; This implies it's the major mode
@@ -841,6 +840,15 @@
       )
 #+END_SRC
 
+* Fix Nordic switch
+#+BEGIN_SRC elisp
+
+  (defun fixtheme-nord ()
+    (disable-theme 'leuven-theme)
+    (enable-theme 'doom-nord))
+
+#+END_SRC
+
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
@@ -880,7 +888,7 @@
   (defun phd-diary ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
-    (find-file  (concat "~/Documents/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" )))
+    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" )))
     (insert
      (format
       "#+TITLE: %s
@@ -917,18 +925,18 @@
 
   bibliography:~/library.bib
   bibliographystyle:unsrt
-  " ("PhD Diary")) ))
+  " ("PhD Diary")) ) )
 
 
   (defun find-phd-diary ()
   (interactive)
-    (find-file  (concat "~/Documents/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" ))))
+    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" ))))
 
 
   (defun friday-talks ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
-    (find-file  (concat "~/Documents/PHD/Notes/" (format-time-string "friday-seminar-%Y-%B-%W.org" ))))
+    (find-file  (concat "~/PHD/Notes/" (format-time-string "friday-seminar-%Y-%B-%W.org" ))))
 
 #+END_SRC
 
@@ -943,80 +951,80 @@
 (yas-load-directory "~/.emacs.d/snippets/")
 #+END_SRC
 
-** omg make tabs great again
+** omg make tabs great again (deprecated)
 
 #+BEGIN_SRC emacs-lisp
-  (defun check-expansion ()
-    (save-excursion
-      (if (looking-at "\\_>") t
-        (backward-char 1)
-        (if (looking-at "\\.") t
-      (backward-char 1)
-      (if (looking-at "->") t nil)))))
+  ;; (defun check-expansion ()
+  ;;   (save-excursion
+  ;;     (if (looking-at "\\_>") t
+  ;;       (backward-char 1)
+  ;;       (if (looking-at "\\.") t
+  ;;     (backward-char 1)
+  ;;     (if (looking-at "->") t nil)))))
 
-  (defun do-yas-expand ()
-    (let ((yas/fallback-behavior 'return-nil))
-      (yas/expand)))
+  ;; (defun do-yas-expand ()
+  ;;   (let ((yas/fallback-behavior 'return-nil))
+  ;;     (yas/expand)))
 
-  (defun tab-indent-or-complete ()
-    (interactive)
-    (cond
-     ((minibufferp)
-      (minibuffer-complete))
-     (t
-      (indent-for-tab-command)
-      (if (or (not yas/minor-mode)
-          (null (do-yas-expand)))
-      (if (check-expansion)
-          (progn
-            (company-manual-begin)
-            (if (null company-candidates)
-            (progn
-              (company-abort)
-              (indent-for-tab-command)))))))))
+  ;; (defun tab-indent-or-complete ()
+  ;;   (interactive)
+  ;;   (cond
+  ;;    ((minibufferp)
+  ;;     (minibuffer-complete))
+  ;;    (t
+  ;;     (indent-for-tab-command)
+  ;;     (if (or (not yas/minor-mode)
+  ;;         (null (do-yas-expand)))
+  ;;     (if (check-expansion)
+  ;;         (progn
+  ;;           (company-manual-begin)
+  ;;           (if (null company-candidates)
+  ;;           (progn
+  ;;             (company-abort)
+  ;;             (indent-for-tab-command)))))))))
 
-  (defun tab-complete-or-next-field ()
-    (interactive)
-    (if (or (not yas/minor-mode)
-        (null (do-yas-expand)))
-        (if company-candidates
-        (company-complete-selection)
-      (if (check-expansion)
-        (progn
-          (company-manual-begin)
-          (if (null company-candidates)
-          (progn
-            (company-abort)
-            (yas-next-field))))
-        (yas-next-field)))))
+  ;; (defun tab-complete-or-next-field ()
+  ;;   (interactive)
+  ;;   (if (or (not yas/minor-mode)
+  ;;       (null (do-yas-expand)))
+  ;;       (if company-candidates
+  ;;       (company-complete-selection)
+  ;;     (if (check-expansion)
+  ;;       (progn
+  ;;         (company-manual-begin)
+  ;;         (if (null company-candidates)
+  ;;         (progn
+  ;;           (company-abort)
+  ;;           (yas-next-field))))
+  ;;       (yas-next-field)))))
 
-  (defun expand-snippet-or-complete-selection ()
-    (interactive)
-    (if (or (not yas/minor-mode)
-        (null (do-yas-expand))
-        (company-abort))
-        (company-complete-selection)))
+  ;; (defun expand-snippet-or-complete-selection ()
+  ;;   (interactive)
+  ;;   (if (or (not yas/minor-mode)
+  ;;       (null (do-yas-expand))
+  ;;       (company-abort))
+  ;;       (company-complete-selection)))
 
-  (defun abort-company-or-yas ()
-    (interactive)
-    (if (null company-candidates)
-        (yas-abort-snippet)
-      (company-abort)))
+  ;; (defun abort-company-or-yas ()
+  ;;   (interactive)
+  ;;   (if (null company-candidates)
+  ;;       (yas-abort-snippet)
+  ;;     (company-abort)))
 
-  (global-set-key [tab] 'tab-indent-or-complete)
-  (global-set-key (kbd "TAB") 'tab-indent-or-complete)
-  (global-set-key [(control return)] 'company-complete-common)
+  ;; (global-set-key [tab] 'tab-indent-or-complete)
+  ;; (global-set-key (kbd "TAB") 'tab-indent-or-complete)
+  ;; (global-set-key [(control return)] 'company-complete-common)
 
-  (define-key company-active-map [tab] 'expand-snippet-or-complete-selection)
-  (define-key company-active-map (kbd "TAB") 'expand-snippet-or-complete-selection)
+  ;; (define-key company-active-map [tab] 'expand-snippet-or-complete-selection)
+  ;; (define-key company-active-map (kbd "TAB") 'expand-snippet-or-complete-selection)
 
-  (define-key yas-minor-mode-map [tab] nil)
-  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  ;; (define-key yas-minor-mode-map [tab] nil)
+  ;; (define-key yas-minor-mode-map (kbd "TAB") nil)
 
-  (define-key yas-keymap [tab] 'tab-complete-or-next-field)
-  (define-key yas-keymap (kbd "TAB") 'tab-complete-or-next-field)
-  (define-key yas-keymap [(control tab)] 'yas-next-field)
-  (define-key yas-keymap (kbd "C-g") 'abort-company-or-yas)
+  ;; (define-key yas-keymap [tab] 'tab-complete-or-next-field)
+  ;; (define-key yas-keymap (kbd "TAB") 'tab-complete-or-next-field)
+  ;; (define-key yas-keymap [(control tab)] 'yas-next-field)
+  ;; (define-key yas-keymap (kbd "C-g") 'abort-company-or-yas)
 
 #+END_SRC
 * Custom Keybinds
