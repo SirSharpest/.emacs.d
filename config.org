@@ -18,6 +18,7 @@
       '(better-defaults
         doom-themes
         ein
+        elpy
         anaconda-mode
         company-anaconda
         flycheck
@@ -26,6 +27,7 @@
         projectile
         magit
         golden-ratio
+        nyan-mode
         helm
         helm-projectile
         helm-ag
@@ -179,8 +181,8 @@
 * Fonts
 #+BEGIN_SRC emacs-lisp
   ;;set a default font
-  (when (member "DejaVu Sans Mono" (font-family-list))
-    (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
+  (when (member "Monaco" (font-family-list))
+    (set-face-attribute 'default nil :font "Monaco"))
 
   ;; specify font for all unicode characters
   (when (member "Symbola" (font-family-list))
@@ -190,7 +192,7 @@
   (when (member "WenQuanYi Micro Hei" (font-family-list))
     (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
 
-  (set-face-attribute 'default nil :height 130)
+  (set-face-attribute 'default nil :height 160)
 #+END_SRC
 
 * Company stuff
@@ -691,8 +693,8 @@
 
   (elpy-enable)
   (setq elpy-rpc-python-command "python3")
-  (setq elpy-rpc-backend "jedi")
-  (setenv "WORKON_HOME" "/Users/nathan/anaconda3/envs")
+  (setq elpy-rpc-backend "rope")
+  (setenv "WORKON_HOME" "/Users/hughesn/anaconda3/envs")
   (setq python-shell-interpreter "ipython3"
         python-shell-interpreter-args " --pdb --nosep --classic -i --simple-prompt"
         python-shell-prompt-regexp ">>> "
@@ -881,6 +883,9 @@
                           (powerline-fill face2 (powerline-width rhs))
                           (powerline-render rhs))))))
       )
+
+  (set-face-attribute 'mode-line nil
+                          :box '(:width 0))
 #+END_SRC
 
 * Fix Nordic switch
@@ -914,12 +919,12 @@
   (global-set-key (kbd "C-x a") 'helm-for-files)
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "M-i") 'helm-imenu)
-  (defun project-change ()
-    (interactive)
-    (helm-projectile-switch-project)
-    (neotree-dir (projectile-project-root)))
+  ;; (defun project-change ()
+  ;;   (interactive)
+  ;;   (helm-projectile-switch-project)
+  ;;   (treemacs-projec (projectile-project-root)))
 
-  (global-set-key (kbd "C-x p") 'project-change)
+  ;; (global-set-key (kbd "C-x p") 'project-change)
 #+END_SRC
 
 * Misc Functions
@@ -965,7 +970,7 @@
   ,#+LATEX: \\tableofcontents
   ,#+LATEX: \\clearpage
 
-  bibliography:~/library.bib
+  bibliography:library.bib
   bibliographystyle:unsrt
   " "PhD Diary" ) ) )
 
@@ -1141,6 +1146,9 @@ As this will require a lot of overrides I want it towards the end of the file
 
   (require 'winum)
   (winum-mode)
+
+  (define-advice select-window (:after (window &optional no-record) golden-ratio-resize-window)
+  (golden-ratio) nil)
 #+END_SRC
 
 * Treemacs
