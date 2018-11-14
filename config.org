@@ -541,7 +541,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
      (python . t)
      (ipython . t)
      (plantuml .t)))
-  (setq org-babel-python-command "python3")
+  (setq org-babel-python-command "python")
   (setq org-confirm-babel-evaluate nil)
   (require 'org-ref)
 
@@ -693,10 +693,10 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
     (global-flycheck-mode t))
 
   (elpy-enable)
-  (setq elpy-rpc-python-command "python3")
-  (setq elpy-rpc-backend "rope")
-  (setenv "WORKON_HOME" "/Users/hughesn/anaconda3/envs")
-  (setq python-shell-interpreter "ipython3"
+  (setq elpy-rpc-python-command "python")
+  (setq elpy-rpc-backend "jedi")
+  (setenv "WORKON_HOME" "~/anaconda3/envs")
+  (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args " --pdb --nosep --classic -i --simple-prompt"
         python-shell-prompt-regexp ">>> "
         python-shell-prompt-output-regexp ""
@@ -704,8 +704,6 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
         python-shell-completion-module-string-code "';'.join(module_completion('''%s'''))\n"
         python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"
         )
-
-
   ;; enable autopep8 formatting on save
   (require 'py-autopep8)
 
@@ -725,10 +723,6 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
                 (append '((company-jedi)) company-backends)))
 
   (add-hook 'python-mode-hook 'my-python-mode-setup)
-
-
-
-
 #+END_SRC
 
 
