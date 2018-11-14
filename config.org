@@ -520,16 +520,17 @@
 
   (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
 
-  (setq org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process (quote ("texi2dvi --pdf %f
-  pdflatex --shell-escape %f
-  texi2dvi --pdf %f --shell-escape
-  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
+(setq org-latex-listings 'minted
+      org-latex-packages-alist '(("" "minted"))
+      org-latex-pdf-process (quote ("texi2dvi --pdf %f
+pdflatex --shell-escape %f
+texi2dvi --pdf %f --shell-escape
+latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
+
 
 
   (setq org-latex-minted-options
-        '(("frame" "lines") ("linenos=true") ("fontfamily=DejaVuSans")))
+        '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
 
   ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
 
@@ -871,9 +872,11 @@
                                        " "))
                               (rhs (list
                                     ;;(format-mode-line "L: %l C: %c |")
+                                    (format-mode-line "L: %l C: %c |")
                                     (nyan-create)
                                     ;;(powerline-hud 'highlight 'region 1)
                                     "|"
+
                                     ))
                               )
                          (concat
