@@ -538,7 +538,7 @@
      (python . t)
      (ipython . t)
      (plantuml .t)))
-  (setq org-babel-python-command "python3")
+  (setq org-babel-python-command "python")
   (setq org-confirm-babel-evaluate nil)
   (require 'org-ref)
 
