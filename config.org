@@ -1,121 +1,125 @@
 * Global Setup
 #+BEGIN_SRC emacs-lisp
 
-    ;; INSTALL PACKAGES
-    ;; --------------------------------------
-    (setq warning-minimum-level :emergency) ;; to fix annoying start up
-    (require 'package)
+  ;; INSTALL PACKAGES
+  ;; --------------------------------------
+  (setq warning-minimum-level :emergency) ;; to fix annoying start up
+  (require 'package)
 
 
-    ;;; Code:
-    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                             ("marmalade" . "https://marmalade-repo.org/packages/")
-                             ("melpa" . "https://melpa.org/packages/")))
-    (package-initialize)
-    (when (not package-archive-contents)
-      (package-refresh-contents))
-    (defvar myPackages
-      '(better-defaults
-        doom-themes
-        ein
-        elpy
-        anaconda-mode
-        company-anaconda
-        flycheck
-        py-autopep8
-        flyspell
-        projectile
-        magit
-        golden-ratio
-        nyan-mode
-        helm
-        helm-projectile
-        helm-ag
-        org-ref
-        org-bullets
-        openwith
-        telephone-line
-        langtool
-        use-package
-        iedit
-        guide-key
-        ace-window
-        smooth-scrolling
-        company-quickhelp
-        expand-region
-        ace-jump-mode
-        all-the-icons-dired
-        telephone-line
-        pylint
-        eyebrowse
-        multiple-cursors
-        rainbow-mode
-        zone-rainbow
-        auctex
-        yasnippet-snippets
-        helm-c-yasnippet
-        ob-ipython
-        undo-tree
-        winum
-        treemacs
-        ))
+  ;;; Code:
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("marmalade" . "https://marmalade-repo.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")))
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
+  (defvar myPackages
+    '(better-defaults
+      doom-themes
+      ein
+      elpy
+      anaconda-mode
+      company-anaconda
+      flycheck
+      py-autopep8
+      flyspell
+      projectile
+      magit
+      golden-ratio
+      nyan-mode
+      helm
+      helm-projectile
+      helm-ag
+      org-ref
+      org-bullets
+      openwith
+      telephone-line
+      langtool
+      use-package
+      iedit
+      guide-key
+      ace-window
+      smooth-scrolling
+      company-quickhelp
+      expand-region
+      ace-jump-mode
+      all-the-icons-dired
+      telephone-line
+      pylint
+      eyebrowse
+      multiple-cursors
+      rainbow-mode
+      zone-rainbow
+      auctex
+      yasnippet-snippets
+      helm-c-yasnippet
+      ob-ipython
+      undo-tree
+      winum
+      treemacs
+      ))
 
-    (mapc #'(lambda (package)
-        (unless (package-installed-p package)
-          (package-install package)))
-          myPackages)
+  (mapc #'(lambda (package)
+      (unless (package-installed-p package)
+        (package-install package)))
+        myPackages)
 
-    (require 'golden-ratio)
-    (require 'doom-themes)
-    (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
-    (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
-    (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-    (load-theme 'doom-nord t)
-    (doom-themes-visual-bell-config)
-    (tool-bar-mode -1) ;; turn off that annoying top bar
-    (toggle-scroll-bar -1) ;; turn off scrolling too!
-    (menu-bar-mode -1) ;; turn off that annoying menu
-    (global-set-key (kbd "C-+") 'magit-status)
-    (global-set-key (kbd "C-l") 'ace-jump-line-mode)
-    (recentf-mode 1)
-    (setq-default recent-save-file "~/.emacs.d/recentf")
-    (require 'use-package)
-    (require 'iedit)
-    (global-set-key (kbd "C-c e") 'iedit-mode)
-    (add-hook 'after-init-hook 'global-company-mode)
-    (global-hl-line-mode +1) ;; why is this not default!
-    (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
-    (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
-    ;; Setup keybind reminders
-    (require 'guide-key)
-    (setq guide-key/guide-key-sequence '("C-c" "C-x"))
-    (guide-key-mode 1)
+  (require 'golden-ratio)
+  (require 'doom-themes)
+  (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
+  (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
+  (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+  (load-theme 'doom-nord t)
+  (doom-themes-visual-bell-config)
+  (tool-bar-mode -1) ;; turn off that annoying top bar
+  (toggle-scroll-bar -1) ;; turn off scrolling too!
+  (menu-bar-mode -1) ;; turn off that annoying menu
+  (global-set-key (kbd "C-+") 'magit-status)
+  (global-set-key (kbd "C-l") 'ace-jump-line-mode)
+  (recentf-mode 1)
+  (setq-default recent-save-file "~/.emacs.d/recentf")
+  (require 'use-package)
+  (require 'iedit)
+  (global-set-key (kbd "C-c e") 'iedit-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-hl-line-mode +1) ;; why is this not default!
+  (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
+  (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
+  ;; Setup keybind reminders
+  (require 'guide-key)
+  (setq guide-key/guide-key-sequence '("C-c" "C-x"))
+  (guide-key-mode 1)
 
-    ;; Smooth scrolling please and thank you!
-    (require 'smooth-scrolling)
-    (smooth-scrolling-mode 1)
+  ;;; Scrolling.
+  ;; Good speed and allow scrolling through large images (pixel-scroll).
+  ;; Note: Scroll lags when point must be moved but increasing the number
+  ;;       of lines that point moves in pixel-scroll.el ruins large image
+  ;;       scrolling. So unfortunately I think we'll just have to live with
+  ;;       this.
+  (smooth-scrolling-mode)
 
-    ;; Fix some frame issues
-    (set-face-background 'vertical-border "gray")
-    (set-face-foreground 'vertical-border (face-background 'vertical-border))
-    (require 'ob-ipython)
+  ;; Fix some frame issues
+  ;; (set-face-background 'vertical-border "gray")
+  ;; (set-face-foreground 'vertical-border (face-background 'vertical-border))
+  (require 'ob-ipython)
   ;; Icons
-    (use-package all-the-icons
+  (use-package all-the-icons
+    :demand t
+    :config
+    (use-package all-the-icons-dired
       :demand t
       :config
-      (use-package all-the-icons-dired
-        :demand t
-        :config
-        (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
-    ;; Enable ace window
-    ;; (global-set-key (kbd "M-o") 'ace-window)
-    (electric-pair-mode)
-    (require 'expand-region)
-    (global-set-key (kbd "C-=") 'er/expand-region)
+  ;; Enable ace window
+  ;; (global-set-key (kbd "M-o") 'ace-window)
+  (electric-pair-mode)
+  (require 'expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region)
 
-    ;; Heck truncation
-    (set-default 'truncate-lines nil)
+  ;; Heck truncation
+  (set-default 'truncate-lines nil)
 #+END_SRC
 
 ** Transposes
@@ -195,7 +199,7 @@
   (set-face-attribute 'default nil :height 160)
 #+END_SRC
 
-* Company stuff
+* COMMENT Company stuff
 #+BEGIN_SRC emacs-lisp
   (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
                 company-idle-delay 0.3
@@ -226,23 +230,22 @@
                                     company-quickhelp-frontend
                                     ))
 
-  ;; (setq-default company-backends '((company-files
-  ;;				  company-jedi ; Python
-  ;;				  company-capf
-  ;;				  company-keywords
-  ;;				  company-yasnippet
-  ;;				  company-tempo
-  ;;				  company-gtags
-  ;;				  company-etags
-  ;;				  company-elisp
-  ;;				  company-nxml
-  ;;				  company-css ; HTML, CSS, XML
-  ;;				  company-bbdb ; BBDB
-  ;;				  company-dabbrev-code
-  ;;				  company-dabbrev
-  ;;				  company-abbrev
-  ;;				  company-ispell ; Ispell
-  ;;				 )))
+  (setq-default company-backends '((company-files
+                                    company-capf
+                                    company-keywords
+                                    company-yasnippet
+                                    company-tempo
+                                    company-gtags
+                                    company-etags
+                                    company-elisp
+                                    company-nxml
+                                    company-css ; HTML, CSS, XML
+                                    company-bbdb ; BBDB
+                                    company-dabbrev-code
+                                    company-dabbrev
+                                    company-abbrev
+                                    company-ispell ; Ispell
+                                   )))
 
 
   (defun my-dot-p (input)
@@ -492,90 +495,90 @@
 
 ** General Setup
 #+BEGIN_SRC emacs-lisp
-  ;; ORG CONFIGURATION
-  ;; --------------------------------------
+    ;; ORG CONFIGURATION
+    ;; --------------------------------------
 
 
 
-  (setq org-todo-keywords '((type "TODO" "IDEA" "|" "DONE")))
+    (setq org-todo-keywords '((type "TODO" "IDEA" "|" "DONE")))
 
-  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-  ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
-  ;;(require 'ob-ipython)
+    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+    ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
+    ;;(require 'ob-ipython)
 
-  (setq org-agenda-files (list "~/Google Drive/org/work.org"
-                               "~/Google Drive/org/university.org"
-                               "~/Google Drive/org/home.org"))
+    (setq org-agenda-files (list "~/Google Drive/org/work.org"
+                                 "~/Google Drive/org/university.org"
+                                 "~/Google Drive/org/home.org"))
 
-  (defun org-latex-export-to-pdf-and-clean ()
-    (interactive)
-    (org-latex-export-to-pdf)
-    (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
-    (delete-file (concat (file-name-sans-extension (buffer-name)) ".bbl"))
-    (delete-file (concat (file-name-sans-extension (buffer-name)) ".synctex.gz"))
-    (delete-file "texput.log")
-    (delete-directory "auto" 't)
-    (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
-    )
+    (defun org-latex-export-to-pdf-and-clean ()
+      (interactive)
+      (org-latex-export-to-pdf)
+      (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
+      (delete-file (concat (file-name-sans-extension (buffer-name)) ".bbl"))
+      (delete-file (concat (file-name-sans-extension (buffer-name)) ".synctex.gz"))
+      (delete-file "texput.log")
+      (delete-directory "auto" 't)
+      (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
+      )
 
-  (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
+    (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
 
-(setq org-latex-listings 'minted
-      org-latex-packages-alist '(("" "minted"))
-      org-latex-pdf-process (quote ("texi2dvi --pdf %f
-pdflatex --shell-escape %f
-texi2dvi --pdf %f --shell-escape
-latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
-
-
-
-  (setq org-latex-minted-options
-        '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
-
-  ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
-
-  ;; Turn on languages for org mode
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((R . t)
-     (python . t)
-     (ipython . t)
-     (plantuml .t)))
-  (setq org-babel-python-command "python")
-  (setq org-confirm-babel-evaluate nil)
-  (require 'org-ref)
-
-  (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
-  (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
+  (setq org-latex-listings 'minted
+        org-latex-packages-alist '(("" "minted"))
+        org-latex-pdf-process (quote ("texi2dvi --pdf %f
+  pdflatex --shell-escape %f
+  texi2dvi --pdf %f --shell-escape
+  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
 
 
-  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-  (setq org-plantuml-jar-path
-        (expand-file-name "~/.emacs.d/plantuml.jar"))
-  (setq plantuml-jar-path
-        (expand-file-name "~/.emacs.d/plantuml.jar"))
 
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  ;; Turn on org-mode syntax highlighting for src blocks
-  (setq org-src-fontify-natively t)
+    (setq org-latex-minted-options
+          '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
 
-  ;; Open with external application
-  (require 'openwith)
-                                          ;(openwith-mode t)
-                                          ;(setq openwith-associations '(("\\.pdf\\'" "xreader" (file))))
+    ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
+
+    ;; Turn on languages for org mode
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((R . t)
+       (python . t)
+       (ipython . t)
+       (plantuml .t)))
+    (setq org-babel-python-command "python")
+    (setq org-confirm-babel-evaluate nil)
+    (require 'org-ref)
+
+    (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
+    (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
 
 
-  (defun org-babel-run-and-display-images ()
-    (interactive)
-    (progn
-      (org-babel-execute-src-block-maybe)
-      (org-display-inline-images)))
+    (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+    (setq org-plantuml-jar-path
+          (expand-file-name "~/.emacs.d/plantuml.jar"))
+    (setq plantuml-jar-path
+          (expand-file-name "~/.emacs.d/plantuml.jar"))
 
-  (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+    ;; Turn on org-mode syntax highlighting for src blocks
+    (setq org-src-fontify-natively t)
 
-  ;; Add a timestamp to closed topics
-  (setq org-log-done 'time)
-  (define-key org-mode-map (kbd "C-<tab>") nil)
+    ;; Open with external application
+    (require 'openwith)
+    (openwith-mode t)
+    (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
+
+
+    (defun org-babel-run-and-display-images ()
+      (interactive)
+      (progn
+        (org-babel-execute-src-block-maybe)
+        (org-display-inline-images)))
+
+    (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
+
+    ;; Add a timestamp to closed topics
+    (setq org-log-done 'time)
+    (define-key org-mode-map (kbd "C-<tab>") nil)
 #+END_SRC
 
 ** Setup for docx export
@@ -694,10 +697,10 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
 
   (elpy-enable)
   (setq elpy-rpc-python-command "python")
-  (setq elpy-rpc-backend "jedi")
+  (setq elpy-rpc-backend "rope")
   (setenv "WORKON_HOME" "~/anaconda3/envs")
   (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args " --pdb --nosep --classic -i --simple-prompt"
+        python-shell-interpreter-args " --nosep --classic -i --simple-prompt"
         python-shell-prompt-regexp ">>> "
         python-shell-prompt-output-regexp ""
         python-shell-completion-setup-code "from IPython.core.completerlib import module_completion"
@@ -719,8 +722,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
     (flycheck-mode)
     (setq flycheck-python-pylint-executable "pylint3")
     (setq flycheck-python-flake8-executable "flake8")
-    (setq-local company-backends
-                (append '((company-jedi)) company-backends)))
+    )
 
   (add-hook 'python-mode-hook 'my-python-mode-setup)
 #+END_SRC
@@ -930,7 +932,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
 
 #+BEGIN_SRC emacs-lisp
   ;; Creates a new file for a diary entry into phd progress!
-  (defun phd-diary ()
+  (defun new-phd-diary ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
     (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" )))
@@ -960,6 +962,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
   ,#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
   ,#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
   ,#+LaTeX_HEADER:\\usepackage{subfig}
+  ,#+LaTex_HEADER: \\usepackage[round]{natbib}
   ,#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
   ,#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
   ,#+LATEX: \\maketitle
@@ -968,7 +971,7 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
   ,#+LATEX: \\clearpage
 
   bibliography:library.bib
-  bibliographystyle:unsrt
+  bibliographystyle:plainnat
   " "PhD Diary" ) ) )
 
 
@@ -993,6 +996,21 @@ latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f 
 (global-set-key (kbd "C-c y") 'helm-yas-complete)
 (yas-global-mode 1)
 (yas-load-directory "~/.emacs.d/snippets/")
+
+(defun company-yasnippet-or-completion ()
+  "Solve company yasnippet conflicts."
+  (interactive)
+  (let ((yas-fallback-behavior
+         (apply 'company-complete-common nil)))
+    (yas-expand)))
+
+(add-hook 'company-mode-hook
+          (lambda ()
+            (substitute-key-definition
+             'company-complete-common
+             'company-yasnippet-or-completion
+             company-active-map)))
+
 #+END_SRC
 
 ** omg make tabs great again (deprecated)
@@ -1192,7 +1210,7 @@ As this will require a lot of overrides I want it towards the end of the file
       (treemacs-filewatch-mode t)
       (treemacs-fringe-indicator-mode t)
       (pcase (cons (not (null (executable-find "git")))
-                   (not (null (executable-find "python3"))))
+                   (not (null (executable-find "python"))))
         (`(t . t)
          (treemacs-git-mode 'extended))
         (`(t . _)
