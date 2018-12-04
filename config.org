@@ -120,6 +120,9 @@
 
   ;; Heck truncation
   (set-default 'truncate-lines nil)
+
+  ;; Stop that minibuffer expansion
+  (setq resize-mini-windows nil)
 #+END_SRC
 
 ** Transposes
@@ -199,7 +202,7 @@
   (set-face-attribute 'default nil :height 160)
 #+END_SRC
 
-* COMMENT Company stuff
+* Company stuff
 #+BEGIN_SRC emacs-lisp
   (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
                 company-idle-delay 0.3
@@ -230,7 +233,7 @@
                                     company-quickhelp-frontend
                                     ))
 
-  (setq-default company-backends '((company-files
+  (setq-default company-backends '(company-files
                                     company-capf
                                     company-keywords
                                     company-yasnippet
@@ -244,8 +247,8 @@
                                     company-dabbrev-code
                                     company-dabbrev
                                     company-abbrev
-                                    company-ispell ; Ispell
-                                   )))
+                                    company-ispell
+                                   ))
 
 
   (defun my-dot-p (input)
@@ -725,6 +728,7 @@
     )
 
   (add-hook 'python-mode-hook 'my-python-mode-setup)
+  (pyvenv-workon "playground") ;; Default working env that has my libs
 #+END_SRC
 
 
