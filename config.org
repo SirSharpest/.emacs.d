@@ -226,7 +226,7 @@
   (require 'company-quickhelp)
   (setq company-quickhelp--delay 0.1)
   (company-quickhelp-mode 1)
-
+  (setq company-ispell-dictionary (file-truename "~/.emacs.d/words.txt"))
   (setq-default company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
                                     company-preview-if-just-one-frontend
                                     company-echo-metadata-frontend
@@ -744,6 +744,26 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+(setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
+
+(defvar elpy-shell-python-shell-names '("Python")
+  "List of existing python shell names.")
+
+(defun elpy-shell-switch-python-shell (&optional dont-display)
+  "Switch to another Python shell.
+
+Create a new one if it does not exist.
+If DONT-DISPLAY is non nil, do not display the python shell afterwards."
+  (interactive)
+  (let ((shell-name (completing-read "Python shell name: "
+                                     'elpy-shell-python-shell-names)))
+    (setq python-shell-buffer-name shell-name)
+    (add-to-list 'elpy-shell-python-shell-names shell-name t)
+    (when (not dont-display)
+      (elpy-shell-display-buffer))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
   (defun populate-org-buffer (buffer filename root)
     (goto-char (point-min))
     (let ((to-insert (concat "* " (replace-regexp-in-string root "" filename) "\n") ))
@@ -939,7 +959,7 @@
   (defun new-phd-diary ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
-    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" )))
+    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" )))
     (insert
      (format
       "#+TITLE: %s
@@ -981,13 +1001,13 @@
 
   (defun find-phd-diary ()
   (interactive)
-    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%B-%W.org" ))))
+    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" ))))
 
 
   (defun friday-talks ()
     "This function can be used to create an org file with today as it's file name."
     (interactive)
-    (find-file  (concat "~/PHD/Notes/" (format-time-string "friday-seminar-%Y-%B-%W.org" ))))
+    (find-file  (concat "~/PHD/Notes/" (format-time-string "friday-seminar-%Y-%W.org" ))))
 
 #+END_SRC
 
