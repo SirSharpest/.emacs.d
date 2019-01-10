@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: captioneq
+# key: captioneq
+# --
+
+#+NAME: equ:$1
+\begin{eqfloat}
+\begin{equation}
+$0
+\end{equation}
+\myequations{$2}
+\caption{$2}
+\end{eqfloat}
