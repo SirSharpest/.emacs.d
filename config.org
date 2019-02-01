@@ -70,7 +70,7 @@
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
   (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-  (load-theme 'doom-nord t)
+  (load-theme 'doom-dracula t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too!
@@ -250,7 +250,6 @@
                                     company-ispell
                                    ))
 
-
   (defun my-dot-p (input)
     (eq ?. (string-to-char input)))
   (setq company-auto-complete-chars #'my-dot-p)
@@ -325,8 +324,6 @@
 
 * LaTeX Setup
 #+BEGIN_SRC emacs-lisp
-
-
 ;;; AUCTeX
 ;; Customary Customization, p. 1 and 16 in the manual, and http://www.emacswiki.org/emacs/AUCTeX#toc2
 (setq TeX-parse-self t); Enable parse on load.
@@ -503,7 +500,12 @@
 
 
 
-    (setq org-todo-keywords '((type "TODO" "IDEA" "|" "DONE")))
+  (setq org-todo-keywords
+        '((sequence "TODO" "|" "DONE")
+          (sequence "IDEA" "|" "DONE")
+          (sequence  "BUG" "|" "FIXED")
+          (sequence  "QUESTION" "|" "ANSWERED")
+          (sequence "|" "CANCELLED")))
 
     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
     ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
@@ -515,7 +517,7 @@
 
     (defun org-latex-export-to-pdf-and-clean ()
       (interactive)
-      (org-latex-export-to-pdf)
+      (org-latex-export-to-pdf t)
       (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
       (delete-file (concat (file-name-sans-extension (buffer-name)) ".bbl"))
       (delete-file (concat (file-name-sans-extension (buffer-name)) ".synctex.gz"))
@@ -550,7 +552,8 @@
     (setq org-babel-python-command "python")
     (setq org-confirm-babel-evaluate nil)
     (require 'org-ref)
-
+    (setq org-latex-prefer-user-labels t)
+    (define-key org-mode-map (kbd "C-c i") 'org-ref-helm-insert-ref-link)
     (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
     (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
 
@@ -800,6 +803,23 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
           (populate-org-buffer doc-buf file dir)))
       (with-current-buffer doc-buf
         (org-mode))))
+
+
+  (defun elpy-shell-send-region-or-buffer-autoscroll ()
+    (interactive)
+    (let ((buf (get-buffer-window "*Python*"))
+          (orig (current-buffer)))
+      (set-window-buffer buf "*Python*")
+      (select-window buf)
+      (goto-char (point-max))
+      )
+    )
+
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (define-key python-mode-map (kbd "C-c c") 'elpy-shell-send-region-or-buffer-autoscroll)))
+
+
 #+END_SRC
 
 * Ace Jump Mode
