@@ -199,7 +199,7 @@
   (when (member "WenQuanYi Micro Hei" (font-family-list))
     (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
 
-  (set-face-attribute 'default nil :height 160)
+  (set-face-attribute 'default nil :height 100)
 #+END_SRC
 
 * Company stuff
@@ -912,10 +912,11 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
                                        " "))
                               (rhs (list
                                     ;;(format-mode-line "L: %l C: %c |")
-                                    (format-mode-line "L: %l C: %c |")
-                                    (nyan-create)
+                                    (format-mode-line "L: %l C: %c | ")
+                                    (powerline-raw "%6p" 'mode-line 'r)
+                                    ;;(nyan-create)
                                     ;;(powerline-hud 'highlight 'region 1)
-                                    "|"
+                                    "|    "
 
                                     ))
                               )
