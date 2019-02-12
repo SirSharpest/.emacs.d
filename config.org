@@ -70,7 +70,8 @@
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
   (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-  (load-theme 'doom-dracula t)
+  (load-theme 'zenburn t)
+  (setq org-fontify-whole-heading-line t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
   (toggle-scroll-bar -1) ;; turn off scrolling too!
@@ -199,7 +200,7 @@
   (when (member "WenQuanYi Micro Hei" (font-family-list))
     (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
 
-  (set-face-attribute 'default nil :height 100)
+  (set-face-attribute 'default nil :height 140)
 #+END_SRC
 
 * Company stuff
@@ -755,7 +756,7 @@
 (defun elpy-shell-switch-python-shell (&optional dont-display)
   "Switch to another Python shell.
 
-Create a new one if it does not exist.
+Create a new ONE if it does not exist.
 If DONT-DISPLAY is non nil, do not display the python shell afterwards."
   (interactive)
   (let ((shell-name (completing-read "Python shell name: "
@@ -985,36 +986,37 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
      (format
       "#+TITLE: %s
   ,#+AUTHOR: Nathan Hughes
-  ,#+OPTIONS: toc:nil H:4 ^:nil
-  ,#+LaTeX_CLASS: article
-  ,#+LaTeX_CLASS_OPTIONS: [a4paper]
-  ,#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
-  ,#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
-  ,#+LaTeX_HEADER: \\usepackage{fancyhdr}
-  ,#+LaTeX_HEADER: \\pagestyle{fancy}
-  ,#+LaTeX_HEADER: \\usepackage{lastpage}
-  ,#+LaTeX_HEADER: \\usepackage{float}
-  ,#+LaTeX_HEADER: \\restylefloat{figure}
-  ,#+LaTeX_HEADER: \\usepackage{hyperref}
-  ,#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
-  ,#+LaTex_HEADER: \\usepackage{titlesec}
-  ,#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
-  ,#+LaTeX_HEADER: \\usepackage{minted}
-  ,#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
-  ,#+LaTeX_HEADER: \\chead{}
-  ,#+LaTeX_HEADER: \\rhead{\\today}
-  ,#+LaTeX_HEADER: \\cfoot{}
-  ,#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
-  ,#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
-  ,#+LaTeX_HEADER:\\usepackage{subfig}
-  ,#+LaTex_HEADER: \\usepackage[round]{natbib}
-  ,#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
-  ,#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
-  ,#+LATEX: \\maketitle
-  ,#+LATEX: \\clearpage
-  ,#+LATEX: \\tableofcontents
-  ,#+LATEX: \\clearpage
+,#+OPTIONS: toc:nil H:4 ^:nil
+,#+LaTeX_CLASS: article
+,#+LaTeX_CLASS_OPTIONS: [a4paper]
+,#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
+,#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
+,#+LaTeX_HEADER: \\usepackage{fancyhdr}
+,#+LaTeX_HEADER: \\pagestyle{fancy}
+,#+LaTeX_HEADER: \\usepackage{lastpage}
+,#+LaTeX_HEADER: \\usepackage{float}
+,#+LaTeX_HEADER: \\restylefloat{figure}
+,#+LaTeX_HEADER: \\usepackage{hyperref}
+,#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
+,#+LaTex_HEADER: \\usepackage{titlesec}
+,#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
+,#+LaTeX_HEADER: \\usepackage{minted}
+,#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
+,#+LaTeX_HEADER: \\chead{}
+,#+LaTeX_HEADER: \\rhead{\\today}
+,#+LaTeX_HEADER: \\cfoot{}
+,#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
+,#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
+,#+LaTeX_HEADER:\\usepackage{subfig}
+,#+LaTex_HEADER: \\usepackage[sort&compress, numbers]{natbib}
+,#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
+,#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
+,#+LATEX_HEADER_EXTRA: \\usepackage{mathtools, cases}
 
+,#+LATEX: \\maketitle
+,#+LATEX: \\clearpage
+,#+LATEX: \\tableofcontents
+,#+LATEX: \\clearpage
   bibliography:library.bib
   bibliographystyle:plainnat
   " "PhD Diary" ) ) )
