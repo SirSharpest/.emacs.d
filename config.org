@@ -1,4 +1,4 @@
-* Global Setup
+* COMMENT Global Setup
 #+BEGIN_SRC emacs-lisp
 
   ;; INSTALL PACKAGES
@@ -17,6 +17,7 @@
   (defvar myPackages
     '(better-defaults
       doom-themes
+      doom-modeline
       ein
       elpy
       anaconda-mode
@@ -34,7 +35,6 @@
       org-ref
       org-bullets
       openwith
-      telephone-line
       langtool
       use-package
       iedit
@@ -45,7 +45,6 @@
       expand-region
       ace-jump-mode
       all-the-icons-dired
-      telephone-line
       pylint
       eyebrowse
       multiple-cursors
@@ -70,7 +69,7 @@
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
   (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-  (load-theme 'zenburn t)
+  (load-theme 'alect-dark t)
   (setq org-fontify-whole-heading-line t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
@@ -124,6 +123,9 @@
 
   ;; Stop that minibuffer expansion
   (setq resize-mini-windows nil)
+
+  (require 'doom-modeline)
+  (doom-modeline-mode 1)
 #+END_SRC
 
 ** Transposes
@@ -845,92 +847,92 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 
 * Powerline Mode
 #+BEGIN_SRC emacs-lisp
-  (eyebrowse-mode t)
-  (nyan-mode)
+  ;; (eyebrowse-mode t)
+  ;; (nyan-mode)
 
-  (use-package powerline
-      :ensure t
-      :config
+  ;; (use-package powerline
+  ;;     :ensure t
+  ;;     :config
 
-      (defun make-rect (color height width)
-        "Create an XPM bitmap."
-        (when window-system
-          (propertize
-           "  " 'display
-           (let ((data nil)
-                 (i 0))
-             (setq data (make-list height (make-list width 1)))
-             (pl/make-xpm "percent" color color (reverse data))))))
+  ;;     (defun make-rect (color height width)
+  ;;       "Create an XPM bitmap."
+  ;;       (when window-system
+  ;;         (propertize
+  ;;          "  " 'display
+  ;;          (let ((data nil)
+  ;;                (i 0))
+  ;;            (setq data (make-list height (make-list width 1)))
+  ;;            (pl/make-xpm "percent" color color (reverse data))))))
 
-      ;; fix solid color bar
+  ;;     ;; fix solid color bar
 
-      (set-face-attribute 'powerline-active0 nil :background (face-attribute 'mode-line :background))
-      (set-face-attribute 'powerline-active1 nil :background (face-attribute 'mode-line :background))
-      (set-face-attribute 'powerline-active2 nil :background (face-attribute 'mode-line :background))
+  ;;     (set-face-attribute 'powerline-active0 nil :background (face-attribute 'mode-line :background))
+  ;;     (set-face-attribute 'powerline-active1 nil :background (face-attribute 'mode-line :background))
+  ;;     (set-face-attribute 'powerline-active2 nil :background (face-attribute 'mode-line :background))
 
-      (set-face-attribute 'powerline-inactive0 nil :background (face-attribute 'mode-line-inactive :background))
-      (set-face-attribute 'powerline-inactive1 nil :background (face-attribute 'mode-line-inactive :background))
-      (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line-inactive :background))
-
-
-      (defun powerline-mode-icon ()
-      (let ((icon (all-the-icons-icon-for-buffer)))
-          (unless (symbolp icon) ;; This implies it's the major mode
-            (format " %s"
-                    (propertize icon
-                                'help-echo (format "Major-mode: `%s`" major-mode)
-                                'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))))
+  ;;     (set-face-attribute 'powerline-inactive0 nil :background (face-attribute 'mode-line-inactive :background))
+  ;;     (set-face-attribute 'powerline-inactive1 nil :background (face-attribute 'mode-line-inactive :background))
+  ;;     (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line-inactive :background))
 
 
-      (setq-default mode-line-format
-                    '("%e"
-                      (:eval
-                       (let* ((active (powerline-selected-window-active))
-                              (modified (buffer-modified-p))
-                              (face1 (if active 'powerline-active1 'powerline-inactive1))
-                              (face2 (if active 'powerline-active2 'powerline-inactive2))
-                              (bar-color (cond ((and active modified) (face-foreground 'error))
-                                               (active (face-background 'cursor))
-                                               (t (face-background 'tooltip))))
-                              (lhs (list
-                                    (make-rect bar-color 30 3)
-                                    (when modified
-                                      (concat
-                                       " "
-                                       (all-the-icons-faicon "floppy-o"
-                                                             :face (when active 'error)
-                                                             :v-adjust -0.01)))
-                                    " "
-                                    (powerline-buffer-id)
-                                    "| "
-                                    (powerline-vc)
-                                    ))
-                              (center (list
-                                       " "
-                                       (powerline-mode-icon)
-                                       " "
-                                       (powerline-major-mode)
-                                       " "))
-                              (rhs (list
-                                    ;;(format-mode-line "L: %l C: %c |")
-                                    (format-mode-line "L: %l C: %c | ")
-                                    (powerline-raw "%6p" 'mode-line 'r)
-                                    ;;(nyan-create)
-                                    ;;(powerline-hud 'highlight 'region 1)
-                                    "|    "
+  ;;     (defun powerline-mode-icon ()
+  ;;     (let ((icon (all-the-icons-icon-for-buffer)))
+  ;;         (unless (symbolp icon) ;; This implies it's the major mode
+  ;;           (format " %s"
+  ;;                   (propertize icon
+  ;;                               'help-echo (format "Major-mode: `%s`" major-mode)
+  ;;                               'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))))
 
-                                    ))
-                              )
-                         (concat
-                          (powerline-render lhs)
-                          (powerline-fill-center face1 (/ (powerline-width center) 2.0))
-                          (powerline-render center)
-                          (powerline-fill face2 (powerline-width rhs))
-                          (powerline-render rhs))))))
-      )
 
-  (set-face-attribute 'mode-line nil
-                          :box '(:width 0))
+  ;;     (setq-default mode-line-format
+  ;;                   '("%e"
+  ;;                     (:eval
+  ;;                      (let* ((active (powerline-selected-window-active))
+  ;;                             (modified (buffer-modified-p))
+  ;;                             (face1 (if active 'powerline-active1 'powerline-inactive1))
+  ;;                             (face2 (if active 'powerline-active2 'powerline-inactive2))
+  ;;                             (bar-color (cond ((and active modified) (face-foreground 'error))
+  ;;                                              (active (face-background 'cursor))
+  ;;                                              (t (face-background 'tooltip))))
+  ;;                             (lhs (list
+  ;;                                   (make-rect bar-color 30 3)
+  ;;                                   (when modified
+  ;;                                     (concat
+  ;;                                      " "
+  ;;                                      (all-the-icons-faicon "floppy-o"
+  ;;                                                            :face (when active 'error)
+  ;;                                                            :v-adjust -0.01)))
+  ;;                                   " "
+  ;;                                   (powerline-buffer-id)
+  ;;                                   "| "
+  ;;                                   (powerline-vc)
+  ;;                                   ))
+  ;;                             (center (list
+  ;;                                      " "
+  ;;                                      (powerline-mode-icon)
+  ;;                                      " "
+  ;;                                      (powerline-major-mode)
+  ;;                                      " "))
+  ;;                             (rhs (list
+  ;;                                   ;;(format-mode-line "L: %l C: %c |")
+  ;;                                   (format-mode-line "L: %l C: %c | ")
+  ;;                                   (powerline-raw "%6p" 'mode-line 'r)
+  ;;                                   ;;(nyan-create)
+  ;;                                   ;;(powerline-hud 'highlight 'region 1)
+  ;;                                   "|    "
+
+  ;;                                   ))
+  ;;                             )
+  ;;                        (concat
+  ;;                         (powerline-render lhs)
+  ;;                         (powerline-fill-center face1 (/ (powerline-width center) 2.0))
+  ;;                         (powerline-render center)
+  ;;                         (powerline-fill face2 (powerline-width rhs))
+  ;;                         (powerline-render rhs))))))
+  ;;     )
+
+  ;; (set-face-attribute 'mode-line nil
+  ;;                         :box '(:width 0))
 #+END_SRC
 
 * Fix Nordic switch
