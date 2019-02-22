@@ -1,4 +1,4 @@
-* COMMENT Global Setup
+* Global Setup
 #+BEGIN_SRC emacs-lisp
 
   ;; INSTALL PACKAGES
@@ -57,6 +57,7 @@
       undo-tree
       winum
       treemacs
+      swiper-helm
       ))
 
   (mapc #'(lambda (package)
@@ -68,8 +69,7 @@
   (require 'doom-themes)
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
-  (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-  (load-theme 'alect-dark t)
+  (load-theme 'doom-nord t)
   (setq org-fontify-whole-heading-line t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
@@ -236,22 +236,22 @@
                                     company-quickhelp-frontend
                                     ))
 
-  (setq-default company-backends '(company-files
-                                    company-capf
-                                    company-keywords
-                                    company-yasnippet
-                                    company-tempo
-                                    company-gtags
-                                    company-etags
-                                    company-elisp
-                                    company-nxml
-                                    company-css ; HTML, CSS, XML
-                                    company-bbdb ; BBDB
-                                    company-dabbrev-code
-                                    company-dabbrev
-                                    company-abbrev
-                                    company-ispell
-                                   ))
+  ;; (setq-default company-backends '(company-files
+  ;;                                   company-capf
+  ;;                                   company-keywords
+  ;;                                   company-yasnippet
+  ;;                                   company-tempo
+  ;;                                   company-gtags
+  ;;                                   company-etags
+  ;;                                   company-elisp
+  ;;                                   company-nxml
+  ;;                                   company-css ; HTML, CSS, XML
+  ;;                                   company-bbdb ; BBDB
+  ;;                                   company-dabbrev-code
+  ;;                                   company-dabbrev
+  ;;                                   company-abbrev
+  ;;                                   company-ispell
+  ;;                                  ))
 
   (defun my-dot-p (input)
     (eq ?. (string-to-char input)))
@@ -290,6 +290,38 @@
 
   (global-set-key (kbd "C-x |") 'toggle-window-split)
 
+#+END_SRC
+
+* Helm Mode Setup
+
+#+BEGIN_SRC emacs-lisp
+  (require 'helm)
+  (require 'helm-projectile)
+  (helm-mode 1)
+  (projectile-global-mode)
+  (setq projectile-enable-caching t)
+  (setq projectile-globally-ignored-directories (append '(".git" ".*" ) projectile-globally-ignored-directories))
+  (setq projectile-globally-ignored-files (append '("*.png" "*.jpeg" "*.jpg" "*.tif" "*.o" "*.pyc") projectile-globally-ignored-files))
+
+
+  (helm-projectile-on)
+  (define-key
+  helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+  (global-set-key (kbd "C-f") 'helm-projectile)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x a") 'helm-for-files)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-i") 'helm-imenu)
+  (global-set-key (kbd "C-s") 'helm-swoop)
+
+  ;; (defun project-change ()
+  ;;   (interactive)
+  ;;   (helm-projectile-switch-project)
+  ;;   (treemacs-projec (projectile-project-root)))
+
+  ;; (global-set-key (kbd "C-x p") 'project-change)
 #+END_SRC
 
 * PDF tools
@@ -473,8 +505,16 @@
   (setq ispell-program-name "/usr/local/bin/aspell")
 
   (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  (add-hook 'prog-mode-hook 'rainbow-mode)
+  (setq highlight-indent-guides-method 'character)
+  (defun my-prog-mode-hook ()
+    "Adds a few things to my prog hook"
+    (flyspell-prog-mode)
+    (rainbow-delimiters-mode)
+    (highlight-indent-guides-mode)
+    )
+
+  (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
   (eval-after-load "flyspell"
     '(progn
        (define-key flyspell-mode-map (kbd "C-.") nil)
@@ -662,7 +702,7 @@
   (add-hook 'org-mode-hook #'visual-line-mode)
     (add-to-list 'org-latex-classes
                  '("dissertation_report"
-                   "\\documentclass[11pt]{report}"
+                   "\\documentclass[11pt, twoside]{report}"
                    ("\\chapter{%s}" . "\\chapter*{%s}")
                    ("\\section{%s}" . "\\section*{%s}")
                    ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -705,17 +745,12 @@
     (global-flycheck-mode t))
 
   (elpy-enable)
-  (setq elpy-rpc-python-command "python")
   (setq elpy-rpc-backend "rope")
   (setenv "WORKON_HOME" "~/anaconda3/envs")
+
   (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args " --nosep --classic -i --simple-prompt"
-        python-shell-prompt-regexp ">>> "
-        python-shell-prompt-output-regexp ""
-        python-shell-completion-setup-code "from IPython.core.completerlib import module_completion"
-        python-shell-completion-module-string-code "';'.join(module_completion('''%s'''))\n"
-        python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"
-        )
+      python-shell-interpreter-args "-i --simple-prompt")
+
   ;; enable autopep8 formatting on save
   (require 'py-autopep8)
 
@@ -735,6 +770,10 @@
 
   (add-hook 'python-mode-hook 'my-python-mode-setup)
   (pyvenv-workon "playground") ;; Default working env that has my libs
+
+  (setq elpy-modules (delete 'elpy-module-highlight-indentation elpy-modules))
+  ;; (with-eval-after-load 'elpy
+  ;;   (highlight-indentation-mode))
 #+END_SRC
 
 
@@ -944,95 +983,35 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 
 #+END_SRC
 
-* Helm Mode Setup
-
-#+BEGIN_SRC emacs-lisp
-  (require 'helm)
-  (require 'helm-projectile)
-  (helm-mode 1)
-  (projectile-global-mode)
-  (setq projectile-enable-caching t)
-  (setq projectile-globally-ignored-directories (append '(".git" ".*" ) projectile-globally-ignored-directories))
-  (setq projectile-globally-ignored-files (append '("*.png" "*.jpeg" "*.jpg" "*.tif" "*.o" "*.pyc") projectile-globally-ignored-files))
-
-
-  (helm-projectile-on)
-  (define-key
-  helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-  (global-set-key (kbd "C-f") 'helm-projectile)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
-  (global-set-key (kbd "C-b") 'helm-buffers-list)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x a") 'helm-for-files)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-i") 'helm-imenu)
-  ;; (defun project-change ()
-  ;;   (interactive)
-  ;;   (helm-projectile-switch-project)
-  ;;   (treemacs-projec (projectile-project-root)))
-
-  ;; (global-set-key (kbd "C-x p") 'project-change)
-#+END_SRC
-
 * Misc Functions
 
 ** Create various diary entries for phd
 
 #+BEGIN_SRC emacs-lisp
-  ;; Creates a new file for a diary entry into phd progress!
-  (defun new-phd-diary ()
-    "This function can be used to create an org file with today as it's file name."
-    (interactive)
-    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" )))
-    (insert
-     (format
-      "#+TITLE: %s
+   ;; Creates a new file for a diary entry into phd progress!
+   (defun new-phd-diary ()
+     "This function can be used to create an org file with today as it's file name."
+     (interactive)
+     (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" )))
+     (insert
+      (format
+       "#+TITLE: %s
   ,#+AUTHOR: Nathan Hughes
-,#+OPTIONS: toc:nil H:4 ^:nil
-,#+LaTeX_CLASS: article
-,#+LaTeX_CLASS_OPTIONS: [a4paper]
-,#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
-,#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
-,#+LaTeX_HEADER: \\usepackage{fancyhdr}
-,#+LaTeX_HEADER: \\pagestyle{fancy}
-,#+LaTeX_HEADER: \\usepackage{lastpage}
-,#+LaTeX_HEADER: \\usepackage{float}
-,#+LaTeX_HEADER: \\restylefloat{figure}
-,#+LaTeX_HEADER: \\usepackage{hyperref}
-,#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
-,#+LaTex_HEADER: \\usepackage{titlesec}
-,#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
-,#+LaTeX_HEADER: \\usepackage{minted}
-,#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
-,#+LaTeX_HEADER: \\chead{}
-,#+LaTeX_HEADER: \\rhead{\\today}
-,#+LaTeX_HEADER: \\cfoot{}
-,#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
-,#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
-,#+LaTeX_HEADER:\\usepackage{subfig}
-,#+LaTex_HEADER: \\usepackage[sort&compress, numbers]{natbib}
-,#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
-,#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
-,#+LATEX_HEADER_EXTRA: \\usepackage{mathtools, cases}
-
-,#+LATEX: \\maketitle
-,#+LATEX: \\clearpage
-,#+LATEX: \\tableofcontents
-,#+LATEX: \\clearpage
-  bibliography:library.bib
-  bibliographystyle:plainnat
-  " "PhD Diary" ) ) )
+  ,#+INCLUDE: \"./preamble.org\" :minlevel 1
+   bibliography:library.bib
+   bibliographystyle:plainnat
+   " "PhD Diary" ) ) )
 
 
-  (defun find-phd-diary ()
-  (interactive)
-    (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" ))))
+   (defun find-phd-diary ()
+   (interactive)
+     (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" ))))
 
 
-  (defun friday-talks ()
-    "This function can be used to create an org file with today as it's file name."
-    (interactive)
-    (find-file  (concat "~/PHD/Notes/" (format-time-string "friday-seminar-%Y-%W.org" ))))
+   (defun friday-talks ()
+     "This function can be used to create an org file with today as it's file name."
+     (interactive)
+     (find-file  (concat "~/PHD/Notes/" (format-time-string "friday-seminar-%Y-%W.org" ))))
 
 #+END_SRC
 
@@ -1277,6 +1256,17 @@ As this will require a lot of overrides I want it towards the end of the file
   (use-package treemacs-projectile
     :after treemacs projectile
     :ensure t)
+
+#+END_SRC
+
+
+* Fixes
+
+#+BEGIN_SRC emacs-lisp
+
+(fringe-mode 0)
+
+
 #+END_SRC
 
 * TODO Modes that would be useful
