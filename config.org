@@ -58,6 +58,8 @@
       winum
       treemacs
       swiper-helm
+      rainbow-delimiters
+      highlight-indent-guides
       ))
 
   (mapc #'(lambda (package)
