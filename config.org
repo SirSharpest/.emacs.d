@@ -9,8 +9,8 @@
 
   ;;; Code:
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")))
+			   ("marmalade" . "https://marmalade-repo.org/packages/")
+			   ("melpa" . "https://melpa.org/packages/")))
   (package-initialize)
   (when (not package-archive-contents)
     (package-refresh-contents))
@@ -62,8 +62,8 @@
 
   (mapc #'(lambda (package)
       (unless (package-installed-p package)
-        (package-install package)))
-        myPackages)
+	(package-install package)))
+	myPackages)
 
   (require 'golden-ratio)
   (require 'doom-themes)
@@ -161,7 +161,8 @@
 
 #+BEGIN_SRC emacs-lisp
 
-  (setq mac-command-modifier 'control)
+(setq mac-command-modifier 'control)
+(setq-default mac-option-modifier 'meta)
 
   (defun set-exec-path-from-shell-PATH ()
     "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
@@ -208,22 +209,22 @@
 * Company stuff
 #+BEGIN_SRC emacs-lisp
   (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
-                company-idle-delay 0.3
-                company-echo-delay 0
-                company-show-numbers t
-                company-tooltip-align-annotations t ; align annotations to the right tooltip border.
-                company-tooltip-flip-when-above t
-                company-tooltip-limit 10          ; tooltip candidates max limit.
-                company-tooltip-minimum 6         ; minimum candidates limit.
-                company-tooltip-minimum-width 0   ; The minimum width of the tooltip's inner area.
-                                          ; This doesn't include the margins and the scroll bar.
-                company-tooltip-margin 2          ; width of margin columns to show around the tooltip
-                company-tooltip-offset-display 'scrollbar ; 'lines - how to show tooltip unshown candidates number.
-                company-show-numbers nil ; t: show quick access numbers for the first ten candidates.
-                company-selection-wrap-around t ; loop over candidates
-                ;; company-async-wait 0.03
-                ;; company-async-timeout 2
-                )
+		company-idle-delay 0.3
+		company-echo-delay 0
+		company-show-numbers t
+		company-tooltip-align-annotations t ; align annotations to the right tooltip border.
+		company-tooltip-flip-when-above t
+		company-tooltip-limit 10          ; tooltip candidates max limit.
+		company-tooltip-minimum 6         ; minimum candidates limit.
+		company-tooltip-minimum-width 0   ; The minimum width of the tooltip's inner area.
+					  ; This doesn't include the margins and the scroll bar.
+		company-tooltip-margin 2          ; width of margin columns to show around the tooltip
+		company-tooltip-offset-display 'scrollbar ; 'lines - how to show tooltip unshown candidates number.
+		company-show-numbers nil ; t: show quick access numbers for the first ten candidates.
+		company-selection-wrap-around t ; loop over candidates
+		;; company-async-wait 0.03
+		;; company-async-timeout 2
+		)
 
   ;;; help document preview & popup
   (require 'company-quickhelp)
@@ -231,10 +232,10 @@
   (company-quickhelp-mode 1)
   (setq company-ispell-dictionary (file-truename "~/.emacs.d/words.txt"))
   (setq-default company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
-                                    company-preview-if-just-one-frontend
-                                    company-echo-metadata-frontend
-                                    company-quickhelp-frontend
-                                    ))
+				    company-preview-if-just-one-frontend
+				    company-echo-metadata-frontend
+				    company-quickhelp-frontend
+				    ))
 
   ;; (setq-default company-backends '(company-files
   ;;                                   company-capf
@@ -266,27 +267,27 @@
   (defun toggle-window-split ()
     (interactive)
     (if (= (count-windows) 2)
-        (let* ((this-win-buffer (window-buffer))
-           (next-win-buffer (window-buffer (next-window)))
-           (this-win-edges (window-edges (selected-window)))
-           (next-win-edges (window-edges (next-window)))
-           (this-win-2nd (not (and (<= (car this-win-edges)
-                       (car next-win-edges))
-                       (<= (cadr this-win-edges)
-                       (cadr next-win-edges)))))
-           (splitter
-            (if (= (car this-win-edges)
-               (car (window-edges (next-window))))
-            'split-window-horizontally
-          'split-window-vertically)))
+	(let* ((this-win-buffer (window-buffer))
+	   (next-win-buffer (window-buffer (next-window)))
+	   (this-win-edges (window-edges (selected-window)))
+	   (next-win-edges (window-edges (next-window)))
+	   (this-win-2nd (not (and (<= (car this-win-edges)
+		       (car next-win-edges))
+		       (<= (cadr this-win-edges)
+		       (cadr next-win-edges)))))
+	   (splitter
+	    (if (= (car this-win-edges)
+	       (car (window-edges (next-window))))
+	    'split-window-horizontally
+	  'split-window-vertically)))
       (delete-other-windows)
       (let ((first-win (selected-window)))
-        (funcall splitter)
-        (if this-win-2nd (other-window 1))
-        (set-window-buffer (selected-window) this-win-buffer)
-        (set-window-buffer (next-window) next-win-buffer)
-        (select-window first-win)
-        (if this-win-2nd (other-window 1))))))
+	(funcall splitter)
+	(if this-win-2nd (other-window 1))
+	(set-window-buffer (selected-window) this-win-buffer)
+	(set-window-buffer (next-window) next-win-buffer)
+	(select-window first-win)
+	(if this-win-2nd (other-window 1))))))
 
   (global-set-key (kbd "C-x |") 'toggle-window-split)
 
@@ -368,7 +369,7 @@
 (setq TeX-PDF-mode t); PDF mode (rather than DVI-mode)
 
 (add-hook 'TeX-mode-hook
-          (lambda () (TeX-fold-mode 1))); Automatically activate TeX-fold-mode.
+	  (lambda () (TeX-fold-mode 1))); Automatically activate TeX-fold-mode.
 (setq LaTeX-babel-hyphen nil); Disable language-specific hyphen insertion.
 
 ;; " expands into csquotes macros (for this to work babel must be loaded after csquotes).
@@ -394,90 +395,90 @@
 ;     (setq reftex-default-bibliography '("UNCOMMENT LINE AND INSERT PATH TO YOUR BIBLIOGRAPHY HERE")); So that RefTeX in Org-mode knows bibliography
      (setcdr (assoc 'caption reftex-default-context-regexps) "\\\\\\(rot\\|sub\\)?caption\\*?[[{]"); Recognize \subcaptions, e.g. reftex-citation
      (setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
-           '((?t . "\\textcite[]{%l}")
-             (?a . "\\autocite[]{%l}")
-             (?c . "\\cite[]{%l}")
-             (?s . "\\smartcite[]{%l}")
-             (?f . "\\footcite[]{%l}")
-             (?n . "\\nocite{%l}")
-             (?b . "\\blockcquote[]{%l}{}")))))
+	   '((?t . "\\textcite[]{%l}")
+	     (?a . "\\autocite[]{%l}")
+	     (?c . "\\cite[]{%l}")
+	     (?s . "\\smartcite[]{%l}")
+	     (?f . "\\footcite[]{%l}")
+	     (?n . "\\nocite{%l}")
+	     (?b . "\\blockcquote[]{%l}{}")))))
 
 ;; Fontification (remove unnecessary entries as you notice them) http://lists.gnu.org/archive/html/emacs-orgmode/2009-05/msg00236.html http://www.gnu.org/software/auctex/manual/auctex/Fontification-of-macros.html
 (setq font-latex-match-reference-keywords
       '(
-        ;; biblatex
-        ("printbibliography" "[{")
-        ("addbibresource" "[{")
-        ;; Standard commands
-        ;; ("cite" "[{")
-        ("Cite" "[{")
-        ("parencite" "[{")
-        ("Parencite" "[{")
-        ("footcite" "[{")
-        ("footcitetext" "[{")
-        ;; ;; Style-specific commands
-        ("textcite" "[{")
-        ("Textcite" "[{")
-        ("smartcite" "[{")
-        ("Smartcite" "[{")
-        ("cite*" "[{")
-        ("parencite*" "[{")
-        ("supercite" "[{")
-        ; Qualified citation lists
-        ("cites" "[{")
-        ("Cites" "[{")
-        ("parencites" "[{")
-        ("Parencites" "[{")
-        ("footcites" "[{")
-        ("footcitetexts" "[{")
-        ("smartcites" "[{")
-        ("Smartcites" "[{")
-        ("textcites" "[{")
-        ("Textcites" "[{")
-        ("supercites" "[{")
-        ;; Style-independent commands
-        ("autocite" "[{")
-        ("Autocite" "[{")
-        ("autocite*" "[{")
-        ("Autocite*" "[{")
-        ("autocites" "[{")
-        ("Autocites" "[{")
-        ;; Text commands
-        ("citeauthor" "[{")
-        ("Citeauthor" "[{")
-        ("citetitle" "[{")
-        ("citetitle*" "[{")
-        ("citeyear" "[{")
-        ("citedate" "[{")
-        ("citeurl" "[{")
-        ;; Special commands
-        ("fullcite" "[{")))
+	;; biblatex
+	("printbibliography" "[{")
+	("addbibresource" "[{")
+	;; Standard commands
+	;; ("cite" "[{")
+	("Cite" "[{")
+	("parencite" "[{")
+	("Parencite" "[{")
+	("footcite" "[{")
+	("footcitetext" "[{")
+	;; ;; Style-specific commands
+	("textcite" "[{")
+	("Textcite" "[{")
+	("smartcite" "[{")
+	("Smartcite" "[{")
+	("cite*" "[{")
+	("parencite*" "[{")
+	("supercite" "[{")
+	; Qualified citation lists
+	("cites" "[{")
+	("Cites" "[{")
+	("parencites" "[{")
+	("Parencites" "[{")
+	("footcites" "[{")
+	("footcitetexts" "[{")
+	("smartcites" "[{")
+	("Smartcites" "[{")
+	("textcites" "[{")
+	("Textcites" "[{")
+	("supercites" "[{")
+	;; Style-independent commands
+	("autocite" "[{")
+	("Autocite" "[{")
+	("autocite*" "[{")
+	("Autocite*" "[{")
+	("autocites" "[{")
+	("Autocites" "[{")
+	;; Text commands
+	("citeauthor" "[{")
+	("Citeauthor" "[{")
+	("citetitle" "[{")
+	("citetitle*" "[{")
+	("citeyear" "[{")
+	("citedate" "[{")
+	("citeurl" "[{")
+	;; Special commands
+	("fullcite" "[{")))
 
 (setq font-latex-match-textual-keywords
       '(
-        ;; biblatex brackets
-        ("parentext" "{")
-        ("brackettext" "{")
-        ("hybridblockquote" "[{")
-        ;; Auxiliary Commands
-        ("textelp" "{")
-        ("textelp*" "{")
-        ("textins" "{")
-        ("textins*" "{")
-        ;; supcaption
-        ("subcaption" "[{")))
+	;; biblatex brackets
+	("parentext" "{")
+	("brackettext" "{")
+	("hybridblockquote" "[{")
+	;; Auxiliary Commands
+	("textelp" "{")
+	("textelp*" "{")
+	("textins" "{")
+	("textins*" "{")
+	;; supcaption
+	("subcaption" "[{")))
 
 (setq font-latex-match-variable-keywords
       '(
-        ;; amsmath
-        ("numberwithin" "{")
-        ;; enumitem
-        ("setlist" "[{")
-        ("setlist*" "[{")
-        ("newlist" "{")
-        ("renewlist" "{")
-        ("setlistdepth" "{")
-        ("restartlist" "{")))
+	;; amsmath
+	("numberwithin" "{")
+	;; enumitem
+	("setlist" "[{")
+	("setlist*" "[{")
+	("newlist" "{")
+	("renewlist" "{")
+	("setlistdepth" "{")
+	("restartlist" "{")))
 
 
 ;; Use pdf-tools to open PDF files
@@ -486,7 +487,7 @@
 
 ;; Update PDF buffers after successful LaTeX runs
 (add-hook 'TeX-after-compilation-finished-functions
-           #'TeX-revert-document-buffer)
+	   #'TeX-revert-document-buffer)
 #+END_SRC
 #+BEGIN_SRC emacs-lisp
   (defun run-latex ()
@@ -496,6 +497,20 @@
       (TeX-command-menu "LaTeX"))
   (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-x C-s") #'run-latex)))
 #+END_SRC
+** Add some better default args to compiling
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "tex"
+    '(progn
+       (add-to-list
+	'TeX-engine-alist
+	'(default-shell-escape "Default with shell escape"
+       "pdftex -shell-escape"
+       "pdflatex -shell-escape"
+       ConTeXt-engine))
+       ;; (setq-default TeX-engine 'default-shell-escape)
+       ))
+#+END_SRC
+
 * Spelling Setup
 #+BEGIN_SRC emacs-lisp
   ;; SPELLING CONFIGURATION
@@ -542,21 +557,23 @@
     ;; --------------------------------------
 
 
+ (define-key org-mode-map (kbd "C-c p") 'display-latex-fragments-in-buffer)
+ (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
   (setq org-todo-keywords
-        '((sequence "TODO" "|" "DONE")
-          (sequence "IDEA" "|" "DONE")
-          (sequence  "BUG" "|" "FIXED")
-          (sequence  "QUESTION" "|" "ANSWERED")
-          (sequence "|" "CANCELLED")))
+	'((sequence "TODO" "|" "DONE")
+	  (sequence "IDEA" "|" "DONE")
+	  (sequence  "BUG" "|" "FIXED")
+	  (sequence  "QUESTION" "|" "ANSWERED")
+	  (sequence "|" "CANCELLED")))
 
     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
     ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
     ;;(require 'ob-ipython)
 
     (setq org-agenda-files (list "~/Google Drive/org/work.org"
-                                 "~/Google Drive/org/university.org"
-                                 "~/Google Drive/org/home.org"))
+				 "~/Google Drive/org/university.org"
+				 "~/Google Drive/org/home.org"))
 
     (defun org-latex-export-to-pdf-and-clean ()
       (interactive)
@@ -572,8 +589,8 @@
     (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
 
   (setq org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process (quote ("texi2dvi --pdf %f
+	org-latex-packages-alist '(("" "minted"))
+	org-latex-pdf-process (quote ("texi2dvi --pdf %f
   pdflatex --shell-escape %f
   texi2dvi --pdf %f --shell-escape
   latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
@@ -581,7 +598,7 @@
 
 
     (setq org-latex-minted-options
-          '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
+	  '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
 
     ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
 
@@ -603,9 +620,9 @@
 
     (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
     (setq org-plantuml-jar-path
-          (expand-file-name "~/.emacs.d/plantuml.jar"))
+	  (expand-file-name "~/.emacs.d/plantuml.jar"))
     (setq plantuml-jar-path
-          (expand-file-name "~/.emacs.d/plantuml.jar"))
+	  (expand-file-name "~/.emacs.d/plantuml.jar"))
 
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
     ;; Turn on org-mode syntax highlighting for src blocks
@@ -620,8 +637,8 @@
     (defun org-babel-run-and-display-images ()
       (interactive)
       (progn
-        (org-babel-execute-src-block-maybe)
-        (org-display-inline-images)))
+	(org-babel-execute-src-block-maybe)
+	(org-display-inline-images)))
 
     (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
 
@@ -645,16 +662,16 @@
    (interactive)
    (org-latex-export-to-latex)
    (let* ((bibfile (expand-file-name (car (org-ref-find-bibliography))))
-          (current-file (buffer-file-name))
-          (basename (file-name-sans-extension current-file))
-          (tex-file (concat basename  ".tex"))
-          (docxfile (concat basename ".docx"))
-          )
+	  (current-file (buffer-file-name))
+	  (basename (file-name-sans-extension current-file))
+	  (tex-file (concat basename  ".tex"))
+	  (docxfile (concat basename ".docx"))
+	  )
      (save-buffer)
      (when (file-exists-p docxfile) (delete-file docxfile))
      (shell-command (format
-                     "pandoc %s --bibliography=%s  -o %s"
-                     tex-file bibfile docxfile))
+		     "pandoc %s --bibliography=%s  -o %s"
+		     tex-file bibfile docxfile))
      (org-open-file docxfile '(16))))
 #+END_SRC
 
@@ -701,12 +718,12 @@
   (with-eval-after-load 'org
   (add-hook 'org-mode-hook #'visual-line-mode)
     (add-to-list 'org-latex-classes
-                 '("dissertation_report"
-                   "\\documentclass[11pt, twoside]{report}"
-                   ("\\chapter{%s}" . "\\chapter*{%s}")
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+		 '("dissertation_report"
+		   "\\documentclass[11pt, twoside]{report}"
+		   ("\\chapter{%s}" . "\\chapter*{%s}")
+		   ("\\section{%s}" . "\\section*{%s}")
+		   ("\\subsection{%s}" . "\\subsection*{%s}")
+		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 #+END_SRC
 ** Webpage Project Management
 
@@ -715,22 +732,22 @@
 ;; Setup for webpage
 (setq org-publish-project-alist
       `(("Dissertation"
-         :base-directory "~/Dropbox/Website/"
-         :recursive t
-         :auto-sitemap t
-         :sitemap-sort-files anti-chronologically
-         :with-toc nil
-         :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
-         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
-         :publishing-function org-html-publish-to-html
-         )
-        ("images"
-         :base-directory "~/Dropbox/Website/images"
-         :base-extension "png\\|gif"
-         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html/images"
-         :publishing-function org-publish-attachment
+	 :base-directory "~/Dropbox/Website/"
+	 :recursive t
+	 :auto-sitemap t
+	 :sitemap-sort-files anti-chronologically
+	 :with-toc nil
+	 :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
+	 :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
+	 :publishing-function org-html-publish-to-html
+	 )
+	("images"
+	 :base-directory "~/Dropbox/Website/images"
+	 :base-extension "png\\|gif"
+	 :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html/images"
+	 :publishing-function org-publish-attachment
      )
-        ("DissertationWebsite" :components("Dissertation images"))
+	("DissertationWebsite" :components("Dissertation images"))
    )
 )
 #+END_SRC
@@ -801,7 +818,7 @@ Create a new ONE if it does not exist.
 If DONT-DISPLAY is non nil, do not display the python shell afterwards."
   (interactive)
   (let ((shell-name (completing-read "Python shell name: "
-                                     'elpy-shell-python-shell-names)))
+				     'elpy-shell-python-shell-names)))
     (setq python-shell-buffer-name shell-name)
     (add-to-list 'elpy-shell-python-shell-names shell-name t)
     (when (not dont-display)
@@ -813,44 +830,44 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
     (goto-char (point-min))
     (let ((to-insert (concat "* " (replace-regexp-in-string root "" filename) "\n") ))
       (while (re-search-forward
-              (rx (group (or "def" "class"))
-                  space
-                  (group (+ (not (any "()"))))
-                  (? "(" (* nonl) "):" (+ "\n") (+ space)
-                     (= 3 "\"")
-                     (group (+? anything))
-                     (= 3 "\"")))
-              nil 'noerror)
-        (setq to-insert
-              (concat
-               to-insert
-               (if (string= "class" (match-string 1))
-                   "** "
-                 "*** ")
-               (match-string 2)
-               "\n"
-               (and (match-string 3)
-                    (concat (match-string 3) "\n")))))
+	      (rx (group (or "def" "class"))
+		  space
+		  (group (+ (not (any "()"))))
+		  (? "(" (* nonl) "):" (+ "\n") (+ space)
+		     (= 3 "\"")
+		     (group (+? anything))
+		     (= 3 "\"")))
+	      nil 'noerror)
+	(setq to-insert
+	      (concat
+	       to-insert
+	       (if (string= "class" (match-string 1))
+		   "** "
+		 "*** ")
+	       (match-string 2)
+	       "\n"
+	       (and (match-string 3)
+		    (concat (match-string 3) "\n")))))
       (with-current-buffer buffer
-        (insert to-insert))))
+	(insert to-insert))))
 
   (defun org-documentation-from-dir (&optional dir)
     (interactive)
     (let* ((dir  (or dir (read-directory-name "Choose base directory: ")))
-           (files (directory-files-recursively dir "\py$"))
-           (doc-buf (get-buffer-create "org-docs")))
+	   (files (directory-files-recursively dir "\py$"))
+	   (doc-buf (get-buffer-create "org-docs")))
       (dolist (file files)
-        (with-temp-buffer
-          (insert-file-contents file)
-          (populate-org-buffer doc-buf file dir)))
+	(with-temp-buffer
+	  (insert-file-contents file)
+	  (populate-org-buffer doc-buf file dir)))
       (with-current-buffer doc-buf
-        (org-mode))))
+	(org-mode))))
 
 
   (defun elpy-shell-send-region-or-buffer-autoscroll ()
     (interactive)
     (let ((buf (get-buffer-window "*Python*"))
-          (orig (current-buffer)))
+	  (orig (current-buffer)))
       (set-window-buffer buf "*Python*")
       (select-window buf)
       (goto-char (point-max))
@@ -858,8 +875,8 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
     )
 
   (add-hook 'python-mode-hook
-            (lambda ()
-              (define-key python-mode-map (kbd "C-c c") 'elpy-shell-send-region-or-buffer-autoscroll)))
+	    (lambda ()
+	      (define-key python-mode-map (kbd "C-c c") 'elpy-shell-send-region-or-buffer-autoscroll)))
 
 
 #+END_SRC
@@ -974,16 +991,48 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
   ;;                         :box '(:width 0))
 #+END_SRC
 
-* Fix Nordic switch
-#+BEGIN_SRC elisp
+* Theme switcher
+#+BEGIN_SRC emacs-lisp
+  (defvar *sharp-theme-dark* 'doom-nord)
+  (defvar *sharp-theme-light* 'leuven)
+  (defvar *sharp-current-theme* *sharp-theme-dark*)
 
-  (defun fixtheme-nord ()
-    (disable-theme 'leuven-theme)
-    (enable-theme 'doom-nord))
+  ;; disable other themes before loading new one
+  (defadvice load-theme (before theme-dont-propagate activate)
+    "Disable theme before loading new one."
+    (mapcar #'disable-theme custom-enabled-themes))
 
+
+  (defun sharp/next-theme (theme)
+    (if (eq theme 'default)
+	(disable-theme *sharp-current-theme*)
+      (progn
+	(load-theme theme t)))
+    (setq *sharp-current-theme* theme))
+
+  (defun sharp/toggle-theme ()
+    (interactive)
+    (cond ((eq *sharp-current-theme* *sharp-theme-dark*) (sharp/next-theme *sharp-theme-light*))
+	  ((eq *sharp-current-theme* *sharp-theme-light*) (sharp/next-theme *sharp-theme-dark*))))
+
+
+  (global-set-key  [f7] (lambda () (interactive) (sharp/toggle-theme)))
 #+END_SRC
 
+
+
+
+
 * Misc Functions
+** Display latex fragments properly
+#+BEGIN_SRC emacs-lisp
+(defun display-latex-fragments-in-buffer ()
+  "This will properly display all fragments in org-mode >9"
+  (interactive)
+  (let ((current-prefix-arg '(16)))
+    (call-interactively 'org-preview-latex-fragment))
+  )
+#+END_SRC
 
 ** Create various diary entries for phd
 
@@ -1029,15 +1078,15 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
   "Solve company yasnippet conflicts."
   (interactive)
   (let ((yas-fallback-behavior
-         (apply 'company-complete-common nil)))
+	 (apply 'company-complete-common nil)))
     (yas-expand)))
 
 (add-hook 'company-mode-hook
-          (lambda ()
-            (substitute-key-definition
-             'company-complete-common
-             'company-yasnippet-or-completion
-             company-active-map)))
+	  (lambda ()
+	    (substitute-key-definition
+	     'company-complete-common
+	     'company-yasnippet-or-completion
+	     company-active-map)))
 
 #+END_SRC
 
@@ -1139,7 +1188,7 @@ As this will require a lot of overrides I want it towards the end of the file
     "Toggle images display on current buffer."
     (interactive)
     (setq endless/display-images
-          (null endless/display-images))
+	  (null endless/display-images))
     (endless/backup-display-property endless/display-images))
 
 
@@ -1151,21 +1200,21 @@ As this will require a lot of overrides I want it towards the end of the file
   Optional OBJECT specifies the string or buffer. Nil means current
   buffer."
     (let* ((inhibit-read-only t)
-           (from (if invert 'display-backup 'display))
-           (to (if invert 'display 'display-backup))
-           (pos (point-min))
-           left prop)
+	   (from (if invert 'display-backup 'display))
+	   (to (if invert 'display 'display-backup))
+	   (pos (point-min))
+	   left prop)
       (while (and pos (/= pos (point-max)))
-        (if (get-text-property pos from object)
-            (setq left pos)
-          (setq left (next-single-property-change pos from object)))
-        (if (or (null left) (= left (point-max)))
-            (setq pos nil)
-          (setq prop (get-text-property left from object))
-          (setq pos (or (next-single-property-change left from object)
-                        (point-max)))
-          (when (eq (car prop) 'image)
-            (add-text-properties left pos (list from nil to prop) object))))))
+	(if (get-text-property pos from object)
+	    (setq left pos)
+	  (setq left (next-single-property-change pos from object)))
+	(if (or (null left) (= left (point-max)))
+	    (setq pos nil)
+	  (setq prop (get-text-property left from object))
+	  (setq pos (or (next-single-property-change left from object)
+			(point-max)))
+	  (when (eq (car prop) 'image)
+	    (add-text-properties left pos (list from nil to prop) object))))))
 
 #+END_SRC
 
@@ -1174,18 +1223,18 @@ As this will require a lot of overrides I want it towards the end of the file
 #+BEGIN_SRC emacs-lisp
   (setq winum-keymap
       (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "C-`") 'winum-select-window-by-number)
-        (define-key map (kbd "C-²") 'winum-select-window-by-number)
-        (define-key map (kbd "M-0") 'winum-select-window-0-or-10)
-        (define-key map (kbd "M-1") 'winum-select-window-1)
-        (define-key map (kbd "M-2") 'winum-select-window-2)
-        (define-key map (kbd "M-3") 'winum-select-window-3)
-        (define-key map (kbd "M-4") 'winum-select-window-4)
-        (define-key map (kbd "M-5") 'winum-select-window-5)
-        (define-key map (kbd "M-6") 'winum-select-window-6)
-        (define-key map (kbd "M-7") 'winum-select-window-7)
-        (define-key map (kbd "M-8") 'winum-select-window-8)
-        map))
+	(define-key map (kbd "C-`") 'winum-select-window-by-number)
+	(define-key map (kbd "C-²") 'winum-select-window-by-number)
+	(define-key map (kbd "M-0") 'winum-select-window-0-or-10)
+	(define-key map (kbd "M-1") 'winum-select-window-1)
+	(define-key map (kbd "M-2") 'winum-select-window-2)
+	(define-key map (kbd "M-3") 'winum-select-window-3)
+	(define-key map (kbd "M-4") 'winum-select-window-4)
+	(define-key map (kbd "M-5") 'winum-select-window-5)
+	(define-key map (kbd "M-6") 'winum-select-window-6)
+	(define-key map (kbd "M-7") 'winum-select-window-7)
+	(define-key map (kbd "M-8") 'winum-select-window-8)
+	map))
 
   (require 'winum)
   (winum-mode)
@@ -1206,29 +1255,29 @@ As this will require a lot of overrides I want it towards the end of the file
     :config
     (progn
       (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
-            treemacs-deferred-git-apply-delay   0.5
-            treemacs-display-in-side-window     t
-            treemacs-file-event-delay           5000
-            treemacs-file-follow-delay          0.2
-            treemacs-follow-after-init          t
-            treemacs-follow-recenter-distance   0.1
-            treemacs-goto-tag-strategy          'refetch-index
-            treemacs-indentation                2
-            treemacs-indentation-string         " "
-            treemacs-is-never-other-window      nil
-            treemacs-no-png-images              nil
-            treemacs-project-follow-cleanup     nil
-            treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-            treemacs-recenter-after-file-follow nil
-            treemacs-recenter-after-tag-follow  nil
-            treemacs-show-hidden-files          t
-            treemacs-silent-filewatch           nil
-            treemacs-silent-refresh             nil
-            treemacs-sorting                    'alphabetic-desc
-            treemacs-space-between-root-nodes   t
-            treemacs-tag-follow-cleanup         t
-            treemacs-tag-follow-delay           1.5
-            treemacs-width                      35)
+	    treemacs-deferred-git-apply-delay   0.5
+	    treemacs-display-in-side-window     t
+	    treemacs-file-event-delay           5000
+	    treemacs-file-follow-delay          0.2
+	    treemacs-follow-after-init          t
+	    treemacs-follow-recenter-distance   0.1
+	    treemacs-goto-tag-strategy          'refetch-index
+	    treemacs-indentation                2
+	    treemacs-indentation-string         " "
+	    treemacs-is-never-other-window      nil
+	    treemacs-no-png-images              nil
+	    treemacs-project-follow-cleanup     nil
+	    treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+	    treemacs-recenter-after-file-follow nil
+	    treemacs-recenter-after-tag-follow  nil
+	    treemacs-show-hidden-files          t
+	    treemacs-silent-filewatch           nil
+	    treemacs-silent-refresh             nil
+	    treemacs-sorting                    'alphabetic-desc
+	    treemacs-space-between-root-nodes   t
+	    treemacs-tag-follow-cleanup         t
+	    treemacs-tag-follow-delay           1.5
+	    treemacs-width                      35)
 
       ;; The default width and height of the icons is 22 pixels. If you are
       ;; using a Hi-DPI display, uncomment this to double the icon size.
@@ -1238,19 +1287,19 @@ As this will require a lot of overrides I want it towards the end of the file
       (treemacs-filewatch-mode t)
       (treemacs-fringe-indicator-mode t)
       (pcase (cons (not (null (executable-find "git")))
-                   (not (null (executable-find "python"))))
-        (`(t . t)
-         (treemacs-git-mode 'extended))
-        (`(t . _)
-         (treemacs-git-mode 'simple))))
+		   (not (null (executable-find "python"))))
+	(`(t . t)
+	 (treemacs-git-mode 'extended))
+	(`(t . _)
+	 (treemacs-git-mode 'simple))))
     :bind
     (:map global-map
-          ("M-0"       . treemacs-select-window)
-          ("C-x t 1"   . treemacs-delete-other-windows)
-          ("C-x t t"   . treemacs)
-          ("C-x t B"   . treemacs-bookmark)
-          ("C-x t C-t" . treemacs-find-file)
-          ("C-x t M-t" . treemacs-find-tag)))
+	  ("M-0"       . treemacs-select-window)
+	  ("C-x t 1"   . treemacs-delete-other-windows)
+	  ("C-x t t"   . treemacs)
+	  ("C-x t B"   . treemacs-bookmark)
+	  ("C-x t C-t" . treemacs-find-file)
+	  ("C-x t M-t" . treemacs-find-tag)))
 
 
   (use-package treemacs-projectile
