@@ -60,6 +60,8 @@
       swiper-helm
       rainbow-delimiters
       highlight-indent-guides
+      symbol-overlay
+      company-box
       ))
 
   (mapc #'(lambda (package)
@@ -69,6 +71,7 @@
 
   (require 'golden-ratio)
   (require 'doom-themes)
+ (require 'symbol-overlay)
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
   (load-theme 'doom-nord t)
@@ -177,6 +180,10 @@
 
 
   (set-exec-path-from-shell-PATH)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+
 #+END_SRC
 
 * Here be daemons
@@ -528,6 +535,8 @@
     (flyspell-prog-mode)
     (rainbow-delimiters-mode)
     (highlight-indent-guides-mode)
+    (symbol-overlay-mode)
+    (display-line-numbers-mode)
     )
 
   (add-hook 'prog-mode-hook 'my-prog-mode-hook)
@@ -555,98 +564,93 @@
 
 ** General Setup
 #+BEGIN_SRC emacs-lisp
-    ;; ORG CONFIGURATION
-    ;; --------------------------------------
+     ;; ORG CONFIGURATION
+     ;; --------------------------------------
+
+  (setq org-image-actual-width nil)
+  (define-key org-mode-map (kbd "C-c p") 'display-latex-fragments-in-buffer)
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
+   (setq org-todo-keywords
+         '((sequence "TODO" "|" "DONE")
+           (sequence "IDEA" "|" "DONE")
+           (sequence  "BUG" "|" "FIXED")
+           (sequence  "QUESTION" "|" "ANSWERED")
+           (sequence "|" "CANCELLED")))
+
+     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+     ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
+     ;;(require 'ob-ipython)
+
+     (setq org-agenda-files (list "~/Google Drive/org/work.org"
+                                  "~/Google Drive/org/university.org"
+                                  "~/Google Drive/org/home.org"))
+
+     (defun org-latex-export-to-pdf-and-clean ()
+       (interactive)
+       (org-latex-export-to-pdf)
+       (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
+       (delete-file (concat (file-name-sans-extension (buffer-name)) ".bbl"))
+       (delete-file (concat (file-name-sans-extension (buffer-name)) ".synctex.gz"))
+       (delete-file "texput.log")
+       (delete-directory "auto" 't)
+       (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
+       )
+     (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
+
+   (setq org-latex-listings 'minted
+         org-latex-packages-alist '(("" "minted"))
+         org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
 
 
- (define-key org-mode-map (kbd "C-c p") 'display-latex-fragments-in-buffer)
- (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+     (setq org-latex-minted-options
+           '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
 
-  (setq org-todo-keywords
-        '((sequence "TODO" "|" "DONE")
-          (sequence "IDEA" "|" "DONE")
-          (sequence  "BUG" "|" "FIXED")
-          (sequence  "QUESTION" "|" "ANSWERED")
-          (sequence "|" "CANCELLED")))
+     ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
 
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-    ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
-    ;;(require 'ob-ipython)
-
-    (setq org-agenda-files (list "~/Google Drive/org/work.org"
-                                 "~/Google Drive/org/university.org"
-                                 "~/Google Drive/org/home.org"))
-
-    (defun org-latex-export-to-pdf-and-clean ()
-      (interactive)
-      (org-latex-export-to-pdf t)
-      (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
-      (delete-file (concat (file-name-sans-extension (buffer-name)) ".bbl"))
-      (delete-file (concat (file-name-sans-extension (buffer-name)) ".synctex.gz"))
-      (delete-file "texput.log")
-      (delete-directory "auto" 't)
-      (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
-      )
-
-    (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
-
-  (setq org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process (quote ("texi2dvi --pdf %f
-  pdflatex --shell-escape %f
-  texi2dvi --pdf %f --shell-escape
-  latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
+     ;; Turn on languages for org mode
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((R . t)
+        (python . t)
+        (ipython . t)
+        (plantuml .t)))
+     (setq org-babel-python-command "python")
+     (setq org-confirm-babel-evaluate nil)
+     (require 'org-ref)
+     (setq org-latex-prefer-user-labels t)
+     (define-key org-mode-map (kbd "C-c i") 'org-ref-helm-insert-ref-link)
+     (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
+     (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
 
 
+     (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+     (setq org-plantuml-jar-path
+           (expand-file-name "~/.emacs.d/plantuml.jar"))
+     (setq plantuml-jar-path
+           (expand-file-name "~/.emacs.d/plantuml.jar"))
 
-    (setq org-latex-minted-options
-          '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
+     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+     ;; Turn on org-mode syntax highlighting for src blocks
+     (setq org-src-fontify-natively t)
 
-    ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
-
-    ;; Turn on languages for org mode
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((R . t)
-       (python . t)
-       (ipython . t)
-       (plantuml .t)))
-    (setq org-babel-python-command "python")
-    (setq org-confirm-babel-evaluate nil)
-    (require 'org-ref)
-    (setq org-latex-prefer-user-labels t)
-    (define-key org-mode-map (kbd "C-c i") 'org-ref-helm-insert-ref-link)
-    (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
-    (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
+     ;; Open with external application
+     (require 'openwith)
+     (openwith-mode t)
+     (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
 
 
-    (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-    (setq org-plantuml-jar-path
-          (expand-file-name "~/.emacs.d/plantuml.jar"))
-    (setq plantuml-jar-path
-          (expand-file-name "~/.emacs.d/plantuml.jar"))
+     (defun org-babel-run-and-display-images ()
+       (interactive)
+       (progn
+         (org-babel-execute-src-block-maybe)
+         (org-display-inline-images)))
 
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-    ;; Turn on org-mode syntax highlighting for src blocks
-    (setq org-src-fontify-natively t)
+     (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
 
-    ;; Open with external application
-    (require 'openwith)
-    (openwith-mode t)
-    (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
-
-
-    (defun org-babel-run-and-display-images ()
-      (interactive)
-      (progn
-        (org-babel-execute-src-block-maybe)
-        (org-display-inline-images)))
-
-    (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
-
-    ;; Add a timestamp to closed topics
-    (setq org-log-done 'time)
-    (define-key org-mode-map (kbd "C-<tab>") nil)
+     ;; Add a timestamp to closed topics
+     (setq org-log-done 'time)
+     (define-key org-mode-map (kbd "C-<tab>") nil)
 #+END_SRC
 
 ** Setup for docx export
