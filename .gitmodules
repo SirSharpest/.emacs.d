@@ -1,3 +1,6 @@
 [submodule "ob-ipython"]
 	path = ob-ipython
 	url = https://github.com/jkitchin/ob-ipython.git
+[submodule "scimax"]
+	path = scimax
+	url = https://github.com/jkitchin/scimax.git
