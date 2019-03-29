@@ -2,13 +2,16 @@
 # name: pyimg
 # key: pyimg
 # --
-#+BEGIN_SRC ipython :exports none :session  :ipyfile $1.png :results none
+#+BEGIN_SRC ipython :exports none :session  :ipyfile $1.png :results none :eval never-export
   import matplotlib.pyplot as plt
+  import seaborn as sns
+  import numpy as np
   %matplotlib inline
 
   $0
 #+END_SRC
 
 #+CAPTION: $2
+#+ATTR_HTML: :width 300px
 #+ATTR_LATEX: :width 8cm
 [[$1.png]]

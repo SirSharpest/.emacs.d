@@ -53,7 +53,6 @@
       auctex
       yasnippet-snippets
       helm-c-yasnippet
-      ob-ipython
       undo-tree
       winum
       treemacs
@@ -62,6 +61,7 @@
       highlight-indent-guides
       symbol-overlay
       company-box
+      ob-ipython
       ))
 
   (mapc #'(lambda (package)
@@ -71,7 +71,7 @@
 
   (require 'golden-ratio)
   (require 'doom-themes)
- (require 'symbol-overlay)
+  (require 'symbol-overlay)
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
   (load-theme 'doom-nord t)
@@ -104,13 +104,39 @@
   ;;       this.
   (smooth-scrolling-mode)
 
+  (global-prettify-symbols-mode 1)
+  (add-hook
+   'python-mode-hook
+   (lambda ()
+     (mapc (lambda (pair) (push pair prettify-symbols-alist))
+           '(;; Syntax
+             ("def" .      #x1D41F)
+             ("in" .       #x2208)
+             ("not in" .   #x2209)
+             ("return" .   #x27fc)
+             ("yield" .    #x27fb)
+             ("for" .      #x2200)
+             ;; Base Types
+             ("int" .      #x2124)
+             ("float" .    #x211d)
+             ("str" .      #x1d54a)
+             ("True" .     #x1d54b)
+             ("False" .    #x1d53d)
+             ;; Mypy
+             ("Dict" .     #x1d507)
+             ("List" .     #x2112)
+             ("Tuple" .    #x2a02)
+             ("Set" .      #x2126)
+             ("Iterable" . #x1d50a)
+             ("Union" .    #x22c3)))))
+
+
   ;; Fix some frame issues
   ;; (set-face-background 'vertical-border "gray")
   ;; (set-face-foreground 'vertical-border (face-background 'vertical-border))
-  (require 'ob-ipython)
   ;; Icons
   (use-package all-the-icons
-    :demand t
+  :demand t
     :config
     (use-package all-the-icons-dired
       :demand t
@@ -201,18 +227,19 @@
 * Fonts
 #+BEGIN_SRC emacs-lisp
   ;;set a default font
-  (when (member "Monaco" (font-family-list))
-    (set-face-attribute 'default nil :font "Monaco"))
 
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 170
+                    :weight 'normal
+                    :width 'normal)
   ;; specify font for all unicode characters
   (when (member "Symbola" (font-family-list))
     (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-
   ;; specify font for chinese characters using default chinese font on linux
   (when (member "WenQuanYi Micro Hei" (font-family-list))
     (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-
-  (set-face-attribute 'default nil :height 140)
+  (set-face-attribute 'default nil :height 170)
 #+END_SRC
 
 * Company stuff
@@ -246,7 +273,8 @@
                                     company-quickhelp-frontend
                                     ))
 
-  ;; (setq-default company-backends '(company-files
+
+                                    ;; (setq-default company-backends '(company-files
   ;;                                   company-capf
   ;;                                   company-keywords
   ;;                                   company-yasnippet
@@ -324,7 +352,7 @@
   (global-set-key (kbd "C-x a") 'helm-for-files)
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "M-i") 'helm-imenu)
-  (global-set-key (kbd "C-s") 'helm-swoop)
+  (global-set-key (kbd "C-s") 'swiper-helm)
 
   ;; (defun project-change ()
   ;;   (interactive)
@@ -579,8 +607,15 @@
            (sequence "|" "CANCELLED")))
 
      (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-     ;;(add-to-list 'load-path "~/.emacs.d/ob-ipython/")
-     ;;(require 'ob-ipython)
+
+     ;; Need to sort out some ob-ipython stuff here
+     (add-to-list 'load-path "~/.emacs.d/scimax/")
+     (require 'ob-ipython)
+     (require 'scimax-ob)
+     (require 'scimax-org-babel-ipython-upstream)
+     (add-to-list 'company-backends 'company-ob-ipython)
+
+
 
      (setq org-agenda-files (list "~/Google Drive/org/work.org"
                                   "~/Google Drive/org/university.org"
