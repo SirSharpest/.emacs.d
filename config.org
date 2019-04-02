@@ -62,6 +62,7 @@
       symbol-overlay
       company-box
       ob-ipython
+      center-window
       ))
 
   (mapc #'(lambda (package)
