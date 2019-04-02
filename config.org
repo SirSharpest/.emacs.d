@@ -157,7 +157,7 @@
   (set-default 'truncate-lines nil)
 
   ;; Stop that minibuffer expansion
-  (setq resize-mini-windows nil)
+  ;;(setq resize-mini-windows nil)
 
   (require 'doom-modeline)
   (doom-modeline-mode 1)
@@ -923,7 +923,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
             (lambda ()
               (define-key python-mode-map (kbd "C-c c") 'elpy-shell-send-region-or-buffer-autoscroll)))
 
-
 #+END_SRC
 
 * Ace Jump Mode
@@ -944,96 +943,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
     '(ace-jump-mode-enable-mark-sync))
   (define-key global-map (kbd "C-c b") 'ace-jump-mode-pop-mark)
 
-#+END_SRC
-
-* Powerline Mode
-#+BEGIN_SRC emacs-lisp
-  ;; (eyebrowse-mode t)
-  ;; (nyan-mode)
-
-  ;; (use-package powerline
-  ;;     :ensure t
-  ;;     :config
-
-  ;;     (defun make-rect (color height width)
-  ;;       "Create an XPM bitmap."
-  ;;       (when window-system
-  ;;         (propertize
-  ;;          "  " 'display
-  ;;          (let ((data nil)
-  ;;                (i 0))
-  ;;            (setq data (make-list height (make-list width 1)))
-  ;;            (pl/make-xpm "percent" color color (reverse data))))))
-
-  ;;     ;; fix solid color bar
-
-  ;;     (set-face-attribute 'powerline-active0 nil :background (face-attribute 'mode-line :background))
-  ;;     (set-face-attribute 'powerline-active1 nil :background (face-attribute 'mode-line :background))
-  ;;     (set-face-attribute 'powerline-active2 nil :background (face-attribute 'mode-line :background))
-
-  ;;     (set-face-attribute 'powerline-inactive0 nil :background (face-attribute 'mode-line-inactive :background))
-  ;;     (set-face-attribute 'powerline-inactive1 nil :background (face-attribute 'mode-line-inactive :background))
-  ;;     (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'mode-line-inactive :background))
-
-
-  ;;     (defun powerline-mode-icon ()
-  ;;     (let ((icon (all-the-icons-icon-for-buffer)))
-  ;;         (unless (symbolp icon) ;; This implies it's the major mode
-  ;;           (format " %s"
-  ;;                   (propertize icon
-  ;;                               'help-echo (format "Major-mode: `%s`" major-mode)
-  ;;                               'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))))
-
-
-  ;;     (setq-default mode-line-format
-  ;;                   '("%e"
-  ;;                     (:eval
-  ;;                      (let* ((active (powerline-selected-window-active))
-  ;;                             (modified (buffer-modified-p))
-  ;;                             (face1 (if active 'powerline-active1 'powerline-inactive1))
-  ;;                             (face2 (if active 'powerline-active2 'powerline-inactive2))
-  ;;                             (bar-color (cond ((and active modified) (face-foreground 'error))
-  ;;                                              (active (face-background 'cursor))
-  ;;                                              (t (face-background 'tooltip))))
-  ;;                             (lhs (list
-  ;;                                   (make-rect bar-color 30 3)
-  ;;                                   (when modified
-  ;;                                     (concat
-  ;;                                      " "
-  ;;                                      (all-the-icons-faicon "floppy-o"
-  ;;                                                            :face (when active 'error)
-  ;;                                                            :v-adjust -0.01)))
-  ;;                                   " "
-  ;;                                   (powerline-buffer-id)
-  ;;                                   "| "
-  ;;                                   (powerline-vc)
-  ;;                                   ))
-  ;;                             (center (list
-  ;;                                      " "
-  ;;                                      (powerline-mode-icon)
-  ;;                                      " "
-  ;;                                      (powerline-major-mode)
-  ;;                                      " "))
-  ;;                             (rhs (list
-  ;;                                   ;;(format-mode-line "L: %l C: %c |")
-  ;;                                   (format-mode-line "L: %l C: %c | ")
-  ;;                                   (powerline-raw "%6p" 'mode-line 'r)
-  ;;                                   ;;(nyan-create)
-  ;;                                   ;;(powerline-hud 'highlight 'region 1)
-  ;;                                   "|    "
-
-  ;;                                   ))
-  ;;                             )
-  ;;                        (concat
-  ;;                         (powerline-render lhs)
-  ;;                         (powerline-fill-center face1 (/ (powerline-width center) 2.0))
-  ;;                         (powerline-render center)
-  ;;                         (powerline-fill face2 (powerline-width rhs))
-  ;;                         (powerline-render rhs))))))
-  ;;     )
-
-  ;; (set-face-attribute 'mode-line nil
-  ;;                         :box '(:width 0))
 #+END_SRC
 
 * Theme switcher
@@ -1066,9 +975,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 #+END_SRC
 
 
-
-
-
 * Misc Functions
 ** Display latex fragments properly
 
@@ -1085,7 +991,7 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 
 #+BEGIN_SRC emacs-lisp
    ;; Creates a new file for a diary entry into phd progress!
-   (defun new-phd-diary ()
+   (defun sharp/new-phd-diary ()
      "This function can be used to create an org file with today as it's file name."
      (interactive)
      (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" )))
@@ -1099,7 +1005,7 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
    " "PhD Diary" ) ) )
 
 
-   (defun find-phd-diary ()
+   (defun sharp/find-phd-diary ()
    (interactive)
      (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" ))))
 
@@ -1110,6 +1016,27 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
      (find-file  (concat "~/PHD/Notes/" (format-time-string "friday-seminar-%Y-%W.org" ))))
 
 #+END_SRC
+
+
+** Auto save report to tex
+
+#+BEGIN_SRC emacs-lisp
+  (defun sharp/save-report ()
+    "Exports a tex version of the report document"
+    (interactive)
+    (setq sharp/last-buffer (current-buffer))
+    (find-file "~/PHD/Probation/report.org")
+    (org-latex-export-to-latex)
+    (switch-to-buffer sharp/last-buffer)
+    )
+
+  (defun sharp/run-compile ()
+    "runs a nice commands to constantly build on change my report"
+    (interactive)
+    (async-shell-command "cd ~/PHD/Probation/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f report.tex --synctex=1 -pvc")
+    )
+#+END_SRC
+
 
 * Yasnippet
 
@@ -1137,82 +1064,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 
 #+END_SRC
 
-** omg make tabs great again (deprecated)
-
-#+BEGIN_SRC emacs-lisp
-  ;; (defun check-expansion ()
-  ;;   (save-excursion
-  ;;     (if (looking-at "\\_>") t
-  ;;       (backward-char 1)
-  ;;       (if (looking-at "\\.") t
-  ;;     (backward-char 1)
-  ;;     (if (looking-at "->") t nil)))))
-
-  ;; (defun do-yas-expand ()
-  ;;   (let ((yas/fallback-behavior 'return-nil))
-  ;;     (yas/expand)))
-
-  ;; (defun tab-indent-or-complete ()
-  ;;   (interactive)
-  ;;   (cond
-  ;;    ((minibufferp)
-  ;;     (minibuffer-complete))
-  ;;    (t
-  ;;     (indent-for-tab-command)
-  ;;     (if (or (not yas/minor-mode)
-  ;;         (null (do-yas-expand)))
-  ;;     (if (check-expansion)
-  ;;         (progn
-  ;;           (company-manual-begin)
-  ;;           (if (null company-candidates)
-  ;;           (progn
-  ;;             (company-abort)
-  ;;             (indent-for-tab-command)))))))))
-
-  ;; (defun tab-complete-or-next-field ()
-  ;;   (interactive)
-  ;;   (if (or (not yas/minor-mode)
-  ;;       (null (do-yas-expand)))
-  ;;       (if company-candidates
-  ;;       (company-complete-selection)
-  ;;     (if (check-expansion)
-  ;;       (progn
-  ;;         (company-manual-begin)
-  ;;         (if (null company-candidates)
-  ;;         (progn
-  ;;           (company-abort)
-  ;;           (yas-next-field))))
-  ;;       (yas-next-field)))))
-
-  ;; (defun expand-snippet-or-complete-selection ()
-  ;;   (interactive)
-  ;;   (if (or (not yas/minor-mode)
-  ;;       (null (do-yas-expand))
-  ;;       (company-abort))
-  ;;       (company-complete-selection)))
-
-  ;; (defun abort-company-or-yas ()
-  ;;   (interactive)
-  ;;   (if (null company-candidates)
-  ;;       (yas-abort-snippet)
-  ;;     (company-abort)))
-
-  ;; (global-set-key [tab] 'tab-indent-or-complete)
-  ;; (global-set-key (kbd "TAB") 'tab-indent-or-complete)
-  ;; (global-set-key [(control return)] 'company-complete-common)
-
-  ;; (define-key company-active-map [tab] 'expand-snippet-or-complete-selection)
-  ;; (define-key company-active-map (kbd "TAB") 'expand-snippet-or-complete-selection)
-
-  ;; (define-key yas-minor-mode-map [tab] nil)
-  ;; (define-key yas-minor-mode-map (kbd "TAB") nil)
-
-  ;; (define-key yas-keymap [tab] 'tab-complete-or-next-field)
-  ;; (define-key yas-keymap (kbd "TAB") 'tab-complete-or-next-field)
-  ;; (define-key yas-keymap [(control tab)] 'yas-next-field)
-  ;; (define-key yas-keymap (kbd "C-g") 'abort-company-or-yas)
-
-#+END_SRC
 * Custom Keybinds
 ** Multiple Cursors
    As this will require a lot of overrides I want it towards the end of the file
@@ -1361,7 +1212,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 #+BEGIN_SRC emacs-lisp
 
 (fringe-mode 0)
-
 
 #+END_SRC
 
