@@ -4,3 +4,6 @@
 [submodule "scimax"]
 	path = scimax
 	url = https://github.com/jkitchin/scimax.git
+[submodule "nord-emacs"]
+	path = nord-emacs
+	url = https://github.com/SirSharpest/nord-emacs.git

@@ -74,7 +74,11 @@
   (require 'symbol-overlay)
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'linum-mode)    ; F7 F8
-  (load-theme 'doom-nord t)
+
+  (add-to-list 'load-path "~/.emacs.d/nord-emacs/")
+  (require 'nord-theme)
+
+  (load-theme 'nord t)
   (setq org-fontify-whole-heading-line t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
@@ -230,7 +234,7 @@
 
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
-                    :height 170
+                    :height 120
                     :weight 'normal
                     :width 'normal)
   ;; specify font for all unicode characters
@@ -239,7 +243,7 @@
   ;; specify font for chinese characters using default chinese font on linux
   (when (member "WenQuanYi Micro Hei" (font-family-list))
     (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-  (set-face-attribute 'default nil :height 170)
+  (set-face-attribute 'default nil :height 120)
 #+END_SRC
 
 * Company stuff
@@ -591,102 +595,102 @@
 * Org Mode Setup
 
 ** General Setup
-#+BEGIN_SRC emacs-lisp
-     ;; ORG CONFIGURATION
-     ;; --------------------------------------
+ #+BEGIN_SRC emacs-lisp
+      ;; ORG CONFIGURATION
+      ;; --------------------------------------
 
-  (setq org-image-actual-width nil)
-  (define-key org-mode-map (kbd "C-c p") 'display-latex-fragments-in-buffer)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+   (setq org-image-actual-width nil)
+   (define-key org-mode-map (kbd "C-c p") 'display-latex-fragments-in-buffer)
+   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
-   (setq org-todo-keywords
-         '((sequence "TODO" "|" "DONE")
-           (sequence "IDEA" "|" "DONE")
-           (sequence  "BUG" "|" "FIXED")
-           (sequence  "QUESTION" "|" "ANSWERED")
-           (sequence "|" "CANCELLED")))
+    (setq org-todo-keywords
+          '((sequence "TODO" "|" "DONE")
+            (sequence "IDEA" "|" "DONE")
+            (sequence  "BUG" "|" "FIXED")
+            (sequence  "QUESTION" "|" "ANSWERED")
+            (sequence "|" "CANCELLED")))
 
-     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+      (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
-     ;; Need to sort out some ob-ipython stuff here
-     (add-to-list 'load-path "~/.emacs.d/scimax/")
-     (require 'ob-ipython)
-     (require 'scimax-ob)
-     (require 'scimax-org-babel-ipython-upstream)
-     (add-to-list 'company-backends 'company-ob-ipython)
-
-
-
-     (setq org-agenda-files (list "~/Google Drive/org/work.org"
-                                  "~/Google Drive/org/university.org"
-                                  "~/Google Drive/org/home.org"))
-
-     (defun org-latex-export-to-pdf-and-clean ()
-       (interactive)
-       (org-latex-export-to-pdf)
-       (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
-       (delete-file (concat (file-name-sans-extension (buffer-name)) ".bbl"))
-       (delete-file (concat (file-name-sans-extension (buffer-name)) ".synctex.gz"))
-       (delete-file "texput.log")
-       (delete-directory "auto" 't)
-       (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
-       )
-     (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
-
-   (setq org-latex-listings 'minted
-         org-latex-packages-alist '(("" "minted"))
-         org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
+      ;; Need to sort out some ob-ipython stuff here
+      (add-to-list 'load-path "~/.emacs.d/scimax/")
+      (require 'ob-ipython)
+      (require 'scimax-ob)
+      (require 'scimax-org-babel-ipython-upstream)
+      (add-to-list 'company-backends 'company-ob-ipython)
 
 
-     (setq org-latex-minted-options
-           '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
 
-     ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
+      (setq org-agenda-files (list "~/Google Drive/org/work.org"
+                                   "~/Google Drive/org/university.org"
+                                   "~/Google Drive/org/home.org"))
 
-     ;; Turn on languages for org mode
-     (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((R . t)
-        (python . t)
-        (ipython . t)
-        (plantuml .t)))
-     (setq org-babel-python-command "python")
-     (setq org-confirm-babel-evaluate nil)
-     (require 'org-ref)
-     (setq org-latex-prefer-user-labels t)
-     (define-key org-mode-map (kbd "C-c i") 'org-ref-helm-insert-ref-link)
-     (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
-     (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
+      (defun org-latex-export-to-pdf-and-clean ()
+        (interactive)
+        (org-latex-export-to-pdf)
+        (delete-file (concat (file-name-sans-extension (buffer-name)) ".tex"))
+        (delete-file (concat (file-name-sans-extension (buffer-name)) ".bbl"))
+        (delete-file (concat (file-name-sans-extension (buffer-name)) ".synctex.gz"))
+        (delete-file "texput.log")
+        (delete-directory "auto" 't)
+        (delete-directory (concat "_minted-" (file-name-sans-extension (buffer-name))) 't)
+        )
+      (global-set-key  [f5] (lambda () (interactive) (org-latex-export-to-pdf-and-clean)))
 
-
-     (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-     (setq org-plantuml-jar-path
-           (expand-file-name "~/.emacs.d/plantuml.jar"))
-     (setq plantuml-jar-path
-           (expand-file-name "~/.emacs.d/plantuml.jar"))
-
-     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-     ;; Turn on org-mode syntax highlighting for src blocks
-     (setq org-src-fontify-natively t)
-
-     ;; Open with external application
-     (require 'openwith)
-     (openwith-mode t)
-     (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
+    (setq org-latex-listings 'minted
+          org-latex-packages-alist '(("" "minted"))
+          org-latex-pdf-process (quote ("latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f --synctex=1")))
 
 
-     (defun org-babel-run-and-display-images ()
-       (interactive)
-       (progn
-         (org-babel-execute-src-block-maybe)
-         (org-display-inline-images)))
+      (setq org-latex-minted-options
+            '(("frame" "lines") ("linenos=true") ("fontfamily=Monaco")))
 
-     (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
+      ;;(add-to-list 'org-latex-minted-langs '(ipython "python"))
 
-     ;; Add a timestamp to closed topics
-     (setq org-log-done 'time)
-     (define-key org-mode-map (kbd "C-<tab>") nil)
-#+END_SRC
+      ;; Turn on languages for org mode
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((R . t)
+         (python . t)
+         (ipython . t)
+         (plantuml .t)))
+      (setq org-babel-python-command "python")
+      (setq org-confirm-babel-evaluate nil)
+      (require 'org-ref)
+      (setq org-latex-prefer-user-labels t)
+      (define-key org-mode-map (kbd "C-c i") 'org-ref-helm-insert-ref-link)
+      (setq reftex-default-bibliography '("~/PHD/Notes/library.bib"))
+      (setq org-ref-default-bibliography '("~/PHD/Notes/library.bib"))
+
+
+      (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+      (setq org-plantuml-jar-path
+            (expand-file-name "~/.emacs.d/plantuml.jar"))
+      (setq plantuml-jar-path
+            (expand-file-name "~/.emacs.d/plantuml.jar"))
+
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+      ;; Turn on org-mode syntax highlighting for src blocks
+      (setq org-src-fontify-natively t)
+
+      ;; Open with external application
+      (require 'openwith)
+      (openwith-mode t)
+      (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
+
+
+      (defun org-babel-run-and-display-images ()
+        (interactive)
+        (progn
+          (org-babel-execute-src-block-maybe)
+          (org-display-inline-images)))
+
+      (define-key org-mode-map (kbd "<f6>") 'org-babel-run-and-display-images)
+
+      ;; Add a timestamp to closed topics
+      (setq org-log-done 'time)
+      (define-key org-mode-map (kbd "C-<tab>") nil)
+ #+END_SRC
 
 ** Setup for docx export
 
@@ -1033,8 +1037,9 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 #+END_SRC
 
 * Theme switcher
+
 #+BEGIN_SRC emacs-lisp
-  (defvar *sharp-theme-dark* 'doom-nord)
+  (defvar *sharp-theme-dark* 'nord)
   (defvar *sharp-theme-light* 'leuven)
   (defvar *sharp-current-theme* *sharp-theme-dark*)
 
@@ -1066,6 +1071,7 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 
 * Misc Functions
 ** Display latex fragments properly
+
 #+BEGIN_SRC emacs-lisp
 (defun display-latex-fragments-in-buffer ()
   "This will properly display all fragments in org-mode >9"
@@ -1209,7 +1215,7 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 #+END_SRC
 * Custom Keybinds
 ** Multiple Cursors
-As this will require a lot of overrides I want it towards the end of the file
+   As this will require a lot of overrides I want it towards the end of the file
 #+BEGIN_SRC emacs-lisp
   (require 'multiple-cursors)
   (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
