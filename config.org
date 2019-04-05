@@ -62,7 +62,7 @@
       symbol-overlay
       company-box
       ob-ipython
-      center-window
+      centered-window
       ))
 
   (mapc #'(lambda (package)
@@ -1029,7 +1029,7 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
     (find-file "~/PHD/Probation/report.org")
     (org-latex-export-to-latex)
     (switch-to-buffer sharp/last-buffer)
-    )
+    (shell-command "texcount report.tex | grep 'Words'"))
 
   (defun sharp/run-compile ()
     "runs a nice commands to constantly build on change my report"
