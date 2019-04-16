@@ -231,20 +231,20 @@
 
 * Fonts
 #+BEGIN_SRC emacs-lisp
-  ;;set a default font
+    ;;set a default font
 
-(set-face-attribute 'default nil
-                    :family "Source Code Pro"
-                    :height 120
-                    :weight 'normal
-                    :width 'normal)
-  ;; specify font for all unicode characters
-  (when (member "Symbola" (font-family-list))
-    (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-  ;; specify font for chinese characters using default chinese font on linux
-  (when (member "WenQuanYi Micro Hei" (font-family-list))
-    (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-  (set-face-attribute 'default nil :height 120)
+  (set-face-attribute 'default nil
+                      :family "Source Code Pro"
+                      :height 140
+                      :weight 'normal
+                      :width 'normal)
+    ;; specify font for all unicode characters
+    (when (member "Symbola" (font-family-list))
+      (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+    ;; specify font for chinese characters using default chinese font on linux
+    (when (member "WenQuanYi Micro Hei" (font-family-list))
+      (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+    (set-face-attribute 'default nil :height 140)
 #+END_SRC
 
 * Company stuff
@@ -358,6 +358,13 @@
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "M-i") 'helm-imenu)
   (global-set-key (kbd "C-s") 'swiper-helm)
+    (with-eval-after-load "helm"
+      (defun helm-persistent-action-display-window (&optional split-onewindow)
+        "Return the window that will be used for persistent action.
+If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
+        (with-helm-window
+         (setq helm-persistent-action-display-window (get-mru-window)))))
+
 
   ;; (defun project-change ()
   ;;   (interactive)
@@ -1034,7 +1041,7 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
   (defun sharp/run-compile ()
     "runs a nice commands to constantly build on change my report"
     (interactive)
-    (async-shell-command "cd ~/PHD/Probation/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f report.tex --synctex=1 -pvc")
+    (async-shell-command "cd ~/PHD/Probation/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f report.tex --synctex=1 -pvc -view=none")
     )
 #+END_SRC
 
@@ -1067,7 +1074,9 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 
 * Custom Keybinds
 ** Multiple Cursors
+
    As this will require a lot of overrides I want it towards the end of the file
+
 #+BEGIN_SRC emacs-lisp
   (require 'multiple-cursors)
   (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
