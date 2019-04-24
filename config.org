@@ -63,6 +63,9 @@
       company-box
       ob-ipython
       centered-window
+      ess
+      ess-smart-equals
+      ess-R-data-view
       ))
 
   (mapc #'(lambda (package)
@@ -805,6 +808,28 @@ If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
 )
 #+END_SRC
 
+* R mode
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'ess)
+(require 'ess-R-data-view)
+(require 'ess-smart-equals)
+
+
+(defun ess-R-show-objects ()
+  "Calls rdired and associates with R process"
+  (interactive)
+  (if (get-buffer "*R*") ;;Only run if R is running
+      (progn
+        (ess-rdired)
+        (ess-rdired-switch-process))
+    (message "No R process")
+    )
+  )
+(global-set-key (kbd "\C-co") 'ess-R-show-objects)
+#+END_SRC
+
 * Python Mode Setup
 #+BEGIN_SRC emacs-lisp
     ;; PYTHON CONFIGURATION
@@ -982,7 +1007,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
   (global-set-key  [f7] (lambda () (interactive) (sharp/toggle-theme)))
 #+END_SRC
 
-
 * Misc Functions
 ** Display latex fragments properly
 
@@ -1045,7 +1069,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
     )
 #+END_SRC
 
-
 * Yasnippet
 
 #+BEGIN_SRC emacs-lisp
@@ -1076,7 +1099,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
 ** Multiple Cursors
 
    As this will require a lot of overrides I want it towards the end of the file
-
 #+BEGIN_SRC emacs-lisp
   (require 'multiple-cursors)
   (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
@@ -1085,6 +1107,7 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
   (define-key mc/keymap (kbd "<return>") nil)
 #+END_SRC
+
 * Eww
 
 #+BEGIN_SRC emacs-lisp
@@ -1215,7 +1238,6 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
     :ensure t)
 
 #+END_SRC
-
 
 * Fixes
 
