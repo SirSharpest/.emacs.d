@@ -66,6 +66,7 @@
       ess
       ess-smart-equals
       ess-R-data-view
+      vlf
       ))
 
   (mapc #'(lambda (package)
@@ -96,15 +97,15 @@
   (require 'iedit)
   (global-set-key (kbd "C-c e") 'iedit-mode)
   (add-hook 'after-init-hook 'global-company-mode)
-  (global-hl-line-mode +1) ;; why is this not default!
+  ;;(global-hl-line-mode +1) ;; why is this not default!
   (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
   (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
   ;; Setup keybind reminders
   (require 'guide-key)
   (setq guide-key/guide-key-sequence '("C-c" "C-x"))
   (guide-key-mode 1)
-
-  ;;; Scrolling.
+  (require 'vlf-setup)
+  ;;; scrolling.
   ;; Good speed and allow scrolling through large images (pixel-scroll).
   ;; Note: Scroll lags when point must be moved but increasing the number
   ;;       of lines that point moves in pixel-scroll.el ruins large image
@@ -812,22 +813,26 @@ If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
 
 #+BEGIN_SRC emacs-lisp
 
-(require 'ess)
-(require 'ess-R-data-view)
-(require 'ess-smart-equals)
+  (require 'ess)
+  (require 'ess-R-data-view)
+  (require 'ess-smart-equals)
 
 
-(defun ess-R-show-objects ()
-  "Calls rdired and associates with R process"
-  (interactive)
-  (if (get-buffer "*R*") ;;Only run if R is running
-      (progn
-        (ess-rdired)
-        (ess-rdired-switch-process))
-    (message "No R process")
+  (defun ess-R-show-objects ()
+    "Calls rdired and associates with R process"
+    (interactive)
+    (if (get-buffer "*R*") ;;Only run if R is running
+        (progn
+          (ess-rdired)
+          (ess-rdired-switch-process))
+      (message "No R process")
+      )
     )
-  )
-(global-set-key (kbd "\C-co") 'ess-R-show-objects)
+
+  (global-set-key (kbd "\C-co") 'ess-R-show-objects)
+
+  (setq ess-eval-visibly 'nowait)
+
 #+END_SRC
 
 * Python Mode Setup
