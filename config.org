@@ -832,43 +832,49 @@ If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
 
 * Python Mode Setup
 #+BEGIN_SRC emacs-lisp
-    ;; PYTHON CONFIGURATION
-      ;; --------------------------------------
-  (use-package flycheck
-    :ensure t
-    :init
-    (global-flycheck-mode t))
+      ;; PYTHON CONFIGURATION
+        ;; --------------------------------------
+    (use-package flycheck
+      :ensure t
+      :init
+      (global-flycheck-mode t))
 
-  (elpy-enable)
-  (setq elpy-rpc-backend "rope")
-  (setenv "WORKON_HOME" "~/anaconda3/envs")
+  ;;  (elpy-enable)
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
-  (setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt")
-
-  ;; enable autopep8 formatting on save
-  (require 'py-autopep8)
+    (setq elpy-rpc-backend "rope")
+    (setenv "WORKON_HOME" "~/anaconda3/envs")
 
 
-  (setq python-indent-offset 4)
-  (defun python-custom-settings ()
-    (setq tab-width 4))
-  (setq-default indent-tabs-mode nil)
+    (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "-i --simple-prompt")
 
-  (defun my-python-mode-setup ()
-    (py-autopep8-enable-on-save)
-    (python-custom-settings)
-    (flycheck-mode)
-    (setq flycheck-python-pylint-executable "pylint3")
-    (setq flycheck-python-flake8-executable "flake8")
-    )
+    ;; enable autopep8 formatting on save
+    (require 'py-autopep8)
 
-  (add-hook 'python-mode-hook 'my-python-mode-setup)
-  (pyvenv-workon "playground") ;; Default working env that has my libs
 
-  (setq elpy-modules (delete 'elpy-module-highlight-indentation elpy-modules))
-  ;; (with-eval-after-load 'elpy
-  ;;   (highlight-indentation-mode))
+    (setq python-indent-offset 4)
+    (defun python-custom-settings ()
+      (setq tab-width 4))
+    (setq-default indent-tabs-mode nil)
+
+    (defun my-python-mode-setup ()
+      (py-autopep8-enable-on-save)
+      (python-custom-settings)
+      (flycheck-mode)
+      (setq flycheck-python-pylint-executable "pylint3")
+      (setq flycheck-python-flake8-executable "flake8")
+      )
+
+    (add-hook 'python-mode-hook 'my-python-mode-setup)
+    (pyvenv-workon "playground") ;; Default working env that has my libs
+    (eval-after-load "company"
+    '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
+
+    ;; (setq elpy-modules (delete 'elpy-module-highlight-indentation elpy-modules))
+    ;; (with-eval-after-load 'elpy
+    ;;   (highlight-indentation-mode))
 #+END_SRC
 
 
