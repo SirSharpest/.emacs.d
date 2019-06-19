@@ -964,6 +964,9 @@ If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
   (eval-after-load "company"
   '(add-to-list 'company-backends '(company-anaconda)))
 
+
+  (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+
   ;; (setq elpy-modules (delete 'elpy-module-highlight-indentation elpy-modules))
   ;; (with-eval-after-load 'elpy
   ;;   (highlight-indentation-mode))
