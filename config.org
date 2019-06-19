@@ -10,7 +10,8 @@
   ;;; Code:
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                            ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")))
+                           ("melpa" . "https://melpa.org/packages/")
+                           ("org" . "http://orgmode.org/elpa/")))
   (package-initialize)
   (when (not package-archive-contents)
     (package-refresh-contents))
@@ -164,8 +165,95 @@
   ;; Stop that minibuffer expansion
   ;;(setq resize-mini-windows nil)
 
+
+#+END_SRC
+
+
+** Doom modeline
+
+#+BEGIN_SRC emacs-lisp
+
   (require 'doom-modeline)
   (doom-modeline-mode 1)
+
+
+  ;; How tall the mode-line should be. It's only respected in GUI.
+  ;; If the actual char height is larger, it respects the actual height.
+  (setq doom-modeline-height 25)
+
+  ;; How wide the mode-line bar should be. It's only respected in GUI.
+  (setq doom-modeline-bar-width 3)
+
+  ;; Determines the style used by `doom-modeline-buffer-file-name'.
+  ;;
+  ;; Given ~/Projects/FOSS/emacs/lisp/comint.el
+  ;;   truncate-upto-project => ~/P/F/emacs/lisp/comint.el
+  ;;   truncate-from-project => ~/Projects/FOSS/emacs/l/comint.el
+  ;;   truncate-with-project => emacs/l/comint.el
+  ;;   truncate-except-project => ~/P/F/emacs/l/comint.el
+  ;;   truncate-upto-root => ~/P/F/e/lisp/comint.el
+  ;;   truncate-all => ~/P/F/e/l/comint.el
+  ;;   relative-from-project => emacs/lisp/comint.el
+  ;;   relative-to-project => lisp/comint.el
+  ;;   file-name => comint.el
+  ;;   buffer-name => comint.el<2> (uniquify buffer name)
+  ;;
+  ;; If you are expereicing the laggy issue, especially while editing remote files
+  ;; with tramp, please try `file-name' style.
+  ;; Please refer to https://github.com/bbatsov/projectile/issues/657.
+  (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+
+  ;; Whether display icons in mode-line or not.
+  (setq doom-modeline-icon t)
+
+  ;; Whether display the icon for major mode. It respects `doom-modeline-icon'.
+  (setq doom-modeline-major-mode-icon t)
+
+  ;; Whether display color icons for `major-mode'. It respects
+  ;; `doom-modeline-icon' and `all-the-icons-color-icons'.
+  (setq doom-modeline-major-mode-color-icon t)
+
+  ;; Whether display icons for buffer states. It respects `doom-modeline-icon'.
+  (setq doom-modeline-buffer-state-icon t)
+
+  ;; Whether display buffer modification icon. It respects `doom-modeline-icon'
+  ;; and `doom-modeline-buffer-state-icon'.
+  (setq doom-modeline-buffer-modification-icon t)
+
+  ;; Whether display minor modes in mode-line or not.
+  (setq doom-modeline-minor-modes nil)
+
+  ;; If non-nil, a word count will be added to the selection-info modeline segment.
+  (setq doom-modeline-enable-word-count nil)
+
+  ;; Whether display buffer encoding.
+  (setq doom-modeline-buffer-encoding t)
+
+  ;; Whether display indentation information.
+  (setq doom-modeline-indent-info nil)
+
+  ;; If non-nil, only display one number for checker information if applicable.
+  (setq doom-modeline-checker-simple-format t)
+
+  ;; The maximum displayed length of the branch name of version control.
+  (setq doom-modeline-vcs-max-length 12)
+
+  ;; Whether display perspective name or not. Non-nil to display in mode-line.
+  (setq doom-modeline-persp-name t)
+
+  ;; Whether display `lsp' state or not. Non-nil to display in mode-line.
+  (setq doom-modeline-lsp t)
+
+  ;; Whether display github notifications or not. Requires `ghub` package.
+  (setq doom-modeline-github nil)
+
+  ;; The interval of checking github.
+  (setq doom-modeline-github-interval (* 30 60))
+
+  ;; Whether display environment version or not
+  (setq doom-modeline-env-version t)
+
+  (setq column-number-mode t)
 #+END_SRC
 
 ** Transposes
@@ -837,81 +925,80 @@ If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
 
 * Python Mode Setup
 #+BEGIN_SRC emacs-lisp
-      ;; PYTHON CONFIGURATION
-        ;; --------------------------------------
-    (use-package flycheck
-      :ensure t
-      :init
-      (global-flycheck-mode t))
+    ;; PYTHON CONFIGURATION
+      ;; --------------------------------------
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode t))
 
-  ;;  (elpy-enable)
-    (add-hook 'python-mode-hook 'anaconda-mode)
-    (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+  ;; (elpy-enable)
 
-    (setq elpy-rpc-backend "rope")
-    (setenv "WORKON_HOME" "~/anaconda3/envs")
+  ;; (setq elpy-rpc-backend "rope")
 
 
-    (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args "-i --simple-prompt")
+  (setenv "WORKON_HOME" "~/anaconda3/envs")
+  (pyvenv-workon "playground") ;; Default working env that has my libs
 
-    ;; enable autopep8 formatting on save
-    (require 'py-autopep8)
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "--simple-prompt -i")
 
+  ;; enable autopep8 formatting on save
+  (require 'py-autopep8)
+  (setq python-indent-offset 4)
+  (defun python-custom-settings ()
+    (setq tab-width 4))
+  (setq-default indent-tabs-mode nil)
 
-    (setq python-indent-offset 4)
-    (defun python-custom-settings ()
-      (setq tab-width 4))
-    (setq-default indent-tabs-mode nil)
+  (defun my-python-mode-setup ()
+    (py-autopep8-enable-on-save)
+    (python-custom-settings)
+    (flycheck-mode)
+    (anaconda-mode)
+    (setq flycheck-python-pylint-executable "pylint3")
+    (setq flycheck-python-flake8-executable "flake8")
+    )
 
-    (defun my-python-mode-setup ()
-      (py-autopep8-enable-on-save)
-      (python-custom-settings)
-      (flycheck-mode)
-      (setq flycheck-python-pylint-executable "pylint3")
-      (setq flycheck-python-flake8-executable "flake8")
-      )
+  (add-hook 'python-mode-hook 'my-python-mode-setup)
 
-    (add-hook 'python-mode-hook 'my-python-mode-setup)
-    (pyvenv-workon "playground") ;; Default working env that has my libs
-    (eval-after-load "company"
-    '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
+  (eval-after-load "company"
+  '(add-to-list 'company-backends '(company-anaconda)))
 
-    ;; (setq elpy-modules (delete 'elpy-module-highlight-indentation elpy-modules))
-    ;; (with-eval-after-load 'elpy
-    ;;   (highlight-indentation-mode))
+  ;; (setq elpy-modules (delete 'elpy-module-highlight-indentation elpy-modules))
+  ;; (with-eval-after-load 'elpy
+  ;;   (highlight-indentation-mode))
 #+END_SRC
 
 
 #+BEGIN_SRC emacs-lisp
-  ;; Resets python buffer so you can easily refresh classes
-(defun reset-py ()
-  (interactive)
-  (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
-  (kill-buffer "*Python*")
-  (elpy-shell-send-region-or-buffer-and-step))
+    ;; Resets python buffer so you can easily refresh classes
+  ;; (defun reset-py ()
+  ;;   (interactive)
+  ;;   (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+  ;;   (kill-buffer "*Python*")
+  ;;   (elpy-shell-send-region-or-buffer-and-step))
 
 
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
+  ;; (setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
 
-(defvar elpy-shell-python-shell-names '("Python")
-  "List of existing python shell names.")
+  ;; (defvar elpy-shell-python-shell-names '("Python")
+  ;;   "List of existing python shell names.")
 
-(defun elpy-shell-switch-python-shell (&optional dont-display)
-  "Switch to another Python shell.
+  ;; (defun elpy-shell-switch-python-shell (&optional dont-display)
+  ;;   "Switch to another Python shell.
 
-Create a new ONE if it does not exist.
-If DONT-DISPLAY is non nil, do not display the python shell afterwards."
-  (interactive)
-  (let ((shell-name (completing-read "Python shell name: "
-                                     'elpy-shell-python-shell-names)))
-    (setq python-shell-buffer-name shell-name)
-    (add-to-list 'elpy-shell-python-shell-names shell-name t)
-    (when (not dont-display)
-      (elpy-shell-display-buffer))))
+  ;; Create a new ONE if it does not exist.
+  ;; If DONT-DISPLAY is non nil, do not display the python shell afterwards."
+  ;;   (interactive)
+  ;;   (let ((shell-name (completing-read "Python shell name: "
+  ;;                                      'elpy-shell-python-shell-names)))
+  ;;     (setq python-shell-buffer-name shell-name)
+  ;;     (add-to-list 'elpy-shell-python-shell-names shell-name t)
+  ;;     (when (not dont-display)
+  ;;       (elpy-shell-display-buffer))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -1077,6 +1164,24 @@ If DONT-DISPLAY is non nil, do not display the python shell afterwards."
     "runs a nice commands to constantly build on change my report"
     (interactive)
     (async-shell-command "cd ~/PHD/Probation/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f report.tex --synctex=1 -pvc -view=none")
+    )
+
+  (defun sharp/save-presentation ()
+    "Exports a tex version of the report document"
+    (interactive)
+    (org-beamer-export-to-latex)
+  )
+
+  (defun sharp/run-compile ()
+    "runs a nice commands to constantly build on change my report"
+    (interactive)
+    (async-shell-command "cd ~/PHD/Probation/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f report.tex --synctex=1 -pvc -view=none")
+    )
+
+  (defun sharp/run-compile-presentation ()
+    "runs a nice commands to constantly build on change my report"
+    (interactive)
+    (async-shell-command "cd ~/PHD/Presentations/project_update_beamer/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f presentation.tex --synctex=1 -pvc -view=none")
     )
 #+END_SRC
 

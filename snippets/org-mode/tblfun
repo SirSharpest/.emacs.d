@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# name: tblfun
+# key: tblfun
+# --
+#+BEGIN_SRC ipython :session :exports results
+  import tabulate
+  import IPython
+
+  class OrgFormatter(IPython.core.formatters.BaseFormatter):
+      format_type = IPython.core.formatters.Unicode('text/org')
+      print_method = IPython.core.formatters.ObjectName('_repr_org_')
+
+  def pd_dataframe_to_org(df):
+      return tabulate.tabulate(df, headers='keys', tablefmt='orgtbl', showindex='always')
+
+  ip = get_ipython()
+  ip.display_formatter.formatters['text/org'] = OrgFormatter()
+
+  f = ip.display_formatter.formatters['text/org']
+  f.for_type_by_name('pandas.core.frame', 'DataFrame', pd_dataframe_to_org)
+
+  print('Lets go!')
+#+END_SRC
+
+$0

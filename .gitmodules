@@ -7,3 +7,6 @@
 [submodule "nord-emacs"]
 	path = nord-emacs
 	url = https://github.com/SirSharpest/nord-emacs.git
+[submodule "ox-ipynb"]
+	path = ox-ipynb
+	url = https://github.com/jkitchin/ox-ipynb.git
