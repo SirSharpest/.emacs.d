@@ -3,7 +3,7 @@
 # key: pyimg
 # --
 
-#+BEGIN_SRC ipython :session :ipyfile '((:name "$1" :filename "obipy-resources/$1.png" :caption "$2" :attr_html ":width 850px" :attsr_latex ":width 15cm")) :exports results
+#+BEGIN_SRC ipython :session :ipyfile '((:name "$1" :filename "obipy-resources/$1.png" :caption "$2" :attr_html ":width 850px" :attr_latex ":width 15cm")) :exports results
   import matplotlib.pyplot as plt
   import seaborn as sns
   import numpy as np
