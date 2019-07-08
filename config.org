@@ -72,8 +72,8 @@
 
   (add-to-list 'load-path "~/.emacs.d/nord-emacs/")
   (require 'nord-theme)
-
   (load-theme 'nord t)
+  (add-to-list 'load-path "~/.emacs.d/ox-ipynb/")
   (setq org-fontify-whole-heading-line t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
