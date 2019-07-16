@@ -63,7 +63,7 @@
         myPackages)
 
 
-  (use-package org-plus-contrib)
+  ;;(use-package org-plus-contrib)
   (require 'golden-ratio)
   (require 'doom-themes)
   (require 'symbol-overlay)
@@ -380,6 +380,8 @@
   (defun my-dot-p (input)
     (eq ?. (string-to-char input)))
   (setq company-auto-complete-chars #'my-dot-p)
+
+  (global-set-key (kbd "<C-return>") 'helm-company)
 
 #+END_SRC
 
