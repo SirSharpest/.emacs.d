@@ -55,6 +55,7 @@
       ess-smart-equals
       ess-R-data-view
       vlf
+      helm-company
       ))
 
   (mapc #'(lambda (package)
