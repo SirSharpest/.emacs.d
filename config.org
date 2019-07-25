@@ -55,7 +55,7 @@
       ess-smart-equals
       ess-R-data-view
       vlf
-      helm-company
+      ;;helm-company
       ))
 
   (mapc #'(lambda (package)
@@ -326,7 +326,7 @@
     ;; specify font for chinese characters using default chinese font on linux
     (when (member "WenQuanYi Micro Hei" (font-family-list))
       (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-    (set-face-attribute 'default nil :height 140)
+    (set-face-attribute 'default nil :height 160)
 #+END_SRC
 
 * Company stuff
@@ -382,7 +382,7 @@
     (eq ?. (string-to-char input)))
   (setq company-auto-complete-chars #'my-dot-p)
 
-  (global-set-key (kbd "<C-return>") 'helm-company)
+  ;;(global-set-key (kbd "<C-return>") 'helm-company)
 
 #+END_SRC
 
@@ -1172,7 +1172,7 @@
   (defun sharp/run-compile-presentation ()
     "runs a nice commands to constantly build on change my report"
     (interactive)
-    (async-shell-command "cd ~/PHD/Presentations/project_update_beamer/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f presentation.tex --synctex=1 -pvc -view=none")
+    (async-shell-command "cd ~/PHD/Documents/Presentations/project_update_beamer/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f presentation.tex --synctex=1 -pvc -view=none")
     )
 #+END_SRC
 
@@ -1358,3 +1358,8 @@
 1. A method of using helm to jump between pdfview mode and org mode
 2. A mode to grab latest matplotlib figure and display properly
 3. A quickhelp option to look u p dictonary words for auto complete?
+
+* Lastly
+#+BEGIN_SRC emacs-lisp
+;;(add-to-list 'company-backends 'company-anaconda)
+#+END_SRC
