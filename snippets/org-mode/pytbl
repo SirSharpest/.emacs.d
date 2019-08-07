@@ -3,6 +3,6 @@
 # key: pytbl
 # --
 
-#+BEGIN_SRC ipython :session :display text/org :exports results
+#+BEGIN_SRC ipython :session :display text/org :exports results :async t
 $0
 #+END_SRC
