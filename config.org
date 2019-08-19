@@ -55,6 +55,7 @@
       ess-smart-equals
       ess-R-data-view
       vlf
+      color-theme-sanityinc-tomorrow
       ;;helm-company
       ))
 
@@ -73,7 +74,7 @@
 
   (add-to-list 'load-path "~/.emacs.d/nord-emacs/")
   (require 'nord-theme)
-  (load-theme 'nord t)
+  (load-theme 'sanityinc-tomorrow-eighties t)
   (add-to-list 'load-path "~/.emacs.d/ox-ipynb/")
   (setq org-fontify-whole-heading-line t)
   (doom-themes-visual-bell-config)
@@ -299,7 +300,7 @@
     ;;set a default font
 
   (set-face-attribute 'default nil
-                      :family "Source Code Pro"
+                      :family "Inconsolata"
                       :height 140
                       :weight 'normal
                       :width 'normal)
@@ -312,6 +313,15 @@
     (when (member "WenQuanYi Micro Hei" (font-family-list))
       (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
     (set-face-attribute 'default nil :height 140)
+
+
+    (custom-set-faces
+    '(org-level-1 ((t (:inherit outline-1 :height 2.0))))
+    '(org-level-2 ((t (:inherit outline-2 :height 1.5))))
+    '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
+    '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
+    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
+    )
 #+END_SRC
 
 * Company stuff
