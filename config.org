@@ -72,14 +72,14 @@
   (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
   (global-set-key (kbd "<f8>") 'golden-ratio)    ; F7 F8
 
-  (add-to-list 'load-path "~/.emacs.d/nord-emacs/")
-  (require 'nord-theme)
+  ;;(add-to-list 'load-path "~/.emacs.d/nord-emacs/")
+  ;;(require 'nord-theme)
   (load-theme 'sanityinc-tomorrow-eighties t)
   (add-to-list 'load-path "~/.emacs.d/ox-ipynb/")
   (setq org-fontify-whole-heading-line t)
   (doom-themes-visual-bell-config)
   (tool-bar-mode -1) ;; turn off that annoying top bar
-  (toggle-scroll-bar -1) ;; turn off scrolling too!
+  ;;(toggle-scroll-bar -1) ;; turn off scrolling too!
   (menu-bar-mode -1) ;; turn off that annoying menu
   (global-set-key (kbd "C-+") 'magit-status)
   (global-set-key (kbd "C-l") 'ace-jump-line-mode)
@@ -356,22 +356,20 @@
                                     ))
 
 
-                                    ;; (setq-default company-backends '(company-files
-  ;;                                   company-capf
-  ;;                                   company-keywords
-  ;;                                   company-yasnippet
-  ;;                                   company-tempo
-  ;;                                   company-gtags
-  ;;                                   company-etags
-  ;;                                   company-elisp
-  ;;                                   company-nxml
-  ;;                                   company-css ; HTML, CSS, XML
-  ;;                                   company-bbdb ; BBDB
-  ;;                                   company-dabbrev-code
-  ;;                                   company-dabbrev
-  ;;                                   company-abbrev
-  ;;                                   company-ispell
-  ;;                                  ))
+  (setq-default company-backends '(company-files
+                                   company-capf
+                                   company-keywords
+                                   company-yasnippet
+                                   company-gtags
+                                   company-etags
+                                   company-elisp
+                                   company-nxml
+                                   company-bbdb ; BBDB
+                                   company-dabbrev-code
+                                   company-dabbrev
+                                   company-abbrev
+                                   company-ispell
+                                   ))
 
   (defun my-dot-p (input)
     (eq ?. (string-to-char input)))
@@ -616,14 +614,20 @@
 ;; Update PDF buffers after successful LaTeX runs
 (add-hook 'TeX-after-compilation-finished-functions
            #'TeX-revert-document-buffer)
+
+(with-eval-after-load 'tex
+  (add-to-list 'safe-local-variable-values
+               '(TeX-command-extra-options . "-shell-escape")))
+
 #+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (defun run-latex ()
       (interactive)
       (let ((process (TeX-active-process))) (if process (delete-process process)))
       (let ((TeX-save-query nil)) (TeX-save-document ""))
       (TeX-command-menu "LaTeX"))
-  (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-x C-s") #'run-latex)))
+  ;; (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-x C-s") #'run-latex)))
 #+END_SRC
 ** Add some better default args to compiling
 #+BEGIN_SRC emacs-lisp
@@ -1110,23 +1114,23 @@
    (defun sharp/new-phd-diary ()
      "This function can be used to create an org file with today as it's file name."
      (interactive)
-     (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" )))
+     (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diaries/%Y/%m/%W.org" )))
      (insert
       (format
        "#+TITLE: %s
   ,#+AUTHOR: Nathan Hughes
   ,#+INCLUDE: \"./preamble.org\" :minlevel 1
 
-  * Tasks
+  ,* Tasks
 
-   bibliography:library.bib
+   bibliography:../../../library.bib
    bibliographystyle:plainnat
    " "PhD Diary" ) ) )
 
 
    (defun sharp/find-phd-diary ()
    (interactive)
-     (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diary-%Y-%W.org" ))))
+     (find-file  (concat "~/PHD/Notes/" (format-time-string "phd-diaries/%Y/%m/%W.org" ))))
 
 
    (defun friday-talks ()
@@ -1170,7 +1174,7 @@
   (defun sharp/run-compile-presentation ()
     "runs a nice commands to constantly build on change my report"
     (interactive)
-    (async-shell-command "cd ~/PHD/Documents/Presentations/project_update_beamer/; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f presentation.tex --synctex=1 -pvc -view=none")
+    (async-shell-command "cd ~/PHD/Documents/Presentations/project_update_beamer/September; latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f presentation.tex --synctex=1 -pvc -view=none")
     )
 #+END_SRC
 
