@@ -7,7 +7,6 @@
       doom-themes
       doom-modeline
       ein
-      elpy
       anaconda-mode
       company-anaconda
       flycheck
@@ -34,7 +33,6 @@
       ace-jump-mode
       all-the-icons-dired
       pylint
-      eyebrowse
       multiple-cursors
       rainbow-mode
       zone-rainbow
@@ -43,19 +41,18 @@
       helm-c-yasnippet
       undo-tree
       winum
-      treemacs
       swiper-helm
       rainbow-delimiters
       highlight-indent-guides
       symbol-overlay
       company-box
-      ob-ipython
       centered-window
       ess
       ess-smart-equals
       ess-R-data-view
       vlf
       color-theme-sanityinc-tomorrow
+      pyvenv
       ;;helm-company
       ))
 
@@ -63,47 +60,82 @@
             (unless (package-installed-p package)
               (package-install package)))
         myPackages)
+#+END_SRC
 
+* Pre-load
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/nord-emacs/")
+  (add-to-list 'load-path "~/.emacs.d/ox-ipynb/")
+  (add-to-list 'load-path "~/.spacemacs.d/scimax/ob-ipython-upstream/")
+  (add-to-list 'load-path "~/.spacemacs.d/scimax/")
+#+END_SRC
 
-  ;;(use-package org-plus-contrib)
+* General init
+
+#+BEGIN_SRC emacs-lisp
   (require 'golden-ratio)
   (require 'doom-themes)
   (require 'symbol-overlay)
-  (global-set-key (kbd "<XF86AudioPlay>") 'zone-rainbow) ;; for headphone
-  (global-set-key (kbd "<f8>") 'golden-ratio)    ; F7 F8
-
-  ;;(add-to-list 'load-path "~/.emacs.d/nord-emacs/")
-  ;;(require 'nord-theme)
-  (load-theme 'sanityinc-tomorrow-eighties t)
-  (add-to-list 'load-path "~/.emacs.d/ox-ipynb/")
-  (setq org-fontify-whole-heading-line t)
-  (doom-themes-visual-bell-config)
-  (tool-bar-mode -1) ;; turn off that annoying top bar
-  ;;(toggle-scroll-bar -1) ;; turn off scrolling too!
-  (menu-bar-mode -1) ;; turn off that annoying menu
-  (global-set-key (kbd "C-+") 'magit-status)
-  (global-set-key (kbd "C-l") 'ace-jump-line-mode)
-  (recentf-mode 1)
-  (setq-default recent-save-file "~/.emacs.d/recentf")
+  (require 'guide-key)
+  (require 'pyvenv)
+  (require 'vlf-setup)
+  (require 'helm)
+  (require 'helm-projectile)
+  (require 'ess)
+  (require 'ess-R-data-view)
+  (require 'ess-smart-equals)
+  (require 'ace-jump-mode)
+  (require 'yasnippet)
+  (require 'helm-c-yasnippet)
+  (require 'multiple-cursors)
+  (require 'winum)
   (require 'use-package)
   (require 'iedit)
-  (global-set-key (kbd "C-c e") 'iedit-mode)
-  (add-hook 'after-init-hook 'global-company-mode)
-  ;;(global-hl-line-mode +1) ;; why is this not default!
-  (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
-  (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
-  ;; Setup keybind reminders
-  (require 'guide-key)
+  (require 'ob-ipython)
+  (require 'scimax-ob)
+  (require 'scimax-org-babel-ipython-upstream)
+  (require 'openwith)
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode t))
+
+  (openwith-mode t)
+  (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
+  (helm-mode 1)
+  (projectile-global-mode)
+  (winum-mode)
   (setq guide-key/guide-key-sequence '("C-c" "C-x"))
   (guide-key-mode 1)
-  (require 'vlf-setup)
-  ;;; scrolling.
-  ;; Good speed and allow scrolling through large images (pixel-scroll).
-  ;; Note: Scroll lags when point must be moved but increasing the number
-  ;;       of lines that point moves in pixel-scroll.el ruins large image
-  ;;       scrolling. So unfortunately I think we'll just have to live with
-  ;;       this.
+  (global-set-key (kbd "C-c e") 'iedit-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (doom-themes-visual-bell-config)
+  (global-hl-line-mode +1) ;; why is this not default!
+  (add-hook 'before-save-hook 'whitespace-cleanup) ;; trailing whitespace begone
+  (show-paren-mode 1) ;; I like to see my parenthesis thank you vmuch
   (smooth-scrolling-mode)
+  (use-package all-the-icons
+  :demand t
+    :config
+    (use-package all-the-icons-dired
+      :demand t
+      :config
+      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+
+  ;; Enable ace window
+  ;; (global-set-key (kbd "M-o") 'ace-window)
+  (electric-pair-mode)
+  (require 'expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region)
+  ;; Heck truncation
+  (set-default 'truncate-lines nil)
+  ;; Stop that minibuffer expansion
+  ;;(setq resize-mini-windows nil)
+  (toggle-scroll-bar -1)
+#+END_SRC
+** Pretty symbols mode
+
+#+BEGIN_SRC emacs-lisp
 
   (global-prettify-symbols-mode 1)
   (add-hook
@@ -132,32 +164,9 @@
              ("Union" .    #x22c3)))))
 
 
-  ;; Fix some frame issues
-  ;; (set-face-background 'vertical-border "gray")
-  ;; (set-face-foreground 'vertical-border (face-background 'vertical-border))
-  ;; Icons
-  (use-package all-the-icons
-  :demand t
-    :config
-    (use-package all-the-icons-dired
-      :demand t
-      :config
-      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
-
-  ;; Enable ace window
-  ;; (global-set-key (kbd "M-o") 'ace-window)
-  (electric-pair-mode)
-  (require 'expand-region)
-  (global-set-key (kbd "C-=") 'er/expand-region)
-
-  ;; Heck truncation
-  (set-default 'truncate-lines nil)
-
-  ;; Stop that minibuffer expansion
-  ;;(setq resize-mini-windows nil)
-
-
 #+END_SRC
+
+
 
 
 ** Doom modeline
@@ -166,7 +175,6 @@
 
   (require 'doom-modeline)
   (doom-modeline-mode 1)
-
 
   ;; How tall the mode-line should be. It's only respected in GUI.
   ;; If the actual char height is larger, it respects the actual height.
@@ -232,7 +240,6 @@
 
 ** Transposes
 #+BEGIN_SRC emacs-lisp
-
   (defun move-line-up ()
     "Move up the current line."
     (interactive)
@@ -247,16 +254,19 @@
     (transpose-lines 1)
     (forward-line -1)
     (indent-according-to-mode))
-
-  (global-set-key [M-up] 'move-line-up)
-  (global-set-key [M-down] 'move-line-down)
 #+END_SRC
 
-** Turning off backups of temp files
+* Alternative defaults
+
 
 #+BEGIN_SRC emacs-lisp
-(setq make-backup-files nil) ; stop creating backup~ files
-(setq auto-save-default nil) ; stop creating #autosave# files
+  (tool-bar-mode -1) ;; turn off that annoying top bar
+  (setq make-backup-files nil) ; stop creating backup~ files
+  (setq auto-save-default nil) ; stop creating #autosave# files
+  (menu-bar-mode -1) ;; turn off that annoying menu
+  (recentf-mode 1)
+  (setq-default recent-save-file "~/.emacs.d/recentf")
+  (fringe-mode 0)
 #+END_SRC
 
 * OSX Specific Stuff
@@ -283,47 +293,22 @@
 
 #+END_SRC
 
-* Here be daemons
-#+BEGIN_SRC emacs-lisp
-  ;; (defun load-nord-theme (frame)
-  ;;   (select-frame frame)
-  ;;   (toggle-scroll-bar -1) ;; tag along
-  ;;   (load-theme 'doom-nord t))
-
-  ;; (if (daemonp)
-  ;;         (add-hook 'after-make-frame-functions #'load-nord-theme)
-  ;;   (load-theme 'doom-nord t))
-#+END_SRC
-
 * Fonts
 #+BEGIN_SRC emacs-lisp
     ;;set a default font
 
   (set-face-attribute 'default nil
-                      :family "Inconsolata"
-                      :height 140
+                      :family "Source Code Pro"
+                      :height 110
                       :weight 'normal
                       :width 'normal)
-
-
     ;; specify font for all unicode characters
     (when (member "Symbola" (font-family-list))
       (set-fontset-font t 'unicode "Symbola" nil 'prepend))
     ;; specify font for chinese characters using default chinese font on linux
     (when (member "WenQuanYi Micro Hei" (font-family-list))
       (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-    (set-face-attribute 'default nil :height 140)
-
-
-    (custom-set-faces
-    '(org-level-1 ((t (:inherit outline-1 :height 2.0))))
-    '(org-level-2 ((t (:inherit outline-2 :height 1.5))))
-    '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
-    '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
-    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
-    )
 #+END_SRC
-
 * Company stuff
 #+BEGIN_SRC emacs-lisp
   (setq-default company-minimum-prefix-length 2   ; minimum prefix character number for auto complete.
@@ -375,7 +360,6 @@
     (eq ?. (string-to-char input)))
   (setq company-auto-complete-chars #'my-dot-p)
 
-  ;;(global-set-key (kbd "<C-return>") 'helm-company)
 
 #+END_SRC
 
@@ -415,73 +399,22 @@
 * Helm Mode Setup
 
 #+BEGIN_SRC emacs-lisp
-  (require 'helm)
-  (require 'helm-projectile)
-  (helm-mode 1)
-  (projectile-global-mode)
+  (helm-projectile-on)
   (setq projectile-enable-caching t)
   (setq projectile-globally-ignored-directories (append '(".git" ".*" ) projectile-globally-ignored-directories))
   (setq projectile-globally-ignored-files (append '("*.png" "*.jpeg" "*.jpg" "*.tif" "*.o" "*.pyc") projectile-globally-ignored-files))
 
 
-  (helm-projectile-on)
   (define-key
   helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-  (global-set-key (kbd "C-f") 'helm-projectile)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
-  (global-set-key (kbd "C-b") 'helm-buffers-list)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x a") 'helm-for-files)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-i") 'helm-imenu)
-  (global-set-key (kbd "C-s") 'swiper-helm)
-    (with-eval-after-load "helm"
-      (defun helm-persistent-action-display-window (&optional split-onewindow)
-        "Return the window that will be used for persistent action.
-   If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
-        (with-helm-window
-         (setq helm-persistent-action-display-window (get-mru-window)))))
 
-   (customize-set-variable 'helm-ff-lynx-style-map t)
-  ;; (defun project-change ()
-  ;;   (interactive)
-  ;;   (helm-projectile-switch-project)
-  ;;   (treemacs-projec (projectile-project-root)))
+  (customize-set-variable 'helm-ff-lynx-style-map t)
 
-  ;; (global-set-key (kbd "C-x p") 'project-change)
-#+END_SRC
-
-* PDF tools
-#+BEGIN_SRC emacs-lisp
-  ;; ;; wrapper for save-buffer ignoring arguments
-  ;; (defun bjm/save-buffer-no-args ()
-  ;;   "Save buffer ignoring arguments"
-  ;;   (save-buffer))
-  ;; (use-package pdf-tools
-  ;;  :pin manual ;;manually update
-  ;;  :config
-  ;;  ;; initialise
-  ;;  (pdf-tools-install)
-  ;;  (setq-default pdf-view-display-size 'fit-page)
-  ;;  ;; automatically annotate highlights
-  ;;  (setq pdf-annot-activate-created-annotations t)
-  ;;  ;; use isearch instead of swiper
-  ;;  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-  ;;  ;; turn off cua so copy works
-  ;;  (add-hook 'pdf-view-mode-hook (lambda () (cua-mode 0)))
-  ;;  ;; more fine-grained zooming
-  ;;  (setq pdf-view-resize-factor 1.1)
-  ;;  ;; keyboard shortcuts
-  ;;  (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
-  ;;  (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
-  ;;  (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete)
-  ;;  ;; wait until map is available
-  ;;  (with-eval-after-load "pdf-annot"
-  ;;    (define-key pdf-annot-edit-contents-minor-mode-map (kbd "<return>") 'pdf-annot-edit-contents-commit)
-  ;;    (define-key pdf-annot-edit-contents-minor-mode-map (kbd "<S-return>") 'newline)
-  ;;    ;; save after adding comment
-  ;;    (advice-add 'pdf-annot-edit-contents-commit :after 'bjm/save-buffer-no-args)))
-
+  (add-to-list 'display-buffer-alist
+                        `(,(rx bos "*helm" (* not-newline) "*" eos)
+                         (display-buffer-in-side-window)
+                         (inhibit-same-window . t)
+                         (window-height . 0.4)))
 #+END_SRC
 
 * LaTeX Setup
@@ -629,6 +562,20 @@
       (TeX-command-menu "LaTeX"))
   ;; (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-x C-s") #'run-latex)))
 #+END_SRC
+
+** Display latex fragments properly
+
+#+BEGIN_SRC emacs-lisp
+(defun display-latex-fragments-in-buffer ()
+  "This will properly display all fragments in org-mode >9"
+  (interactive)
+  (let ((current-prefix-arg '(16)))
+    (call-interactively 'org-preview-latex-fragment))
+  )
+#+END_SRC
+
+
+
 ** Add some better default args to compiling
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "tex"
@@ -649,7 +596,7 @@
   ;; --------------------------------------
   ;; Spell check activate
 
-  (setq ispell-program-name "/usr/local/bin/aspell")
+  (setq ispell-program-name "/usr/bin/aspell")
 
   (add-hook 'text-mode-hook 'flyspell-mode)
   (setq highlight-indent-guides-method 'character)
@@ -684,6 +631,7 @@
 #+END_SRC
 
 * Org Mode Setup
+
 
 ** General Setup
  #+BEGIN_SRC emacs-lisp
@@ -765,12 +713,6 @@
          ;; Turn on org-mode syntax highlighting for src blocks
          (setq org-src-fontify-natively t)
 
-         ;; Open with external application
-         (require 'openwith)
-         (openwith-mode t)
-         (setq openwith-associations '(("\\.pdf\\'" "open" (file))))
-
-
          (defun org-babel-run-and-display-images ()
            (interactive)
            (progn
@@ -783,6 +725,20 @@
          (setq org-log-done 'time)
          (define-key org-mode-map (kbd "C-<tab>") nil)
  #+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-fontify-whole-heading-line t)
+
+    (custom-set-faces
+    '(org-level-1 ((t (:inherit outline-1 :height 2.0))))
+    '(org-level-2 ((t (:inherit outline-2 :height 1.5))))
+    '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
+    '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
+    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
+    )
+#+END_SRC
+
 
 ** Setup for docx export
 
@@ -812,44 +768,6 @@
      (org-open-file docxfile '(16))))
 #+END_SRC
 
-** Basic Headers for org-latex
-#+BEGIN_SRC emacs-lisp
-  ;; Some of my own functions which help with misc tasks
-  (defun org-insert-latex-headers ()
-    (interactive)
-    (progn
-    (find-file (read-file-name "Enter Filename:"))
-    (insert (format "#+TITLE: %s
-#+AUTHOR: Nathan Hughes
-#+OPTIONS: toc:nil H:4 ^:nil
-#+LaTeX_CLASS: article
-#+LaTeX_CLASS_OPTIONS: [a4paper]
-#+LaTeX_HEADER: \\usepackage[margin=0.8in]{geometry}
-#+LaTeX_HEADER: \\usepackage{amssymb,amsmath}
-#+LaTeX_HEADER: \\usepackage{fancyhdr}
-#+LaTeX_HEADER: \\pagestyle{fancy}
-#+LaTeX_HEADER: \\usepackage{lastpage}
-#+LaTeX_HEADER: \\usepackage{float}
-#+LaTeX_HEADER: \\restylefloat{figure}
-#+LaTeX_HEADER: \\usepackage{hyperref}
-#+LaTeX_HEADER: \\hypersetup{urlcolor=blue}
-#+LaTex_HEADER: \\usepackage{titlesec}
-#+LaTex_HEADER: \\setcounter{secnumdepth}{4}
-#+LaTeX_HEADER: \\usepackage{minted}
-#+LaTeX_HEADER: \\setminted{frame=single,framesep=10pt}
-#+LaTeX_HEADER: \\chead{}
-#+LaTeX_HEADER: \\rhead{\\today}
-#+LaTeX_HEADER: \\cfoot{}
-#+LaTeX_HEADER: \\rfoot{\\thepage\\ of \\pageref{LastPage}}
-#+LaTeX_HEADER: \\usepackage[parfill]{parskip}
-#+LaTeX_HEADER:\\usepackage{subfig}
-#+LaTeX_HEADER: \\hypersetup{colorlinks=true,linkcolor=black, citecolor=black}
-#+LATEX_HEADER_EXTRA:  \\usepackage{framed}
-#+LATEX: \\maketitle
-#+LATEX: \\clearpage
-#+LATEX: \\tableofcontents
-#+LATEX: \\clearpage" (read-string "Enter Document Title:")) )))
-#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
@@ -862,40 +780,11 @@
                    ("\\subsection{%s}" . "\\subsection*{%s}")
                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 #+END_SRC
-** Webpage Project Management
-
-#+BEGIN_SRC emacs-lisp
-
-;; Setup for webpage
-(setq org-publish-project-alist
-      `(("Dissertation"
-         :base-directory "~/Dropbox/Website/"
-         :recursive t
-         :auto-sitemap t
-         :sitemap-sort-files anti-chronologically
-         :with-toc nil
-         :html-head-extra "<link rel=\"stylesheet\" href=\"./mycss.css\"/>"
-         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html"
-         :publishing-function org-html-publish-to-html
-         )
-        ("images"
-         :base-directory "~/Dropbox/Website/images"
-         :base-extension "png\\|gif"
-         :publishing-directory "/ssh:nah26@central.aber.ac.uk:~/public_html/images"
-         :publishing-function org-publish-attachment
-     )
-        ("DissertationWebsite" :components("Dissertation images"))
-   )
-)
-#+END_SRC
 
 * R mode
 
 #+BEGIN_SRC emacs-lisp
 
-  (require 'ess)
-  (require 'ess-R-data-view)
-  (require 'ess-smart-equals)
 
 
   (defun ess-R-show-objects ()
@@ -909,8 +798,6 @@
       )
     )
 
-  (global-set-key (kbd "\C-co") 'ess-R-show-objects)
-
   (setq ess-eval-visibly 'nowait)
 
 #+END_SRC
@@ -919,13 +806,10 @@
 #+BEGIN_SRC emacs-lisp
     ;; PYTHON CONFIGURATION
       ;; --------------------------------------
-  (use-package flycheck
-    :ensure t
-    :init
-    (global-flycheck-mode t))
-
   (setenv "WORKON_HOME" "~/anaconda3/envs")
   (pyvenv-workon "playground") ;; Default working env that has my libs
+
+
 
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "--simple-prompt -i")
@@ -950,111 +834,12 @@
 
   (eval-after-load "company"
   '(add-to-list 'company-backends '(company-anaconda)))
-
-
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-
-  ;; (setq elpy-modules (delete 'elpy-module-highlight-indentation elpy-modules))
-  ;; (with-eval-after-load 'elpy
   ;;   (highlight-indentation-mode))
-#+END_SRC
-
-
-#+BEGIN_SRC emacs-lisp
-    ;; Resets python buffer so you can easily refresh classes
-  ;; (defun reset-py ()
-  ;;   (interactive)
-  ;;   (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
-  ;;   (kill-buffer "*Python*")
-  ;;   (elpy-shell-send-region-or-buffer-and-step))
-
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  ;; (setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
-
-  ;; (defvar elpy-shell-python-shell-names '("Python")
-  ;;   "List of existing python shell names.")
-
-  ;; (defun elpy-shell-switch-python-shell (&optional dont-display)
-  ;;   "Switch to another Python shell.
-
-  ;; Create a new ONE if it does not exist.
-  ;; If DONT-DISPLAY is non nil, do not display the python shell afterwards."
-  ;;   (interactive)
-  ;;   (let ((shell-name (completing-read "Python shell name: "
-  ;;                                      'elpy-shell-python-shell-names)))
-  ;;     (setq python-shell-buffer-name shell-name)
-  ;;     (add-to-list 'elpy-shell-python-shell-names shell-name t)
-  ;;     (when (not dont-display)
-  ;;       (elpy-shell-display-buffer))))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (defun populate-org-buffer (buffer filename root)
-    (goto-char (point-min))
-    (let ((to-insert (concat "* " (replace-regexp-in-string root "" filename) "\n") ))
-      (while (re-search-forward
-              (rx (group (or "def" "class"))
-                  space
-                  (group (+ (not (any "()"))))
-                  (? "(" (* nonl) "):" (+ "\n") (+ space)
-                     (= 3 "\"")
-                     (group (+? anything))
-                     (= 3 "\"")))
-              nil 'noerror)
-        (setq to-insert
-              (concat
-               to-insert
-               (if (string= "class" (match-string 1))
-                   "** "
-                 "*** ")
-               (match-string 2)
-               "\n"
-               (and (match-string 3)
-                    (concat (match-string 3) "\n")))))
-      (with-current-buffer buffer
-        (insert to-insert))))
-
-  (defun org-documentation-from-dir (&optional dir)
-    (interactive)
-    (let* ((dir  (or dir (read-directory-name "Choose base directory: ")))
-           (files (directory-files-recursively dir "\py$"))
-           (doc-buf (get-buffer-create "org-docs")))
-      (dolist (file files)
-        (with-temp-buffer
-          (insert-file-contents file)
-          (populate-org-buffer doc-buf file dir)))
-      (with-current-buffer doc-buf
-        (org-mode))))
-
-
-  (defun elpy-shell-send-region-or-buffer-autoscroll ()
-    (interactive)
-    (let ((buf (get-buffer-window "*Python*"))
-          (orig (current-buffer)))
-      (set-window-buffer buf "*Python*")
-      (select-window buf)
-      (goto-char (point-max))
-      )
-    )
-
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (define-key python-mode-map (kbd "C-c c") 'elpy-shell-send-region-or-buffer-autoscroll)))
-
 #+END_SRC
 
 * Ace Jump Mode
 #+BEGIN_SRC emacs-lisp
-  (require 'ace-jump-mode)
-
-(global-set-key [C-tab] 'ace-jump-word-mode)
-
-;;
-  ;; enable a more powerful jump back function from ace jump mode
-  ;;
   (autoload
     'ace-jump-mode-pop-mark
     "ace-jump-mode"
@@ -1062,50 +847,9 @@
     t)
   (eval-after-load "ace-jump-mode"
     '(ace-jump-mode-enable-mark-sync))
-  (define-key global-map (kbd "C-c b") 'ace-jump-mode-pop-mark)
-
-#+END_SRC
-
-* Theme switcher
-
-#+BEGIN_SRC emacs-lisp
-  (defvar *sharp-theme-dark* 'nord)
-  (defvar *sharp-theme-light* 'leuven)
-  (defvar *sharp-current-theme* *sharp-theme-dark*)
-
-  ;; disable other themes before loading new one
-  (defadvice load-theme (before theme-dont-propagate activate)
-    "Disable theme before loading new one."
-    (mapcar #'disable-theme custom-enabled-themes))
-
-
-  (defun sharp/next-theme (theme)
-    (if (eq theme 'default)
-        (disable-theme *sharp-current-theme*)
-      (progn
-        (load-theme theme t)))
-    (setq *sharp-current-theme* theme))
-
-  (defun sharp/toggle-theme ()
-    (interactive)
-    (cond ((eq *sharp-current-theme* *sharp-theme-dark*) (sharp/next-theme *sharp-theme-light*))
-          ((eq *sharp-current-theme* *sharp-theme-light*) (sharp/next-theme *sharp-theme-dark*))))
-
-
-  (global-set-key  [f7] (lambda () (interactive) (sharp/toggle-theme)))
 #+END_SRC
 
 * Misc Functions
-** Display latex fragments properly
-
-#+BEGIN_SRC emacs-lisp
-(defun display-latex-fragments-in-buffer ()
-  "This will properly display all fragments in org-mode >9"
-  (interactive)
-  (let ((current-prefix-arg '(16)))
-    (call-interactively 'org-preview-latex-fragment))
-  )
-#+END_SRC
 
 ** Create various diary entries for phd
 
@@ -1181,8 +925,6 @@
 * Yasnippet
 
 #+BEGIN_SRC emacs-lisp
-(require 'yasnippet)
-(require 'helm-c-yasnippet)
 (setq helm-yas-space-match-any-greedy t)
 (global-set-key (kbd "C-c y") 'helm-yas-complete)
 (yas-global-mode 1)
@@ -1204,63 +946,34 @@
 
 #+END_SRC
 
-* Custom Keybinds
-** Multiple Cursors
+* Winum
 
-   As this will require a lot of overrides I want it towards the end of the file
 #+BEGIN_SRC emacs-lisp
-  (require 'multiple-cursors)
+  (define-advice select-window (:after (window &optional no-record) golden-ratio-resize-window) (golden-ratio) nil)
+#+END_SRC
+* Custom keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f8>") 'golden-ratio)    ; F7 F8
+  (global-set-key (kbd "C-+") 'magit-status)
+  (global-set-key (kbd "C-l") 'ace-jump-line-mode)
+  (global-set-key [M-up] 'move-line-up)
+  (global-set-key [M-down] 'move-line-down)
+  (global-set-key (kbd "C-f") 'helm-projectile)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x a") 'helm-for-files)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-i") 'helm-imenu)
+  (global-set-key (kbd "C-s") 'swiper-helm)
+  (define-key global-map (kbd "C-c b") 'ace-jump-mode-pop-mark)
+  (global-set-key [C-tab] 'ace-jump-word-mode)
   (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
   (global-set-key (kbd "C->") 'mc/skip-to-next-like-this)
   (global-set-key (kbd "C-c m l") 'mc/edit-lines)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  (define-key mc/keymap (kbd "<return>") nil)
-#+END_SRC
-
-* Eww
-
-#+BEGIN_SRC emacs-lisp
-
-  (defvar-local endless/display-images t)
-
-
-  (defun endless/toggle-image-display ()
-    "Toggle images display on current buffer."
-    (interactive)
-    (setq endless/display-images
-          (null endless/display-images))
-    (endless/backup-display-property endless/display-images))
-
-
-  (defun endless/backup-display-property (invert &optional object)
-    "Move the 'display property at POS to 'display-backup.
-  Only applies if display property is an image.
-  If INVERT is non-nil, move from 'display-backup to 'display
-  instead.
-  Optional OBJECT specifies the string or buffer. Nil means current
-  buffer."
-    (let* ((inhibit-read-only t)
-           (from (if invert 'display-backup 'display))
-           (to (if invert 'display 'display-backup))
-           (pos (point-min))
-           left prop)
-      (while (and pos (/= pos (point-max)))
-        (if (get-text-property pos from object)
-            (setq left pos)
-          (setq left (next-single-property-change pos from object)))
-        (if (or (null left) (= left (point-max)))
-            (setq pos nil)
-          (setq prop (get-text-property left from object))
-          (setq pos (or (next-single-property-change left from object)
-                        (point-max)))
-          (when (eq (car prop) 'image)
-            (add-text-properties left pos (list from nil to prop) object))))))
-
-#+END_SRC
-
-* Winum
-
-#+BEGIN_SRC emacs-lisp
+  ;;(define-key mc/keymap (kbd "<return>") nil)
   (setq winum-keymap
       (let ((map (make-sparse-keymap)))
         (define-key map (kbd "C-`") 'winum-select-window-by-number)
@@ -1276,92 +989,13 @@
         (define-key map (kbd "M-8") 'winum-select-window-8)
         map))
 
-  (require 'winum)
-  (winum-mode)
-
-  (define-advice select-window (:after (window &optional no-record) golden-ratio-resize-window)
-  (golden-ratio) nil)
 #+END_SRC
 
-* Treemacs
 
+
+
+* Themes
 #+BEGIN_SRC emacs-lisp
-  (use-package treemacs
-    :ensure t
-    :defer t
-    :init
-    (with-eval-after-load 'winum
-      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-    :config
-    (progn
-      (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
-            treemacs-deferred-git-apply-delay   0.5
-            treemacs-display-in-side-window     t
-            treemacs-file-event-delay           5000
-            treemacs-file-follow-delay          0.2
-            treemacs-follow-after-init          t
-            treemacs-follow-recenter-distance   0.1
-            treemacs-goto-tag-strategy          'refetch-index
-            treemacs-indentation                2
-            treemacs-indentation-string         " "
-            treemacs-is-never-other-window      nil
-            treemacs-no-png-images              nil
-            treemacs-project-follow-cleanup     nil
-            treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-            treemacs-recenter-after-file-follow nil
-            treemacs-recenter-after-tag-follow  nil
-            treemacs-show-hidden-files          t
-            treemacs-silent-filewatch           nil
-            treemacs-silent-refresh             nil
-            treemacs-sorting                    'alphabetic-desc
-            treemacs-space-between-root-nodes   t
-            treemacs-tag-follow-cleanup         t
-            treemacs-tag-follow-delay           1.5
-            treemacs-width                      35)
-
-      ;; The default width and height of the icons is 22 pixels. If you are
-      ;; using a Hi-DPI display, uncomment this to double the icon size.
-      ;;(treemacs-resize-icons 44)
-
-      (treemacs-follow-mode t)
-      (treemacs-filewatch-mode t)
-      (treemacs-fringe-indicator-mode t)
-      (pcase (cons (not (null (executable-find "git")))
-                   (not (null (executable-find "python"))))
-        (`(t . t)
-         (treemacs-git-mode 'extended))
-        (`(t . _)
-         (treemacs-git-mode 'simple))))
-    :bind
-    (:map global-map
-          ("M-0"       . treemacs-select-window)
-          ("C-x t 1"   . treemacs-delete-other-windows)
-          ("C-x t t"   . treemacs)
-          ("C-x t B"   . treemacs-bookmark)
-          ("C-x t C-t" . treemacs-find-file)
-          ("C-x t M-t" . treemacs-find-tag)))
-
-
-  (use-package treemacs-projectile
-    :after treemacs projectile
-    :ensure t)
-
-#+END_SRC
-
-* Fixes
-
-#+BEGIN_SRC emacs-lisp
-
-(fringe-mode 0)
-
-#+END_SRC
-
-* TODO Modes that would be useful
-1. A method of using helm to jump between pdfview mode and org mode
-2. A mode to grab latest matplotlib figure and display properly
-3. A quickhelp option to look u p dictonary words for auto complete?
-
-* Lastly
-#+BEGIN_SRC emacs-lisp
-;;(add-to-list 'company-backends 'company-anaconda)
+  (require 'nord-theme)
+  (load-theme nord t)
 #+END_SRC
