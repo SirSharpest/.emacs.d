@@ -319,10 +319,9 @@
 * Fonts
 #+BEGIN_SRC emacs-lisp
     ;;set a default font
-
   (set-face-attribute 'default nil
                       :family "Source Code Pro"
-                      :height 110
+                      :height 140
                       :weight 'normal
                       :width 'normal)
     ;; specify font for all unicode characters
@@ -582,8 +581,11 @@
       (interactive)
       (let ((process (TeX-active-process))) (if process (delete-process process)))
       (let ((TeX-save-query nil)) (TeX-save-document ""))
+      (TeX-command-menu "LaTeX")
+      (TeX-command-menu "bibtex")
+      (TeX-command-menu "LaTeX")
       (TeX-command-menu "LaTeX"))
-  ;; (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-x C-s") #'run-latex)))
+  (add-hook 'LaTeX-mode-hook (lambda () (local-set-key (kbd "C-c C-a") #'run-latex)))
 #+END_SRC
 
 ** Display latex fragments properly
