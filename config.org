@@ -649,8 +649,9 @@
 ;; --------------------------------------
 ;; Langtool setup
 
+(setq langtool-language-tool-jar "~/.emacs.d/langtool/languagetool-commandline.jar")
 (require 'langtool)
-(setq langtool-language-tool-jar "~/.emacs.d/LanguageTool-4.0/languagetool-commandline.jar")
+
 
 #+END_SRC
 

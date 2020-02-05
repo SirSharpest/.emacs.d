@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: hypo
+# key: hypo
+# --
+*** We want to know $2 we are using $1 to investigate
+We hypothesise that $3, by using $1 we can test this idea.
