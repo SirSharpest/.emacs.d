@@ -321,7 +321,7 @@
     ;;set a default font
   (set-face-attribute 'default nil
                       :family "Source Code Pro"
-                      :height 140
+                      :height 120
                       :weight 'normal
                       :width 'normal)
     ;; specify font for all unicode characters
@@ -441,6 +441,7 @@
 
 * LaTeX Setup
 #+BEGIN_SRC emacs-lisp
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 ;;; AUCTeX
 ;; Customary Customization, p. 1 and 16 in the manual, and http://www.emacswiki.org/emacs/AUCTeX#toc2
 (setq TeX-parse-self t); Enable parse on load.
@@ -999,8 +1000,13 @@
   (global-set-key (kbd "C-c m l") 'mc/edit-lines)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
   ;;(define-key mc/keymap (kbd "<return>") nil)
-#+END_SRC
 
+  (defun my-reftex-hook ()
+  (define-key reftex-mode-map (kbd "C-c [") 'helm-bibtex-with-local-bibliography))
+
+
+  (add-hook 'reftex-mode-hook 'my-reftex-hook)
+#+END_SRC
 
 
 
