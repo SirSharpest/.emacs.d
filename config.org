@@ -53,6 +53,7 @@
       vlf
       color-theme-sanityinc-tomorrow
       pyvenv
+      spaceline
       ;;helm-company
       ))
 
@@ -60,6 +61,22 @@
             (unless (package-installed-p package)
               (package-install package)))
         myPackages)
+;;(push '(vertical-scroll-bars) default-frame-alist)
+#+END_SRC
+* Fonts
+#+BEGIN_SRC emacs-lisp
+    ;;set a default font
+  (set-face-attribute 'default nil
+                      :family "Source Code Pro"
+                      :height 120
+                      :weight 'normal
+                      :width 'normal)
+    ;; specify font for all unicode characters
+    (when (member "Symbola" (font-family-list))
+      (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+    ;; specify font for chinese characters using default chinese font on linux
+    (when (member "WenQuanYi Micro Hei" (font-family-list))
+      (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
 #+END_SRC
 
 * Pre-load
@@ -154,7 +171,7 @@
   (set-default 'truncate-lines nil)
   ;; Stop that minibuffer expansion
   ;;(setq resize-mini-windows nil)
-  (toggle-scroll-bar -1)
+  ;;
 #+END_SRC
 ** Pretty symbols mode
 
@@ -194,71 +211,85 @@
 
 ** Doom modeline
 
+
 #+BEGIN_SRC emacs-lisp
 
-  (require 'doom-modeline)
-  (doom-modeline-mode 1)
+  ;; (require 'doom-modeline)
+  ;; (doom-modeline-mode 1)
 
-  ;; How tall the mode-line should be. It's only respected in GUI.
-  ;; If the actual char height is larger, it respects the actual height.
-  (setq doom-modeline-height 25)
+  ;; ;; How tall the mode-line should be. It's only respected in GUI.
+  ;; ;; If the actual char height is larger, it respects the actual height.
+  ;; (setq doom-modeline-height 25)
 
-  ;; How wide the mode-line bar should be. It's only respected in GUI.
-  (setq doom-modeline-bar-width 3)
+  ;; ;; How wide the mode-line bar should be. It's only respected in GUI.
+  ;; (setq doom-modeline-bar-width 3)
 
-  (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  ;; (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
 
-  ;; Whether display icons in mode-line or not.
-  (setq doom-modeline-icon t)
+  ;; ;; Whether display icons in mode-line or not.
+  ;; (setq doom-modeline-icon t)
 
-  ;; Whether display the icon for major mode. It respects `doom-modeline-icon'.
-  (setq doom-modeline-major-mode-icon t)
+  ;; ;; Whether display the icon for major mode. It respects `doom-modeline-icon'.
+  ;; (setq doom-modeline-major-mode-icon t)
 
-  ;; Whether display color icons for `major-mode'. It respects
-  ;; `doom-modeline-icon' and `all-the-icons-color-icons'.
-  (setq doom-modeline-major-mode-color-icon t)
+  ;; ;; Whether display color icons for `major-mode'. It respects
+  ;; ;; `doom-modeline-icon' and `all-the-icons-color-icons'.
+  ;; (setq doom-modeline-major-mode-color-icon t)
 
-  ;; Whether display icons for buffer states. It respects `doom-modeline-icon'.
-  (setq doom-modeline-buffer-state-icon t)
+  ;; ;; Whether display icons for buffer states. It respects `doom-modeline-icon'.
+  ;; (setq doom-modeline-buffer-state-icon t)
 
-  ;; Whether display buffer modification icon. It respects `doom-modeline-icon'
-  ;; and `doom-modeline-buffer-state-icon'.
-  (setq doom-modeline-buffer-modification-icon t)
+  ;; ;; Whether display buffer modification icon. It respects `doom-modeline-icon'
+  ;; ;; and `doom-modeline-buffer-state-icon'.
+  ;; (setq doom-modeline-buffer-modification-icon t)
 
-  ;; Whether display minor modes in mode-line or not.
-  (setq doom-modeline-minor-modes nil)
+  ;; ;; Whether display minor modes in mode-line or not.
+  ;; (setq doom-modeline-minor-modes nil)
 
-  ;; If non-nil, a word count will be added to the selection-info modeline segment.
-  (setq doom-modeline-enable-word-count nil)
+  ;; ;; If non-nil, a word count will be added to the selection-info modeline segment.
+  ;; (setq doom-modeline-enable-word-count nil)
 
-  ;; Whether display buffer encoding.
-  (setq doom-modeline-buffer-encoding t)
+  ;; ;; Whether display buffer encoding.
+  ;; (setq doom-modeline-buffer-encoding t)
 
-  ;; Whether display indentation information.
-  (setq doom-modeline-indent-info nil)
+  ;; ;; Whether display indentation information.
+  ;; (setq doom-modeline-indent-info nil)
 
-  ;; If non-nil, only display one number for checker information if applicable.
-  (setq doom-modeline-checker-simple-format t)
+  ;; ;; If non-nil, only display one number for checker information if applicable.
+  ;; (setq doom-modeline-checker-simple-format t)
 
-  ;; The maximum displayed length of the branch name of version control.
-  (setq doom-modeline-vcs-max-length 12)
+  ;; ;; The maximum displayed length of the branch name of version control.
+  ;; (setq doom-modeline-vcs-max-length 12)
 
-  ;; Whether display perspective name or not. Non-nil to display in mode-line.
-  (setq doom-modeline-persp-name t)
+  ;; ;; Whether display perspective name or not. Non-nil to display in mode-line.
+  ;; (setq doom-modeline-persp-name t)
 
-  ;; Whether display `lsp' state or not. Non-nil to display in mode-line.
-  (setq doom-modeline-lsp t)
+  ;; ;; Whether display `lsp' state or not. Non-nil to display in mode-line.
+  ;; (setq doom-modeline-lsp t)
 
-  ;; Whether display github notifications or not. Requires `ghub` package.
-  (setq doom-modeline-github nil)
+  ;; ;; Whether display github notifications or not. Requires `ghub` package.
+  ;; (setq doom-modeline-github nil)
 
-  ;; The interval of checking github.
-  (setq doom-modeline-github-interval (* 30 60))
+  ;; ;; The interval of checking github.
+  ;; (setq doom-modeline-github-interval (* 30 60))
 
-  ;; Whether display environment version or not
-  (setq doom-modeline-env-version t)
+  ;; ;; Whether display environment version or not
+  ;; (setq doom-modeline-env-version t)
 
-  (setq column-number-mode t)
+  ;; (setq column-number-mode t)
+#+END_SRC
+
+** Spaceline
+
+
+#+BEGIN_SRC emacs-lisp
+(use-package spaceline
+  :demand t
+  :init
+  (setq powerline-default-separator 'arrow-fade)
+  :config
+  (require 'spaceline-config)
+  (spaceline-spacemacs-theme))
 #+END_SRC
 
 ** Transposes
@@ -307,29 +338,11 @@
     (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
       (setenv "PATH" path-from-shell)
       (setq exec-path (split-string path-from-shell path-separator))))
-
-
   (set-exec-path-from-shell-PATH)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
 
-#+END_SRC
-
-* Fonts
-#+BEGIN_SRC emacs-lisp
-    ;;set a default font
-  (set-face-attribute 'default nil
-                      :family "Source Code Pro"
-                      :height 120
-                      :weight 'normal
-                      :width 'normal)
-    ;; specify font for all unicode characters
-    (when (member "Symbola" (font-family-list))
-      (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-    ;; specify font for chinese characters using default chinese font on linux
-    (when (member "WenQuanYi Micro Hei" (font-family-list))
-      (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
 #+END_SRC
 * Company stuff
 #+BEGIN_SRC emacs-lisp
@@ -1015,5 +1028,5 @@
   ;;(require 'nord-theme)
   ;;(load-theme nord t)
   (load-theme 'sanityinc-tomorrow-eighties t)
-
+  (scroll-bar-mode -1)
 #+END_SRC
