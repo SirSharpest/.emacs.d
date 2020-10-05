@@ -1,5 +1,7 @@
 * Global Setup
 #+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message t)
+  (cd "~/")
   (when (not package-archive-contents)
     (package-refresh-contents))
   (defvar myPackages
@@ -83,8 +85,8 @@
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/nord-emacs/")
   (add-to-list 'load-path "~/.emacs.d/ox-ipynb/")
-  (add-to-list 'load-path "~/.spacemacs.d/scimax/ob-ipython-upstream/")
-  (add-to-list 'load-path "~/.spacemacs.d/scimax/")
+  (add-to-list 'load-path "~/.emacs.d/scimax/ob-ipython-upstream/")
+  (add-to-list 'load-path "~/.emacs.d/scimax/")
 #+END_SRC
 
 ** Variables to be set prior to loading
@@ -1026,7 +1028,7 @@
 * Themes
 #+BEGIN_SRC emacs-lisp
   ;;(require 'nord-theme)
-  ;;(load-theme nord t)
-  (load-theme 'sanityinc-tomorrow-eighties t)
+  (load-theme 'doom-nord t)
+  ;;(load-theme 'sanityinc-tomorrow-eighties t)
   (scroll-bar-mode -1)
 #+END_SRC
